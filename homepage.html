@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Eventos - ITESM</title>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <style>
+    </style>
+    <meta charset="UTF-8"></meta>
+  </head>
+  <body class="white">
+    <header>
+      <nav class="top-nav teal lighten-2">
+        <a href="#" data-activates="slide-out" class="button-collapse top-nav full show-on-large"><i class="mdi-navigation-menu"></i></a>
+        <div class="container">
+          <div class="nav-wrapper"><a class="brand-logo center">Home Page</a></div>
+        </div>
+      </nav>
+      <ul id="slide-out" class="side-nav">
+        <li><a href="./profile.html"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
+        <li><a href="./dashboard.html"> <i class="small mdi-action-dashboard left"></i> Dashboard</a></li>
+        <li><a href="./chat.html"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
+        <div class="section" style="margin-top: 600px;">
+            <div class="row">
+              <div class="col s12"><a href="./index.html" class="waves-effect waves-light btn black-text grey">logout</a></div>
+            </div>
+          </div>
+      </ul>
+    </header>
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+      $(document).ready(function(){
+         $(".button-collapse").sideNav();
+      });
+    </script>
+  </body>
+</html>
