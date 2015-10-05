@@ -1,14 +1,63 @@
-{% extends "base/bootstrap.html.twig" %}
+{% extends "base/template.html.twig" %}
+
+{% block nav %}
+{% endblock nav %}
+{% block body %}
+<body class="cyan login-body">
+{% endblock body %}
 
 {% block content %}
-          <h1 class="text-center">{{ app.getName() }}</h1>
-          <p class="small">Hint: user / password</p>
+  <div class="container full-height">
+    <div class="row full-height" style="margin-bottom: 0px;">
+      <div class="col s12 m6 l4 offset-m3 offset-l4 login-wrapper">
+        <div class="col s12 m10 offset-m1  z-depth-4 card-panel login">
+          <form class="login-form">
 
-          <form action="login" method="POST">
-            <p>Email: <input type="text" autocomplete="false" name="email" id="email" value="{{ email_value }}" /> 
-            <span class="error">{{ email_error }}</span></p>
-            <p>Password: <input type="password" name="password" id="password" /> 
-            <span class="error">{{ password_error }}</span></p>
-            <p><input type="submit" value="Login" />
+            <div class="row">
+              <div class="input-field col s12 center">
+                <img src="http://placehold.it/150x150" alt="" class="circle responsive-img valign profile-image-login">
+                <p class="center login-form-text">Administrador de Eventos</p>
+              </div>
+            </div>
+
+            <div class="row margin">
+              <div class="input-field col s12">
+                <i class="mdi-social-person-outline prefix"></i>
+                <input id="username" type="text">
+                <label for="username" name="username" class="center-align">Usuario</label>
+              </div>
+            </div>
+
+            <div class="row margin">
+              <div class="input-field col s12">
+                <i class="mdi-action-lock-outline prefix"></i>
+                <input id="password" name="password" type="password">
+                <label class="" for="password">Contraseña</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s12 m12 l12  login-text">
+                  <input id="remember-me" type="checkbox">
+                  <label for="remember-me">Recuérdame</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s12">
+                <a href="index.html" class="btn waves-effect waves-light col s12 pink accent-2">Ingresar</a>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s8 m8 l8 offset-s3 offset-m3 offset-l3">
+                  <p class="margin right-align medium-small"><a href="page-forgot-password.html">Olvido la contraseña?</a></p>
+              </div>
+            </div>
+
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}

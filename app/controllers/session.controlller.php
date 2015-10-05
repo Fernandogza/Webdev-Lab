@@ -43,12 +43,12 @@ $app->get("/login", function () use ($app) {
      $password_error = $flash['errors']['password'];
   }
 
-  $app->render('login.html.twig', 
+  $app->render('login.html.twig',
   	array(
-  		'error' => $error, 
-  		'email_value' => $email_value, 
-  		'email_error' => $email_error, 
-  		'password_error' => $password_error, 
+  		'error' => $error,
+  		'email_value' => $email_value,
+  		'email_error' => $email_error,
+  		'password_error' => $password_error,
   		'urlRedirect' => $urlRedirect
   	)
 	);
