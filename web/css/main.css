@@ -62,3 +62,21 @@
 .margin {
     margin: 0px !important;
 }
+
+#left-sidebar-nav {
+    position: fixed;
+    width: 100px;
+    left: 180px;
+    z-index: 999;
+    height: auto;
+}
+#main, footer {
+    padding-left: 240px;
+}
+
+ul.side-nav.leftside-navigation {
+    overflow: hidden;
+}
+ul.side-nav.leftside-navigation {
+    top: 64px;
+}
