@@ -3,9 +3,9 @@
  * Configuracion de la base de datos
  */
  //*/
-R::setup('mysql:host=localhost;dbname=template', // host|ip; nombre de la base de datos
-         'template', //user
-         'password'); //password
+R::setup('mysql:host=localhost;dbname=eventos', // host|ip; nombre de la base de datos
+         'eventos', //user
+         '123456'); //password
          //mysql
 //*/
 

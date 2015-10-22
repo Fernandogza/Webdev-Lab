@@ -1,9 +1,11 @@
 <?php
 
 //GET route
+
+
 $app->get('/api/eventos', function () use ($app) {
    $arr = array();
-   $arr["user"] = "Juan";
+   $arr["event"] = "Juan";
    
    echo json_encode($arr);
 });

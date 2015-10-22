@@ -8,7 +8,7 @@ class Model_User extends RedBean_SimpleModel {
     // lifecycle hooks
     
     public function dispense() {
-        $this->role = 'guest';
+        $this->role = 'user';
     }
    
     
