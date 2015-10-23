@@ -65,6 +65,20 @@ $authenticate = function ($app, $role) {
     };
 };
 
+function delFromArray(&$array, $keys) { 
+  foreach ($array as $key => &$value) { 
+      if (in_array($key, $keys, true)){
+        unset($array[$key]);
+      }
+      else {
+        if (is_array($value)) { 
+            delFromArray($value, $keys); 
+        }
+      }
+
+  }
+}
+
 
 //crea variable $user y se la agrega a todos los views para facil deteccion de sesiones
 $app->hook('slim.before.dispatch', function() use ($app) {
