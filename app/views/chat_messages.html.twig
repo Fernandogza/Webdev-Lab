@@ -39,7 +39,7 @@
                 </tr>
               </tbody>
             </table>
-          <div id="conversations">
+          <div id="messages">
           </div>
       </div>
     </main>
@@ -110,18 +110,17 @@
     <script>
       $(document).ready(function(){
         var data = {{ data|json_encode|raw}};
-        var inbox = document.getElementById("conversations");
+        var inbox = document.getElementById("messages");
         for(i=0; i<data.length; i++) {
-          var row = data[i];
-          var groupChat = "";
-          for(j=0; j<row.length; j++) {
-            groupChat = groupChat + row[j].first_name + " " + row[j].last_name + " ";
-          }
-          var aTag = document.createElement("a");
-          var link = "/chat/"+ row[0].conversation_id;
-          aTag.setAttribute('href', link);
-          aTag.innerHTML = groupChat + "<br>";
-          inbox.appendChild(aTag);
+          var name = document.createElement("p");
+          var msg = document.createElement("p");
+          var time = document.createElement("p");
+          name.innerHTML = "<b>" + data[i].first_name + " " + data[i].last_name + "</b>";
+          msg.innerHTML = data[i].message;
+          time.innerHTML = data[i].time;
+          inbox.appendChild(name);
+          inbox.appendChild(msg);
+          inbox.appendChild(time);
         }
          $(".button-collapse").sideNav();
          $('.modal-trigger').leanModal({
