@@ -3,6 +3,84 @@ var map;
 
 // var didYouComment = false;
 
+// GET /markertypes
+
+var markerTypes = {
+	"parking" : {
+	  "name": "Estacionamiento",
+	  "icon": "https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png"
+  },
+  "library" : {
+	  "name": "Biblioteca",
+	  "icon": "https://maps.google.com/mapfiles/kml/shapes/library_maps.png"
+  },
+  "info" : {
+	  "name": "Informacion",
+	  "icon": "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png"
+  }
+};
+
+// GET /eventos/:eventId/markers
+
+var eventMarkers = [
+	{
+	  "position": {"lat" : 25.651505, "lng" : -100.290877}, //rectoria
+	  "type": "info"
+	}, 
+	{
+	  "position": {"lat" : 25.649447, "lng" : -100.289871}, //a3
+	  "type": "parking"
+	},  
+	{
+	  "position": {"lat" : 25.652315, "lng" : -100.287709}, //e2
+	  "type": "parking"
+	}, 
+	{
+	  "position": {"lat" : 25.650486, "lng" : -100.289750}, //bib
+	  "type": "library"
+	}
+];
+
+// GET /eventos/:eventId/comments
+
+var comments = [
+	{
+		"name" : "Juan",
+		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+	},
+
+	{
+		"name" : "Maria",
+		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+	},
+
+	{
+		"name" : "Maria",
+		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+	}
+];
+
+// GET /eventos/:eventId/calendar
+
+var calendar = {
+	"view" : "week", // week, day, month
+
+	"events" : [
+		{
+			"title" : "Inauguracion",
+			"allDay" : false,
+			"start" : "2015-11-22T12:00:00"
+			"end": "2015-11-22T16:00:00"
+		},
+		{
+			"title" : "Cena",
+			"allDay" : false,
+			"start" : "2015-11-22T19:00:00"
+			"end": "2015-11-22T22:00:00"
+		}
+	]
+};
+
 function initialize() {
 	map = new google.maps.Map(document.getElementById('map'), {
 	  zoom: 16,
@@ -13,44 +91,16 @@ function initialize() {
 
 
 	var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-	var icons = {
-	  parking: {
-		  name: 'Estacionamiento',
-		  icon: iconBase + 'parking_lot_maps.png'
-	  },
-	  library: {
-		  name: 'Biblioteca',
-		  icon: iconBase + 'library_maps.png'
-	  },
-	  info: {
-		  name: 'Informacion',
-		  icon: iconBase + 'info-i_maps.png'
-	  }
-	};
+	var icons = markerTypes;
+	var features = eventMarkers;
 
 	function addMarker(feature) {
 	  var marker = new google.maps.Marker({
-		  position: feature.position,
+		  position: new google.maps.LatLng(feature.position.lat, feature.position.lng),
 		  icon: icons[feature.type].icon,
 		  map: map
 	  });
 	}
-
-	var features = [
-	  {
-		  position: new google.maps.LatLng(25.651505, -100.290877), //rectoria
-		  type: 'info'
-	  }, {
-		  position: new google.maps.LatLng(25.649447, -100.289871), //a3
-		  type: 'parking'
-	  },  {
-		  position: new google.maps.LatLng(25.652315, -100.287709), //e2
-		  type: 'parking'
-	  }, {
-		  position: new google.maps.LatLng(25.650486, -100.289750), //bib
-		  type: 'library'
-	  }
-	];
 
 
 	for (var i = 0, feature; feature = features[i]; i++) {
@@ -79,25 +129,11 @@ window.onload = function(){
 
 
 function addComment(){
-
-
 	var name, msg;
-
-	// msg = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-	
-
-
-
 	name = "Jorge";
-
-	// msg = $("#textarea1").val();
-
 	msg = $("#textarea1").val();
 
-	// alert($("#textarea1").val());
-
 	var text;
-
 	text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i></p></div><div class="col s2"><p>Jorge</p></div><div class="col s9"><p>'+msg+'</p></div></div>';
 
 
@@ -106,51 +142,6 @@ function addComment(){
 
 	$("#textarea1").val('');
 
-	/*
-	var comment = document.getElementById("textarea1").value;
-
-	if (comment.length < 5 ){
-		return false;
-	}
-
-	var parent = document.getElementById("comentarios");
-	var appendTo = document.createElement("div");
-
-	var node1 = document.createElement("div");
-	node1.setAttribute("class", "col s1");
-	node1.appendChild(document.createElement("p"));
-
-	var childNode1 = document.createElement("i");
-	childNode1.setAttribute("class", "material-icons");
-	childNode1.innerHTML = "play_arrow";
-	node1.firstChild.appendChild(childNode1);
-
-
-	appendTo.appendChild(node1);
-
-	var node2 = document.createElement("div");
-	node2.setAttribute("class", "col s2");
-	node2.appendChild(document.createElement("p"));
-
-	node2.firstChild.innerHTML = "Jorge";
-
-	appendTo.appendChild(node2);
-
-	var node3 = document.createElement("div");
-	node3.setAttribute("class", "col s9");
-	node3.appendChild(document.createElement("p"));
-	node3.firstChild.innerHTML = comment;
-
-	appendTo.appendChild(node3);
-
-
-	parent.appendChild(appendTo);
-
-	*/
-
-	// didYouComment = true;
-
-	// document.getElementById("commentButton").setAttribute("class", "btn waves-effect waves-light blue darken-4 enabled");
 	return;
 }
 
