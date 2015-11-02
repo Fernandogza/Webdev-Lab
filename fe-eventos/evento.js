@@ -69,13 +69,13 @@ var calendar = {
 		{
 			"title" : "Inauguracion",
 			"allDay" : false,
-			"start" : "2015-11-22T12:00:00"
+			"start" : "2015-11-22T12:00:00",
 			"end": "2015-11-22T16:00:00"
 		},
 		{
 			"title" : "Cena",
 			"allDay" : false,
-			"start" : "2015-11-22T19:00:00"
+			"start" : "2015-11-22T19:00:00",
 			"end": "2015-11-22T22:00:00"
 		}
 	]
