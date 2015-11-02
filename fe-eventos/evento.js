@@ -81,6 +81,26 @@ var calendar = {
 	]
 };
 
+
+// GET /eventos/:eventId/rsvps
+
+var rsvps = [
+	{
+		"name" : "Alvin",
+		"attending" : "yes"
+	},
+	{
+		"name" : "Alan",
+		"attending" : "no"
+	},
+	{
+		"name" : "Jonathan",
+		"attending" : "maybe"
+	}
+
+
+];
+
 function initialize() {
 	map = new google.maps.Map(document.getElementById('map'), {
 	  zoom: 16,
