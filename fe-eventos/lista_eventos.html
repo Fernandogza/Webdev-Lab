@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<!-- Materialize -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+	<style>
+	td img {
+	    max-width: 300px;
+	}
+	</style>
+
+	<title>Eventos</title>
+
+</head>
+
+<body>
+	<nav>
+		<div class="nav-wrapper blue darken-4">
+			<a href="#" class="brand-logo center">Pr&oacute;ximos Eventos</a>
+			<ul id="nav-mobile" class="left hide-on-med-and-down">
+				<li>
+					<a href="#">
+						<i class="material-icons">email</i>
+					</a>
+				</li>
+			</ul>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li>
+					<a href="#">
+						<img src="img/usuario.jpg" class="circle" width="50px" style="vertical-align:middle;" />
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<div class="row">
+		    <form>
+		      	<div class="row">
+			      	<div class="input-field col s3"></div>
+			        <div class="input-field col s6">
+			          <i class="material-icons prefix">search</i>
+			          <input id="icon_prefix" type="text" class="validate">
+			          <label for="icon_prefix">Buscar</label>
+			        </div>
+		    	</div>
+			    <div class="row" align="center">
+			        <div class="input-field col s3">
+				        <h5>Filtrar por fecha de </h5>
+				    </div>
+				    <div class="input-field col s2">
+				        <input type="date">
+				    </div>
+				    <div class="input-field col s1">
+				        <h5>a</h5>
+				    </div>
+				    <div class="input-field col s2">
+				        <input type="date">
+				    </div>
+				    <div class="input-field col s3">
+				    	<button class="btn waves-effect waves-light blue darken-4" type="submit" name="action">
+				    		Enviar<i class="material-icons right">send</i>
+						</button>
+					</div>
+		      	</div>
+		    </form>
+	  	</div>
+
+		<table class="responsive-table highlight">
+			<thead>
+				<tr>
+					<th data-field="imagen"></th>
+					<th data-field="nombre">Nombre</th>
+					<th data-field="lugar">Lugar</th>
+					<th data-field="fecha">Fecha</th>
+					<th data-field="estatus">Estatus</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><img src="img/Expotec2015.jpg"  style="vertical-align:middle;" /></td>
+					<td>Expotec</td>
+					<td>Estacionamiento E3</td>
+					<td>23 de Octubre 2015</td>
+					<td>Asistire</td>
+				</tr>
+				<tr>
+					<td><img src="img/empleatec.jpg" style="vertical-align:middle;" /></td>
+					<td>Empleatec</td>
+					<td>Centro Estudiantil</td>
+					<td>10 de Septiembre 2015</td>
+					<td>No Asistire</td>
+				</tr>
+				<tr>
+					<td><img src="img/raices.jpg" style="vertical-align:middle;" /></td>
+					<td>Raices</td>
+					<td>Auditorio Luis Elizondo</td>
+					<td>25 de Diciembre 2015</td>
+					<td>Talvez Asistire</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>
