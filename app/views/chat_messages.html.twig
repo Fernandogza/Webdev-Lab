@@ -19,10 +19,10 @@
       <ul id="slide-out" class="side-nav">
         <li><a href="../profile"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
         <li><a href="./dashboard.html"> <i class="small mdi-action-dashboard left"></i> Dashboard</a></li>
-        <li class="active"><a href="./chat.html"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
+        <li class="active"><a href="../chat"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
         <div class="section" style="margin-top: 600px;">
             <div class="row">
-              <div class="col s12"><a href="./index.html" class="waves-effect waves-light btn black-text grey">logout</a></div>
+              <div class="col s12"><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></div>
             </div>
           </div>
       </ul>
@@ -33,41 +33,25 @@
             <table>
               <tbody>
                 <tr>
-                  <td><a href="#newMessage" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-communication-email left"></i>New Message</a></td>
-                  <td><a href="#deleteMessage" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-action-delete left"></i>Delete Message</a></td>
-                  <td><a href="#blockUser" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-content-block left"></i>Block User</a></td>
+                  <td class="center"><a href="#deleteMessage" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-action-delete left"></i>Delete Chat</a></td>
+                  <td class="center"><a href="#blockUser" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-content-block left"></i>Block User</a></td>
                 </tr>
               </tbody>
             </table>
           <div id="messages">
           </div>
       </div>
-    </main>
-    <!-- modal form: new message -->
-    <div class="modal" id="newMessage">
-      <div class="modal-content">
-        <h3 class="center">New Message</h3>
-        <form class="col s12" id="form-id">
+      <div class="row">
+        <form class="col s6 offset-s3">
           <div class="row">
-            <div class="input-field col s6">
-              <i class="material-icons prefix">account_circle</i>
-              <input name ="name" id="name" type="text" class="validate">
-              <label for="name">Username</label>
-            </div>
             <div class="input-field col s12">
-              <i class="material-icons prefix">mode_edit</i>
-              <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-              <label for="icon_prefix2">Message</label>
+              <textarea id="textarea1" class="materialize-textarea"></textarea>
+              <label for="textarea1">Write a reply...</label>
             </div>
           </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="">Send message</a>
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-            </div>
         </form>
       </div>
-    </div>
-    <!-- Termino del modal -->
+    </main>
 
     <!-- modal form: delete message -->
     <div class="modal" id="deleteMessage">

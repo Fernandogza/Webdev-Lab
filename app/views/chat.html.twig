@@ -19,10 +19,10 @@
       <ul id="slide-out" class="side-nav">
         <li><a href="../profile"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
         <li><a href="./dashboard.html"> <i class="small mdi-action-dashboard left"></i> Dashboard</a></li>
-        <li class="active"><a href="./chat.html"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
+        <li class="active"><a href="../chat"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
         <div class="section" style="margin-top: 600px;">
             <div class="row">
-              <div class="col s12"><a href="./index.html" class="waves-effect waves-light btn black-text grey">logout</a></div>
+              <div class="col s12"><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></div>
             </div>
           </div>
       </ul>
@@ -33,9 +33,8 @@
             <table>
               <tbody>
                 <tr>
-                  <td><a href="#newMessage" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-communication-email left"></i>New Message</a></td>
-                  <td><a href="#deleteMessage" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-action-delete left"></i>Delete Message</a></td>
-                  <td><a href="#blockUser" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-content-block left"></i>Block User</a></td>
+                  <td class="center"><a href="#newMessage" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-communication-email left"></i>New Message</a></td>
+                  <td class="center"><a href="#blockUser" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-content-block left"></i>Block User List</a></td>
                 </tr>
               </tbody>
             </table>
@@ -47,38 +46,23 @@
     <div class="modal" id="newMessage">
       <div class="modal-content">
         <h3 class="center">New Message</h3>
-        <form class="col s12" id="form-id">
+        <form class="col s12" id="newMsg" method="post" action="/chat/newmsg">
           <div class="row">
             <div class="input-field col s6">
-              <i class="material-icons prefix">account_circle</i>
-              <input name ="name" id="name" type="text" class="validate">
-              <label for="name">Username</label>
+              <select name="userId" id="userId">
+                <option value="" disabled selected>Choose a User</option>
+              </select>
+              <label>User</label>
             </div>
             <div class="input-field col s12">
               <i class="material-icons prefix">mode_edit</i>
-              <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+              <textarea name="message" id="message" class="materialize-textarea"></textarea>
               <label for="icon_prefix2">Message</label>
             </div>
           </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="">Send message</a>
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-            </div>
-        </form>
-      </div>
-    </div>
-    <!-- Termino del modal -->
-
-    <!-- modal form: delete message -->
-    <div class="modal" id="deleteMessage">
-      <div class="modal-content">
-        <form class="col s12" id="form-id">
-          <div class="row">
-            <h5 class="center"> Are you sure you want to delete this message? </h5>
-          </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="">Delete message</a>
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+              <a href="javascript:{}" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="document.getElementById('newMsg').submit();">Send message</a>
+              <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
             </div>
         </form>
       </div>
@@ -109,20 +93,53 @@
     <script type="text/javascript" src="../web/js/materialize.min.js"></script>
     <script>
       $(document).ready(function(){
-        var data = {{ data|json_encode|raw}};
+        //Loads chats
+        var chats = {{ chats|json_encode|raw}};
         var inbox = document.getElementById("conversations");
-        for(i=0; i<data.length; i++) {
-          var row = data[i];
-          var groupChat = "";
+        for(i=0; i<chats.length; i++) {
+          var row = chats[i];
+          var groupChatTitle = "";
           for(j=0; j<row.length; j++) {
-            groupChat = groupChat + row[j].first_name + " " + row[j].last_name + " ";
+            groupChatTitle = groupChatTitle + row[j].first_name + " " + row[j].last_name + " ";
           }
-          var aTag = document.createElement("a");
+          var column = document.createElement("div");
+          var card = document.createElement("div");
+          var content = document.createElement("div");
+          var actions = document.createElement("div");
+          var openLink = document.createElement("a");
+          var deleteLink = document.createElement("a");
+
+          column.className = 'col s12';
+          card.className = 'card blue-grey darken-1';
+          content.className = 'card-content white-text';
+          actions.className = 'card-action';
+
+          content.innerHTML = groupChatTitle;
           var link = "/chat/"+ row[0].conversation_id;
-          aTag.setAttribute('href', link);
-          aTag.innerHTML = groupChat + "<br>";
-          inbox.appendChild(aTag);
+          openLink.setAttribute('href', link);
+          link = "/chat/delete/"+ row[0].conversation_id;
+          deleteLink.setAttribute('href', link);
+          openLink.innerHTML = "Open chat";
+          deleteLink.innerHTML = "Delete chat";
+          actions.appendChild(openLink);
+          actions.appendChild(deleteLink);
+          card.appendChild(content);
+          card.appendChild(actions);
+          column.appendChild(card);
+          inbox.appendChild(column);
         }
+
+        //Load user list (Sending msg)
+        var sel = document.getElementById("userId");
+        var userList = {{usersList|json_encode|raw}}
+        for(var i = 0; i < userList.length; i++) {
+          var opt = document.createElement('option');
+          opt.innerHTML = userList[i].first_name + " " + userList[i].last_name;
+          opt.value = userList[i].id;
+          sel.appendChild(opt);
+        }
+
+        $('select').material_select();
          $(".button-collapse").sideNav();
          $('.modal-trigger').leanModal({
            dismissible: true
