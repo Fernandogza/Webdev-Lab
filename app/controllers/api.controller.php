@@ -12,7 +12,11 @@ $app->get('/api/user/', function() use ($app){
     
     delFromArray($arr, array('password'));
 
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
     echo json_encode($arr);
+    http_response_code(200);
 });
 
 //Get a specific user
@@ -97,6 +101,19 @@ $app->get('/api/event/:id/rsvp/:userId', function ($id, $userId) use ($app) {
     );
     
     delFromArray($arr, array('id_event', 'id_user'));
+
+    echo json_encode($arr);
+});
+
+//RSVP
+//Get all RSVPs from a specific event
+$app->get('/api/event/:id/blog/', function ($id) use ($app) {
+   $blogs = R::find('blog', 'id_event = ?', array($id));
+    $arr = array(
+        'data' => R::exportAll($blogs)
+    );
+    
+    delFromArray($arr, array('id_event'));
 
     echo json_encode($arr);
 });
