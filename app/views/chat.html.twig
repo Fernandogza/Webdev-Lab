@@ -72,23 +72,27 @@
     <!-- modal form: block user -->
     <div class="modal" id="blockUser">
       <div class="modal-content">
-        <h5 class="center">Name of the user?</h5>
-        <form class="col s12" id="form-id">
-          <div class="row">
-            <div class="input-field col s6">
-              <i class="material-icons prefix">account_circle</i>
-              <input name ="name" id="name" type="text" class="validate">
-              <label for="name">Name</label>
-            </div>
+        <h5 class="center">Blocked users list</h5>
+        <div class="row">
+          <div id="blockedUsers" class="collection col s5">
           </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="">Block User</a>
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-            </div>
-        </form>
+          <div class="col s5 offset-s2">
+            <form id="blockForm" method="post" action="/block">
+              <p>Add user to the list:</p>
+              <select name="blockedUser" id="possibleToBlock">
+                <option value="" disabled selected>Choose a User</option>
+              </select>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <a href="javascript:{}" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="document.getElementById('blockForm').submit();">Block User</a>
+            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+        </div>
       </div>
     </div>
     <!-- Termino del modal -->
+
     <script src="../web/js/jQuery.min.js"></script>
     <script type="text/javascript" src="../web/js/materialize.min.js"></script>
     <script>
@@ -139,11 +143,44 @@
           sel.appendChild(opt);
         }
 
+        //Load blocked user list
+        var blockedList = {{blockedList|json_encode|raw}}
+        var collection = document.getElementById("blockedUsers");
+        if(blockedList.length == 0) {
+          var item = document.createElement('div');
+          item.className = 'collection-item';
+          item.innerHTML = 'No blocked users';
+          collection.appendChild(item);
+        }
+        for(i=0; i<blockedList.length; i++) {
+          var item = document.createElement('div');
+          var removeBlockedUser = document.createElement('a');
+
+          item.className = 'collection-item';
+          removeBlockedUser.className = 'secondary-content';
+
+          item.innerHTML = blockedList[i].first_name + " " + blockedList[i].last_name;
+          var link = '/unblock/' + blockedList[i].id;
+          removeBlockedUser.innerHTML = 'X';
+          removeBlockedUser.setAttribute('href', link);
+          item.appendChild(removeBlockedUser);
+          collection.appendChild(item);
+        }
+
+        //Possible users to block
+        sel = document.getElementById("possibleToBlock");
+        for(i = 0; i < userList.length; i++) {
+          var opt = document.createElement('option');
+          opt.innerHTML = userList[i].first_name + " " + userList[i].last_name;
+          opt.value = userList[i].id;
+          sel.appendChild(opt);
+        }
+
         $('select').material_select();
-         $(".button-collapse").sideNav();
-         $('.modal-trigger').leanModal({
+        $(".button-collapse").sideNav();
+        $('.modal-trigger').leanModal({
            dismissible: true
-         });
+        });
       });
     </script>
   </body>
