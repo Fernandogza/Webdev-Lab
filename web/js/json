@@ -1,0 +1,106 @@
+var jsonDB = 
+{
+    data: 
+    [
+        {user: 
+            [
+                {
+                    id: 1,
+                    username: "admin", 
+                    password: "123456", 
+                    role: "admin", 
+                    name: "Nombre Completo"
+                },
+                {
+                    id: 2,
+                    username: "test", 
+                    password: "123456", 
+                    role: "user", 
+                    name: "Nombre Completo"
+                },
+                {
+                    id: 3,
+                    username: "Pedro", 
+                    password: "pedroM", 
+                    role: "user", 
+                    name: "Pedro Martínez"
+                },
+                {
+                    id: 4,
+                    username: "Luis", 
+                    password: "Ltec", 
+                    role: "user", 
+                    name: "Luis Robles"
+                },
+                {
+                    id: 4,
+                    username: "Luis", 
+                    password: "Ltec", 
+                    role: "user", 
+                    name: "Luis Robles"
+                }
+            ]
+        },
+        {schedule: 
+            [
+                {
+                    id:1,
+                    idUser: 1,
+                    idEvent: 1
+                },
+                {
+                    id:2,
+                    idUser: 1,
+                    idEvent: 2
+                }
+            
+            ]
+        },
+        {rsvp:
+            [
+                {
+                    id: 1,
+                    idEvent: 1,
+                    idUser: 2,
+                    status: "going"
+                }        
+            ]
+        },
+        {event:
+            [
+                {
+                    id: 1,
+                    place: "Cintermex",
+                    name: "Feria del Libro",
+                    date: "22-11-2015",
+                    time: "11:30",
+                    description: "Principal encuentro editorial de la ciudad de Monterrey"
+                },
+                {
+                    id: 2,
+                    place: "Cintermex",
+                    name: "Expo tu casa",
+                    date: "30-09-2015",
+                    time: "11:30",
+                    description: "Evento en donde encontrarás artículos para tu hogar"
+                }
+            ]
+        },
+        {blog:
+            [
+                {
+                    id: 1,
+                    text:"El evento es el mejor evento que he ido en mi vida.",
+                    idUser: 2,
+                    idEvent: 1
+                },
+                {
+                    id: 2,
+                    text:"Estoy ansioso para que se vuelva a hacer el evento el próximo año.",
+                    idUser: 2,
+                    idEvent: 2
+                }
+            ]
+        }
+    ]
+}

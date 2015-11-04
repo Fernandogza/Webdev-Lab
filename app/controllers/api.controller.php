@@ -103,11 +103,58 @@ $app->get('/api/event/:id/rsvp/:userId', function ($id, $userId) use ($app) {
 
 //POST route (Update)
 
-$app->post('/api/eventos/:id', function () use ($app) {
-   $arr = array();
-   $arr["user"] = "Juan";
-   
-   echo json_encode($arr);
+//Edit User
+$app->post('/api/user/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $user = R::load("user", $id);
+        $user->username = $post->username;
+        $user->password = md5($post->password);
+        $user->name     = $post->name;
+    R::store($user);
+});
+
+//Edit Event
+$app->post('/api/event/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $event = R::load("event", $id);
+        $event->idAdmin = $post->idAdmin;
+        $event->place = $post->place;
+        $event->name = $post->name;
+        $event->date = $post->date;
+        $event->description = $post->description;
+    R::store($event);
+});
+
+//Edit Schedule
+$app->post('/api/schedule/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $schedule = R::load("schedule", $id);
+        $schedule->idEvent = $post->idEvent;
+        $schedule->startDate = $post->startDate;
+        $schedule->endDate = $post->endDate;
+        $schedule->name = $post->name;
+        $schedule->description = $post->description;
+    R::store($schedule);
+});
+
+//Edit RSVP
+$app->post('/api/rsvp/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $rsvp = R::load("rsvp", $id);
+        $rsvp->idEvent = $post->idEvent;
+        $rsvp->idUser = $post->idUser;
+        $rsvp->status = $post->status;
+    R::store($rsvp);
+});
+
+//Edit BLOG
+$app->post('/api/blog/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $blog = R::load("blog", $id);
+        $blog->idEvent = $post->idEvent;
+        $blog->idUser = $post->idUser;
+        $blog->text = $post->text;
+    R::store($blog);
 });
 
 //PUT route (Create)
@@ -124,17 +171,81 @@ $app->put('/api/user', function () use ($app) {
 //New Event
 $app->put('/api/event', function () use ($app) {
    $post = (object)$app->request()->post();
-   $user = R::dispense("user");
-        $user->username = $post->username;
-        $user->password = md5($post->password);
-        $user->name     = $post->name;
-    R::store($user);
+   $event = R::dispense("event");
+        $event->idAdmin = $post->idAdmin;
+        $event->place = $post->place;
+        $event->name = $post->name;
+        $event->date = $post->date;
+        $event->description = $post->description;
+    R::store($event);
+});
+
+//New Schedule
+$app->put('/api/schedule', function () use ($app) {
+   $post = (object)$app->request()->post();
+   $schedule = R::dispense("schedule");
+        $schedule->idEvent = $post->idEvent;
+        $schedule->startDate = $post->startDate;
+        $schedule->endDate = $post->endDate;
+        $schedule->name = $post->name;
+        $schedule->description = $post->description;
+    R::store($schedule);
+});
+
+//New RSVP
+$app->put('/api/rsvp', function () use ($app) {
+   $post = (object)$app->request()->post();
+   $rsvp = R::dispense("rsvp");
+        $rsvp->idEvent = $post->idEvent;
+        $rsvp->idUser = $post->idUser;
+        $rsvp->status = $post->status;
+    R::store($rsvp);
+});
+
+//New BLOG
+$app->put('/api/blog', function () use ($app) {
+   $post = (object)$app->request()->post();
+   $blog = R::dispense("blog");
+        $blog->idEvent = $post->idEvent;
+        $blog->idUser = $post->idUser;
+        $blog->text = $post->text;
+    R::store($blog);
 });
 
 //DELETE route
 
-//OPTIONS route
+$app->delete('/api/user/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $user = R::load("user", $id);
+   R::trash($user);
+});
 
-//PATCH route
+//Edit Event
+$app->delete('/api/event/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $event = R::load("event", $id);
+    R::trash($event);
+});
+
+//Edit Schedule
+$app->delete('/api/schedule/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $schedule = R::load("schedule", $id);
+   R::trash($schedule);
+});
+
+//Edit RSVP
+$app->delete('/api/rsvp/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $rsvp = R::load("rsvp", $id);
+   R::trash($rsvp);
+});
+
+//Edit BLOG
+$app->delete('/api/blog/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $blog = R::load("blog", $id);
+   R::trash($blog);
+});
 
 ?>
