@@ -1,0 +1,33 @@
+{% extends "base/template.html.twig" %}
+
+{% block content %}
+<div class="row">
+  {% for event in events %}
+    <div class="col s12 m6 l4">
+      <div class="card cyan darken-2">
+        <div class="card-content white-text">
+          <span class="card-title activator">{{ event.name }}<i class="material-icons right">more_vert</i></span>
+          <p>{{ event.date|date("d") }}, {{ event.date|date("M") }} {{ event.date|date("Y") }} @ {{ event.place }}</p>
+          <p class="truncate">{{ event.description }}</p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Stats<i class="material-icons right">close</i></span>
+          <p>Attending: {{ event.attending }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a href="/events/new" class="btn-floating btn-large red tooltipped" data-position="left" data-delay="50" data-tooltip="Nuevo Evento">
+      <i class="large material-icons">add</i>
+    </a>
+{#     <ul>
+      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul> #}
+  </div>
+{% endblock content %}

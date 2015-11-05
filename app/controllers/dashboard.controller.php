@@ -19,6 +19,13 @@ $app->get('/users/', $authenticate($app, 'admin'), function () use ($app) {
     $app->render('users.html.twig', $data);
 });
 
+$app->get('/events/', $authenticate($app, 'admin'), function () use ($app) {
+    $events = R::find('event', 'ORDER BY date DESC');
+
+    $data = array('events' => $events);
+    $app->render('events.html.twig', $data);
+});
+
 //POST route
 
 //PUT route
