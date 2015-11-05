@@ -143,7 +143,7 @@ $(function(){
 	$("body").delegate(".gridder_add.datepiker", "focusin", function(){
 		var ThisElement = $(this);
 		$(this).datepicker({
-	   		dateFormat: 'yy/mm/dd'
+	   		dateFormat: 'yyyy-mm-dd hh:mi'
 	   });
 	});
 	
@@ -151,26 +151,22 @@ $(function(){
 	$('body').delegate('#gridder_addrecord', 'click', function(){
 		
 		// Do insert vaidation here
-		if($('#fname').val() == '') {
-			$('#fname').focus();
+		if($('#name').val() == '') {
+			$('#name').focus();
 			alert('Enter the Name');
 			return false;
 		}
-		if($('#ldescription').val() == '') {
-			$('#ldescription').focus();
+		if($('#description').val() == '') {
+			$('#description').focus();
 			alert('Enter the Description');
 			return false;
 		}
-		if($('#lplace').val() == '') {
-			$('#lplace').focus();
+		if($('#place').val() == '') {
+			$('#place').focus();
 			alert('Enter the Place');
 			return false;
 		}
-		if($('#hour').val() == '') {
-			$('#hour').focus();
-			alert('Select the Hour');
-			return false;
-		}
+		
 		if($('#date').val() == '') {
 			$('#date').focus();
 			alert('Select the Date');
