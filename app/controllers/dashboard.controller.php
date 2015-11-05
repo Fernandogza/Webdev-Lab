@@ -26,8 +26,33 @@ $app->get('/events/', $authenticate($app, 'admin'), function () use ($app) {
     $app->render('events.html.twig', $data);
 });
 
-//POST route
+$app->get('/events/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
+    $event = R::load('event', $id);
+    $blogs = R::find('blog', 'id_event = ?',[$id]);
 
+    foreach ($blogs as $blog) {
+    	$user = R::load('user', $blog->id_user);
+    	$blog->user = $user->first_name." ".$user->last_name;
+    }
+
+    $data = array('event' => $event, 'blogs' => $blogs);
+    $app->render('event.html.twig', $data);
+});
+
+//POST route
+$app->post('/events/new', $authenticate($app, 'admin'), function () use ($app) {
+    $post = (object)$app->request()->post();
+    $event = R::dispense("event");
+    $event->id_admin = $_SESSION['id'];
+    $event->place = $post->place;
+    $event->name = $post->name;
+    $event->date = date("Y-m-d H:i:s",strtotime($post->date));
+    $event->description = $post->description;
+
+    R::store($event);
+
+    $app->redirect('/events');
+});
 //PUT route
 
 //DELETE route

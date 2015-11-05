@@ -6,13 +6,9 @@
     <div class="col s12 m6 l4">
       <div class="card cyan darken-2">
         <div class="card-content white-text">
-          <span class="card-title activator">{{ event.name }}<i class="material-icons right">more_vert</i></span>
+          <a href="/events/{{ event.id }}"><span class="card-title truncate">{{ event.name }}</span></a>
           <p>{{ event.date|date("d") }}, {{ event.date|date("M") }} {{ event.date|date("Y") }} @ {{ event.place }}</p>
           <p class="truncate">{{ event.description }}</p>
-        </div>
-        <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4">Stats<i class="material-icons right">close</i></span>
-          <p>Attending: {{ event.attending }}</p>
         </div>
       </div>
     </div>
@@ -20,7 +16,7 @@
 </div>
 
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a href="/events/new" class="btn-floating btn-large red tooltipped" data-position="left" data-delay="50" data-tooltip="Nuevo Evento">
+    <a class="btn-floating btn-large red tooltipped modal-trigger" href="#modalNewUser" data-position="left" data-delay="50" data-tooltip="Nuevo Evento">
       <i class="large material-icons">add</i>
     </a>
 {#     <ul>
@@ -30,4 +26,38 @@
       <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
     </ul> #}
   </div>
+
+  <!-- Modal Structure -->
+  <div id="modalNewUser" class="modal modal-fixed-footer">
+    <form action="/events/new" method="POST">
+      <div class="modal-content">
+        <h4>Nuevo Evento</h4>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="name" name="name" type="text" class="validate">
+              <label for="name">Nombre</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input id="place" name="place" type="text" class="validate">
+              <label for="place">Lugar</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <input placeholder="Fecha" name="date" id="date" type="date" class="datepicker">
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="description" name="description" class="materialize-textarea"></textarea>
+              <label for="description">Descripcion</label>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Crear</button>
+      </div>
+    </form>
+  </div>
+          
 {% endblock content %}
