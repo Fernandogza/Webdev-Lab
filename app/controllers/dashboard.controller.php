@@ -28,7 +28,14 @@ $app->get('/events/', $authenticate($app, 'admin'), function () use ($app) {
 
 $app->get('/events/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
     $event = R::load('event', $id);
-    $blogs = R::find('blog', 'id_event = ?',[$id]);
+    $blogs = R::find('blog', 'id_event = ? ORDER BY id DESC',[$id]);
+
+    $rsvps = R::find('rsvp', 'id_event = ? AND status = "going"',[$event->id]);
+	$event->attending = count($rsvps);
+	$rsvps = R::find('rsvp', 'id_event = ? AND status = "maybe"',[$event->id]);
+	$event->maybe = count($rsvps);
+	$rsvps = R::find('rsvp', 'id_event = ?',[$event->id]);
+	$event->invited = count($rsvps);
 
     foreach ($blogs as $blog) {
     	$user = R::load('user', $blog->id_user);
@@ -39,7 +46,30 @@ $app->get('/events/:id', $authenticate($app, 'admin'), function ($id) use ($app)
     $app->render('event.html.twig', $data);
 });
 
+$app->get('/events/:id/schedule', $authenticate($app, 'admin'), function ($id) use ($app) {
+    $schedule = R::find('schedule', 'id_event = ?' ,[$id]);
+
+    $data = array('schedule' => $schedule);
+    $app->render('schedule.html.twig', $data);
+});
+
+$app->get('/blog/delete/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
+    $blog = R::load('blog', $id);
+    $id_event = $blog->id_event;
+    R::trash($blog);
+
+    $app->redirect('/events/'.$id_event);
+});
+
 //POST route
+$app->post('/users/edit', $authenticate($app, 'admin'), function () use ($app) {
+	$post = (object)$app->request()->post();
+    $users = R::find('user','ORDER BY role ASC');
+
+    $data = array('users' => $users);
+    $app->render('users.html.twig', $data);
+});
+
 $app->post('/events/new', $authenticate($app, 'admin'), function () use ($app) {
     $post = (object)$app->request()->post();
     $event = R::dispense("event");
@@ -52,6 +82,18 @@ $app->post('/events/new', $authenticate($app, 'admin'), function () use ($app) {
     R::store($event);
 
     $app->redirect('/events');
+});
+
+$app->post('/blog/new', $authenticate($app, 'admin'), function () use ($app) {
+    $post = (object)$app->request()->post();
+    $blog = R::dispense("blog");
+    $blog->id_user = $_SESSION['id'];
+    $blog->id_event = $post->id_event;
+    $blog->text = $post->text;
+
+    R::store($blog);
+
+    $app->redirect('/events/'.$post->id_event);
 });
 //PUT route
 

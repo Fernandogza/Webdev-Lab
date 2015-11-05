@@ -3,19 +3,126 @@
 {% block content %}
 <div class="row">
   {% for user in users %}
-    <div class="col s12 m6 l4">
-      <div class="card cyan darken-2">
-        <div class="card-content white-text">
-          <span class="card-title activator">{{ user.first_name }} {{ user.last_name }}<i class="material-icons right">more_vert</i></span>
-          <p>{{ user.role }}</p>
-          <p>{{ user.email }}</p>
+    <div class="col s12 m4 l4">
+      <div id="profile-card" class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="/web/img/user-bg.jpg" alt="user bg">
         </div>
-        <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4">Stats<i class="material-icons right">close</i></span>
-          <p>Attending: {{ user.attending }}</p>
+        <div class="card-content">
+          <img src="/web/img/avatar.jpg" alt="" class="circle responsive-img activator card-profile-image">
+          <a class="btn-floating modal-trigger edit-trigger btn-move-up waves-effect waves-light darken-2 right" data-id="{{ user.id }}" href="#modalEditUser">
+            <i class="mdi-editor-mode-edit"></i>
+          </a>
+
+          <span class="card-title activator grey-text text-darken-4">{{ user.first_name }} {{ user.last_name }}</span>
+          <p><i class="mdi-action-perm-identity"></i> {{ user.role }}</p>
+          <p><i class="mdi-action-perm-phone-msg"></i> +1 (612) 222 8989</p>
+          <p><i class="mdi-communication-email"></i> {{ user.email }}</p>
+
         </div>
       </div>
     </div>
   {% endfor %}
 </div>
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red tooltipped modal-trigger" href="#modalNewUser" data-position="left" data-delay="50" data-tooltip="Nuevo Usuario">
+      <i class="large material-icons">add</i>
+    </a>
+{#     <ul>
+      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul> #}
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modalNewUser" class="modal modal-fixed-footer">
+    <form action="/users/new" method="POST">
+      <div class="modal-content">
+        <h4>Nuevo Usuario</h4>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input id="first_name" name="first_name" type="text" class="validate">
+              <label for="first_name">Nombre</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <input id="last_name" name="last_name" type="text" class="validate">
+              <label for="last_name">Apellidos</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="email" name="email" type="email" class="validate">
+              <label for="email">E-Mail</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input id="password" name="password" type="password" class="validate">
+              <label for="password">Contraseña</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <select>
+                <option value="" disabled selected>Selecciona una opcion</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+              <label>Role</label>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Crear</button>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- Modal Structure -->
+  <div id="modalEditUser" class="modal modal-fixed-footer">
+    <form action="/users/edit" method="POST">
+      <div class="modal-content">
+        <h4>Editar Usuario</h4>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input id="efirst_name" name="first_name" type="text" class="validate">
+              <label for="efirst_name">Nombre</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <input id="elast_name" name="last_name" type="text" class="validate">
+              <label for="elast_name">Apellidos</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="eemail" name="email" type="email" class="validate">
+              <label for="eemail">E-Mail</label>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Editar</button>
+      </div>
+    </form>
+  </div>
 {% endblock content %}
+
+{% block customjs %}
+  <script>
+  $(document).ready(function() {
+    $(".edit-trigger").click(function() {
+      $("#efirst_name").val("");
+      $("#elast_name").val("");
+      $("#eemail").val("");
+
+      $.getJSON('/api/user/'+$(this).data("id"), function(json, textStatus) {
+          var data = json.data[0];
+          $("#efirst_name").val(data.first_name);
+          $("#elast_name").val(data.last_name);
+          $("#eemail").val(data.email);
+      });
+    });
+  });
+  </script>
+{% endblock customjs %}
