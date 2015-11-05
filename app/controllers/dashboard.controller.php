@@ -53,6 +53,13 @@ $app->get('/events/:id/schedule', $authenticate($app, 'admin'), function ($id) u
     $app->render('schedule.html.twig', $data);
 });
 
+$app->get('/users/delete/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
+    $user = R::load('user', $id);
+    R::trash($user);
+
+    $app->redirect('/users/');
+});
+
 $app->get('/blog/delete/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
     $blog = R::load('blog', $id);
     $id_event = $blog->id_event;
@@ -62,6 +69,20 @@ $app->get('/blog/delete/:id', $authenticate($app, 'admin'), function ($id) use (
 });
 
 //POST route
+$app->post('/users/new', $authenticate($app, 'admin'), function () use ($app) {
+	$post = (object)$app->request()->post();
+
+    $user = R::dispense('user');
+    $user->first_name = $post->first_name;
+    $user->last_name = $post->last_name;
+    $user->email = $post->email;
+    $user->password = md5($post->password);
+    $user->role = $post->role;
+    R::store($user);
+
+    $app->redirect('/users');
+});
+
 $app->post('/users/edit', $authenticate($app, 'admin'), function () use ($app) {
 	$post = (object)$app->request()->post();
 
