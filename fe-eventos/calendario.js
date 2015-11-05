@@ -65,14 +65,15 @@ $(document).ready(function() {
 				defaultView: 'agendaWeek',
 				//events: calendar
     })
+});
 
-    $.get('/eventos/' + idEvento + '/calendar', function(eventos) {
-    	console.log(eventos);
-    	eventos.forEach(function(evento) {
-    		$('#calendar').fullCalendar('renderEvent', evento);
+function loadCalendarioAjax(idEvento) {
+	$.get('/eventos/' + idEvento + '/calendar', function(actividads) {
+    	console.log(actividads);
+    	actividads.forEach(function(actividad) {
+    		$('#calendar').fullCalendar('renderEvent', actividad);
     	});
-    	gotoStartDate(eventos);
+    	gotoStartDate(actividads);
 
     });
-
-});
+}

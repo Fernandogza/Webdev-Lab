@@ -102,28 +102,26 @@ var PER_PAGE_RSVP = 4;
 $(document).ready(function() {
 	$("#radioRSVP").click(submitRSVP);
 	//attendants.forEach(addRSVP);
-
-	$.get('/eventos/' + idEvento + '/rsvps', function(rsvps) {
-    	console.log(rsvps);
-    	//rsvps.forEach(addRSVP);
-    	loadPageRSVP();
-    });
 });
+
+function loadRSVPsAjax(idEvento) {
+	$.get('/eventos/' + idEvento + '/rsvps', loadPageRSVP);
+}
 
 
 function submitRSVP() {
 	addRSVP({name: 'Jorge', attending: $('#radioRSVP').val()});
-	$('#radioRSVP').val('')
 }
 
 
 function addRSVP(attendant){
 
-	var text =  '<tr><td>'+
-				attendant.name+
-				'</td><td>'+
-				attendant.attending
-				+'</td> </tr>';
+	var text = 
+		'<tr><td>' +
+		attendant.name +
+		'</td><td>' +
+		attendant.attending + 
+		'</td></tr>';
 	$("#attendants").append(text);
 
 	return;
@@ -142,7 +140,7 @@ function gotoPageRSVP(pageNum){
 	loadPage(pageNumberRSVP, attendants, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
 }
 
-function loadPageRSVP(){
+function loadPageRSVP(attendants){
 
 	$("#attendants").empty();
 

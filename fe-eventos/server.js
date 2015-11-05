@@ -56,14 +56,75 @@ app.use('/eventos/:eventId/comments', function(req, res) {
 		},
 
 		{
-			"name" : "Maria",
+			"name" : "Matria",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Maddria",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Jutan",
 			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 		},
 
 		{
 			"name" : "Maria",
 			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-		}
+		},
+
+		{
+			"name" : "Moaria",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Juana",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Mariana",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Mariari",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Juan",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Mariachi",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Marias",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Juanes",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "Mariaf",
+			"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
+		{
+			"name" : "SATANSAs",
+			"text" : "Lorem Ipsum is asdasdasdasasdas dasd asdsimply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		},
+
 	]);
 });
 
@@ -109,9 +170,16 @@ app.use('/eventos/:eventId/markers', function(req, res) {
 	]);
 });
 
+app.use('/eventos/:eventId', function(req, res) {
+	res.send({
+		"description" : "Este evento el mejor evento EL EVENTO DE COMIDAS MAS GRANDE DE LATINAMERICA PUNTO. no hay mas no le piensen chavos es el mejor evento el cumpleanos de quiero vivir en america venga hay cheve y concirtos y tortas del tipo ahogado y deliciosas It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+		"id" : 1	
+	});
+});
+
 
 app.use(express.static(__dirname));
 // correr el servidor
-const server = http.createServer(app).listen(port, () => {
+const server = http.createServer(app).listen(port, function() {
 	console.log('Servidor express creado en puerto ' + port);
 });

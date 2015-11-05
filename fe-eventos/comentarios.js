@@ -1,6 +1,6 @@
 // GET /eventos/:eventId/comments
 
-var comments = [
+var comments2 = [
 	{
 		"name" : "Juan",
 		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
@@ -85,13 +85,11 @@ var PER_PAGE_COMMENTS = 5;
 
 $(document).ready(function() {
 	$("#commentButton").click(submitComment);
-
-	$.get('/eventos/' + idEvento + '/comments', function(comentarios) {
-  	//comentarios.forEach(addComment);
-  	// createPaginationComments();
-  	loadPageComments();
-  });
 });
+
+function loadComentariosAjax(idEvento) {
+	$.get('/eventos/' + idEvento + '/comments', loadPageComments);
+}
 
 
 function submitComment() {
@@ -155,7 +153,7 @@ function createPaginationComments(){
 	$("#commentPagination").append('<li ' + rightOnclick + ' id="nextCommentPagination" class="' + rightArrow + '"><a ><i class="material-icons">chevron_right</i></a></li>');
 }
 
-function loadPageComments(){
+function loadPageComments(comments){
 
 	$("#comentarios").empty();
 
