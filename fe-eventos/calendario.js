@@ -19,6 +19,36 @@ var calendar = {
 	]
 };
 
+
+function gotoStartDate(){
+	var ev_start = calendar.events[0].start;
+
+	var ev_end = calendar.events[0];
+
+	for (var i = 1; i < calendar.events.length; i++) {
+		ev_end = (calendar.events[i] > ev_end) ? calendar.events[i]:ev_end;
+	};
+
+
+	var todate = new Date();
+	var today = todate.toJSON();
+
+
+	if(ev_start >= today){
+
+		$('#calendar').fullCalendar('gotoDate', ev_start);
+
+	} else if( ev_end >= today){
+
+		$('#calendar').fullCalendar('gotoDate', today);
+
+	} else {
+
+		$('#calendar').fullCalendar('gotoDate', ev_start);
+	
+	}
+}
+
 $(document).ready(function() {
 
     // page is now ready, initialize the calendar...
@@ -32,7 +62,8 @@ $(document).ready(function() {
 					right: 'month,agendaWeek,agendaDay'
 				},
 				defaultView: 'basicWeek',
-				events: calendar.events
+				events: calendar.events, 
+				defaultDate: 
     })
 
 });
