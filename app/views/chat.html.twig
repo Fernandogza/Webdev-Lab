@@ -20,11 +20,7 @@
         <li><a href="../profile"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
         <li><a href="./dashboard.html"> <i class="small mdi-action-dashboard left"></i> Dashboard</a></li>
         <li class="active"><a href="../chat"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
-        <div class="section" style="margin-top: 600px;">
-            <div class="row">
-              <div class="col s12"><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></div>
-            </div>
-          </div>
+        <li><a href="../logout" class="waves-effect waves-light btn black-text grey" style="margin-top: 20px;">logout</a></li>
       </ul>
     </header>
     <main>
@@ -50,7 +46,6 @@
           <div class="row">
             <div class="input-field col s6">
               <select name="userId" id="userId">
-                <option value="" disabled selected>Choose a User</option>
               </select>
               <label>User</label>
             </div>
@@ -80,7 +75,6 @@
             <form id="blockForm" method="post" action="/block">
               <p>Add user to the list:</p>
               <select name="blockedUser" id="possibleToBlock">
-                <option value="" disabled selected>Choose a User</option>
               </select>
             </form>
           </div>
