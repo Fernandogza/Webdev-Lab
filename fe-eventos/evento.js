@@ -1,3 +1,0 @@
-
-
-var idEvento = 1;
