@@ -19,26 +19,33 @@ var comments = [
 
 
 $(document).ready(function() {
-		document.getElementById("commentButton").onclick = addComment;
+		$("#commentButton").click(submitComment);
 
+		comments.forEach(addComment);
 });
 
 
-function addComment(){
-	var name, msg;
-	name = "Jorge";
-	msg = $("#textarea1").val();
+function submitComment() {
+	addComment({name: 'Jorge', text: $('#comentarioNuevo').val()});
+	$('#comentarioNuevo').val('')
+}
 
-	var text;
-	text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i></p></div><div class="col s2"><p>Jorge</p></div><div class="col s9"><p>'+msg+'</p></div></div>';
+
+function addComment(comment){
+	var text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i>' 
+		+ '</p></div><div class="col s2"><p>' 
+		+ comment.name 
+		+ '</p></div><div class="col s9"><p>' 
+		+ comment.text
+		+ '</p></div></div>';
 
 
 	$("#comentarios").append(text);
 
-
-	$("#textarea1").val('');
-
 	return;
 }
 
+
+
+   
 
