@@ -2,7 +2,7 @@
 
 // GET routes
 
-$app->get('/chat/:id', function ($id) use ($app){
+$app->get('/chat/:id', $authenticate($app, 'guest'), function ($id) use ($app){
 
   $messages = R::getAll('SELECT messages.message, messages.time, user.first_name, user.last_name
                          FROM messages INNER JOIN user WHERE messages.sender_id=user.id
@@ -18,7 +18,7 @@ $app->get('/chat/:id', function ($id) use ($app){
 });
 
 
-$app->get('/chat', function() use ($app){
+$app->get('/chat', $authenticate($app, 'guest'), function() use ($app){
   $env = $app->environment();
 
   //Retrieve list of users the user can msg.
@@ -62,7 +62,7 @@ $app->get('/chat', function() use ($app){
 });
 
 
-$app->get('/chat/delete/:id', function($id) use($app) {
+$app->get('/chat/delete/:id', $authenticate($app, 'guest'), function($id) use($app) {
   $env = $app -> environment();
 
   $participants = R::findAll('participants', 'conversation_id = ?',
@@ -80,7 +80,7 @@ $app->get('/chat/delete/:id', function($id) use($app) {
   $app->redirect('/chat');
 });
 
-$app->get('/unblock/:id', function($id) use($app) {
+$app->get('/unblock/:id', $authenticate($app, 'guest'), function($id) use($app) {
   $env = $app ->environment();
   $userId = $_SESSION['id'];
 
@@ -91,7 +91,7 @@ $app->get('/unblock/:id', function($id) use($app) {
   $app->redirect('/chat');
 });
 
-$app->post('/block', function() use($app) {
+$app->post('/block', $authenticate($app, 'guest'), function() use($app) {
   $env = $app ->environment();
   $post = (object)$app->request()->post();
   $id = $_SESSION['id'];
@@ -105,7 +105,7 @@ $app->post('/block', function() use($app) {
   $app->redirect('/chat');
 });
 
-$app->post('/chat/reply/:id', function($id) use($app) {
+$app->post('/chat/reply/:id', $authenticate($app, 'guest'), function($id) use($app) {
   $env = $app ->environment();
   $post = (object)$app->request()->post();
 
@@ -122,7 +122,7 @@ $app->post('/chat/reply/:id', function($id) use($app) {
   $app->redirect($link);
 });
 
-$app->get('/blockUser/:id', function($id) use($app) {
+$app->get('/blockUser/:id', $authenticate($app, 'guest'), function($id) use($app) {
   $env = $app ->environment();
   $userId = $_SESSION['id'];
 
@@ -137,7 +137,7 @@ $app->get('/blockUser/:id', function($id) use($app) {
   $app->redirect('/chat');
 });
 
-$app->post('/chat/newmsg', function() use($app) {
+$app->post('/chat/newmsg', $authenticate($app, 'guest'), function() use($app) {
   $env = $app ->environment();
 	$post = (object)$app->request()->post();
 

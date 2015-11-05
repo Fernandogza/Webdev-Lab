@@ -2,7 +2,7 @@
 
 // GET routes
 
-$app->get('/profile/:id', function ($id) use ($app){
+$app->get('/profile/:id', $authenticate($app, 'guest'), function ($id) use ($app){
 
 	$user = R::findOne('user',' id = :param ',
 	           array(':param' => $id )
@@ -19,12 +19,13 @@ $app->get('/profile/:id', function ($id) use ($app){
       'specialNeeds' => $user->specialNeeds,
     );
 	}
+  echo "<script>console.log( 'Debug Hola: " . $env['rootUri'] . "' );</script>";
 	$app->view()->appendData($data);
   $app->render('profile.html.twig');
 });
 
 
-$app->get('/profile', function() use ($app){
+$app->get('/profile', $authenticate($app, 'guest'), function() use ($app){
 	$env = $app->environment();
 	$user = R::findOne('user',' id = :param ',
 	           array(':param' => $_SESSION['id'] )
@@ -40,7 +41,7 @@ $app->get('/profile', function() use ($app){
 
 //Put routes
 
-$app->put("/profile/edit", function() use ($app) {
+$app->put("/profile/edit", $authenticate($app, 'guest'), function() use ($app) {
   $env = $app->environment();
   $put = (object)$app->request->put();
   $id = $_SESSION['id'];
@@ -71,7 +72,7 @@ $app->put("/profile/edit", function() use ($app) {
 
 // Delete routes
 
-$app->delete('/profile/:id', function($id) use ($app) {
+$app->delete('/profile/:id', $authenticate($app, 'guest'), function($id) use ($app) {
   $user = R::load('user', $id);
   R::trash($user);
   $app->redirect('/login');

@@ -50,21 +50,26 @@ $app->add(new \Slim\Middleware\SessionCookie(array(
 */
 
 $authenticate = function ($app, $role) {
-    return function () use ($app, $role) {
-        $env = $app->environment();
-        if (!isset($_SESSION['user'])) {
-            $_SESSION['urlRedirect'] = $app->request()->getPathInfo();
-            $app->flash('danger', 'Necesitas iniciar sesion.');
-            $app->redirect($env['rootUri'].'login');
-        }else if($role == 'admin'){
-            if($_SESSION['role']!='admin'){
-                $app->flash('danger', 'Necesitas iniciar sesion como administrador.');
-                $app->redirect($env['rootUri']);
-            }
-        }
-    };
+	return function () use ($app, $role) {
+		$env = $app->environment();
+		if (!isset($_SESSION['user'])) {
+			$_SESSION['urlRedirect'] = $app->request()->getPathInfo();
+			$app->flash('danger', 'Necesitas iniciar sesion.');
+			$app->redirect($env['rootUri'].'login');
+		}else if($role == 'admin'){
+			if($_SESSION['role']!='admin'){
+				$app->flash('danger', 'Necesitas iniciar sesion como administrador.');
+				$app->redirect($env['rootUri']);
+			}
+		}
+		else if($role == 'guest'){
+			if($_SESSION['role']!='guest'){
+				$app->flash('danger', 'Necesitas iniciar sesion como invitado.');
+				$app->redirect($env['rootUri']);
+			}
+		}
+	};
 };
-
 
 //crea variable $user y se la agrega a todos los views para facil deteccion de sesiones
 $app->hook('slim.before.dispatch', function() use ($app) {

@@ -126,9 +126,11 @@ $app->post("/login", function () use ($app) {
         $app->redirect('login');
     }
 
-    $_SESSION['user']   = $email;
+    $_SESSION['user'] = $user;
+    
     $_SESSION['id']     = $user->id;
     $_SESSION['nombre'] = $user->firstName;
+    $_SESSION['role'] = $user->role;
 
   	if (isset($_SESSION['urlRedirect'])) {
        	$tmp = $_SESSION['urlRedirect'];
@@ -167,6 +169,7 @@ $app->post("/signup", function () use ($app) {
     $newUser->firstName = $firstName;
     $newUser->lastName = $lastName;
     $newUser->password = $password;
+    $newUser->role = "guest";
     R::store($newUser);
   }
   if (count($errors) > 0) {
