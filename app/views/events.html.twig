@@ -7,6 +7,9 @@
       <div class="card cyan darken-2">
         <div class="card-content white-text">
           <a href="/events/{{ event.id }}"><span class="card-title truncate">{{ event.name }}</span></a>
+          <a class="btn-floating modal-trigger edit-trigger btn-move-up waves-effect waves-light darken-2 right" data-id="{{ event.id }}" href="#modalEditEvent">
+            <i class="mdi-editor-mode-edit"></i>
+          </a>
           <p>{{ event.date|date("d") }}, {{ event.date|date("M") }} {{ event.date|date("Y") }} @ {{ event.place }}</p>
           <p class="truncate">{{ event.description }}</p>
         </div>
@@ -16,7 +19,7 @@
 </div>
 
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a class="btn-floating btn-large red tooltipped modal-trigger" href="#modalNewUser" data-position="left" data-delay="50" data-tooltip="Nuevo Evento">
+    <a class="btn-floating btn-large red tooltipped modal-trigger" href="#modalNewEvent" data-position="left" data-delay="50" data-tooltip="Nuevo Evento">
       <i class="large material-icons">add</i>
     </a>
 {#     <ul>
@@ -28,7 +31,7 @@
   </div>
 
   <!-- Modal Structure -->
-  <div id="modalNewUser" class="modal modal-fixed-footer">
+  <div id="modalNewEvent" class="modal modal-fixed-footer">
     <form action="/events/new" method="POST">
       <div class="modal-content">
         <h4>Nuevo Evento</h4>
@@ -59,5 +62,64 @@
       </div>
     </form>
   </div>
+
+  <!-- Modal Structure -->
+  <div id="modalEditEvent" class="modal modal-fixed-footer">
+    <form action="/events/edit" method="POST">
+      <div class="modal-content">
+        <h4>Editar Evento</h4>
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="hidden" name="id" id="eid" value="">
+              <input id="ename" name="name" type="text" class="validate">
+              <label for="ename">Nombre</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input id="eplace" name="place" type="text" class="validate">
+              <label for="eplace">Lugar</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <input placeholder="Fecha" name="date" id="edate" type="date" class="datepicker">
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="edescription" name="description" class="materialize-textarea"></textarea>
+              <label for="edescription">Descripcion</label>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Editar</button>
+        <a id="eborrar" href="" class="modal-action modal-close waves-effect waves-green btn-flat ">Eliminar Evento</a>
+      </div>
+    </form>
+  </div>
           
 {% endblock content %}
+
+{% block customjs %}
+  <script>
+  $(document).ready(function() {
+    $(".edit-trigger").click(function() {
+      $("#efirst_name").val("");
+      $("#elast_name").val("");
+      $("#eemail").val("");
+      $("#eid").val("");
+      $("#eborrar").attr("href", "");
+
+      $.getJSON('/api/event/'+$(this).data("id"), function(json, textStatus) {
+          var data = json.data[0];
+          $("#ename").val(data.name);
+          $("#eplace").val(data.place);
+          $("#edate").val(data.date);
+          $("#edescription").val(data.description);
+          $("#eid").val(data.id);
+          $("#eborrar").attr("href", "/events/delete/"+data.id);
+      });
+    });
+  });
+  </script>
+{% endblock customjs %}

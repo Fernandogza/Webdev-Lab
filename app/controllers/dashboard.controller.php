@@ -60,6 +60,13 @@ $app->get('/users/delete/:id', $authenticate($app, 'admin'), function ($id) use 
     $app->redirect('/users/');
 });
 
+$app->get('/events/delete/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
+    $event = R::load('event', $id);
+    R::trash($event);
+
+    $app->redirect('/events/');
+});
+
 $app->get('/blog/delete/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
     $blog = R::load('blog', $id);
     $id_event = $blog->id_event;
@@ -99,6 +106,19 @@ $app->post('/events/new', $authenticate($app, 'admin'), function () use ($app) {
     $post = (object)$app->request()->post();
     $event = R::dispense("event");
     $event->id_admin = $_SESSION['id'];
+    $event->place = $post->place;
+    $event->name = $post->name;
+    $event->date = date("Y-m-d H:i:s",strtotime($post->date));
+    $event->description = $post->description;
+
+    R::store($event);
+
+    $app->redirect('/events');
+});
+
+$app->post('/events/edit', $authenticate($app, 'admin'), function () use ($app) {
+    $post = (object)$app->request()->post();
+    $event = R::load("event",$post->id);
     $event->place = $post->place;
     $event->name = $post->name;
     $event->date = date("Y-m-d H:i:s",strtotime($post->date));
