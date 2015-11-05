@@ -172,13 +172,12 @@ $app->post("/signup", function () use ($app) {
     $newUser->email = $email;
     $newUser->firstName = $firstName;
     $newUser->lastName = $lastName;
-    $newUser->password = $password;
-    $newUser->role = "guest";
+    $newUser->password = md5($password);
     R::store($newUser);
   }
   if (count($errors) > 0) {
       $app->flash('errors', $errors);
-      $app->redirect('signup');
+      $app->redirect('/signup');
   }
   $app->redirect('/login');
 });
