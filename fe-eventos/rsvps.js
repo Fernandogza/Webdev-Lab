@@ -20,10 +20,8 @@ var attendants = [
 
 
 $(document).ready(function() {
-	alert("ss");
-		$("#commentButton").click(submitRSVP);
-
-		attendants.forEach(addRSVP);
+	$("#commentButton").click(submitRSVP);
+	attendants.forEach(addRSVP);
 });
 
 
