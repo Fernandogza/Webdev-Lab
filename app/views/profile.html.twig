@@ -3,6 +3,8 @@
     <title>Eventos - ITESM</title>
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../web/css/materialize.min.css"  media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <style>
       main, footer {
         padding-left: 240px;
@@ -19,7 +21,7 @@
         </div>
       </nav>
       <ul id="slide-out" class="side-nav">
-        <li class="active"><a href="./profile.html"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
+        <li class="active"><a href="../profile"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
         <li><a href="./dashboard.html"> <i class="small mdi-action-dashboard left"></i> Dashboard</a></li>
         <li><a href="../chat"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
         <div class="section" style="margin-top: 600px;">
@@ -50,37 +52,108 @@
             <tbody>
               <tr>
                 <td>Name:</td>
-                <td>{{ firstName }} {{lastName}}</td>
+                <td>{{firstName}} {{lastName}}</td>
               </tr>
               <tr>
                 <td>E-mail:</td>
                 <td>{{email}}</td>
               </tr>
               <tr>
-                <td>Additional Info:</td>
-                <td>Extra Info</td>
+                <td>Company:</td>
+                <td>{{company}}</td>
+              </tr>
+              <tr>
+                <td>T-Shirt Size:</td>
+                <td>{{tShirtSize}}</td>
+              </tr>
+              <tr>
+                <td>Food Preference:</td>
+                <td>{{foodPreference}}</td>
+              </tr>
+              <tr>
+                <td>Special Needs:</td>
+                <td>{{specialNeeds}}</td>
               </tr>
               <tr>
                 <td>
                   <form action="" method="POST">
                     <input type="hidden" name="_METHOD" value="DELETE" />
-                    <input type="submit" value="Delete profile" />
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Delete Profile
+                     <i class="material-icons right">delete</i>
+                    </button>
                   </form>
                 </td>
-              </tr>
-              <tr>
-                <td><a href="#!">Change E-mail Address</a></td>
+                <td>
+                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal">Edit Profile </a>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </main>
+
+    <!-- Edit Modal Space -->
+    <div id="editModal" class="modal">
+    <div class="modal-content">
+      <form id="editForm" action="/profile/edit" method="post">
+        <div class="row">
+          <div class="input-field col s6">
+            <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}">
+            <label for="firstName">First Name</label>
+          </div>
+          <div class="input-field col s6">
+            <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}">
+            <label for="lastName">Last Name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input name="email" id="email" type="email" class="validate" value="{{email}}">
+            <label for="email">E-mail</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input name="company" id="company" type="text" class="validate" value="{{company}}">
+            <label for="company">Company</label>
+          </div>
+          <div class="input-field col s6">
+            <select name="tShirtSize" id="tShirtSize">
+              <option {% if tShirtSize == "Small"%} selected {% endif %} value="Small">Small</option>
+              <option {% if tShirtSize == "Medium"%} selected {% endif %} value="Medium">Medium</option>
+              <option {% if tShirtSize == "Large"%} selected {% endif %} value="Large">Large</option>
+              <option {% if tShirtSize == "X-Large"%} selected {% endif %} value="X-Large">X-Large</option>
+            </select>
+            <label>T-Shirt Size</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea name="foodPreference" id="foodPreference" class="materialize-textarea" length="120">{{foodPreference}}</textarea>
+            <label for="foodPreference">Food Preference</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea name="specialNeeds" id="specialNeeds" class="materialize-textarea" length="120">{{specialNeeds}}</textarea>
+            <label for="specialNeeds">Special Needs</label>
+          </div>
+        </div>
+        <input type="hidden" name="_METHOD" value="PUT"/>
+        <button class="btn waves-effect waves-light" type="submit">Update profile
+         <i class="material-icons right">save</i>
+      </form>
+    </div>
+  </div>
+
     <script src="../web/js/jQuery.min.js"></script>
     <script type="text/javascript" src="../web/js/materialize.min.js"></script>
     <script>
       $(document).ready(function(){
-         $(".button-collapse").sideNav();
+        $(".button-collapse").sideNav();
+        $('.modal-trigger').leanModal();
+        $('select').material_select();
       });
     </script>
   </body>
