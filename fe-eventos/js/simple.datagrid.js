@@ -453,6 +453,8 @@ SimpleDataGrid = (function(superClass) {
           }
 		  if(column.key == "foto"){
 			html += "<td class=\"sdg-col_" + column.key + "\"> <img src=\""+ value + "\" style=\"vertical-align:middle;width:100%\"/></td>";
+		  }else if(column.key == "liga"){
+			html += "<td class=\"sdg-col_" + column.key + "\"><a href=\"evento.html?id="+value+"\">Ver<a/></td>";  
 		  }else{
 			html += "<td class=\"sdg-col_" + column.key + "\">" + value + "</td>";  
 		  }

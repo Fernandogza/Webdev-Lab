@@ -1,3 +1,6 @@
+var query = {};
+
+
 $(function() {
     $.mockjax({
         url: '*',
@@ -6,6 +9,14 @@ $(function() {
     });
 
     $('#demo-table').simple_datagrid();
+	
+	/*$.get('/eventos?' + $.param(query), function(eventos) {
+    	console.log(eventos);
+		
+		ExampleData.eventos = eventos;
+		$('#demo-table').simple_datagrid();
+    });*/
+	
 });
 
 ExampleData = {};
@@ -16,7 +27,7 @@ ExampleData.pagedReponse = function(settings) {
     var order_by = settings.data.order_by;
     var sortorder = settings.data.sortorder;
 
-	var rows_per_page = 2;
+	var rows_per_page = 5;
 	var start_index = (page - 1) * rows_per_page;
 
 	var total_pages = 1;
@@ -60,20 +71,23 @@ ExampleData.eventos = [{
     "nombre": "Expotec",
 	"lugar": "Estacionamiento E3",
     "fecha": "2015-10-23",
-	"estatus": "Asistire"
+	"estatus": "Asistire",
+	"liga": "1"
 },
 {
     "foto": "img/empleatec.jpg",
     "nombre": "Empleatec",
 	"lugar": "Centro Estudiantil",
     "fecha": "2015-09-10",
-	"estatus": "No Asistire"
+	"estatus": "No Asistire",
+	"liga": "2"
 },
 {
     "foto": "img/raices.jpg",
     "nombre": "Raices",
 	"lugar": "Auditorio Luis Elizondo",
     "fecha": "2015-12-25",
-	"estatus": "Talvez Asistire"
+	"estatus": "Talvez Asistire",
+	"liga": "3"
 }
 ];
