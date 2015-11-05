@@ -58,7 +58,7 @@ $(document).ready(function() {
 					right: 'month,agendaWeek,agendaDay'
 				},
 				defaultView: 'agendaWeek',
-				events: calendar;
+				events: calendar
     })
 
 });
