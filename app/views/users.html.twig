@@ -2,17 +2,17 @@
 
 {% block content %}
 <div class="row">
-  {% for event in events %}
+  {% for user in users %}
     <div class="col s12 m6 l4">
       <div class="card cyan darken-2">
         <div class="card-content white-text">
-          <span class="card-title activator">{{ event.name }}<i class="material-icons right">more_vert</i></span>
-          <p>{{ event.date|date("d") }}, {{ event.date|date("M") }} {{ event.date|date("Y") }} @ {{ event.place }}</p>
-          <p class="truncate">{{ event.description }}</p>
+          <span class="card-title activator">{{ user.first_name }} {{ user.last_name }}<i class="material-icons right">more_vert</i></span>
+          <p>{{ user.role }}</p>
+          <p>{{ user.email }}</p>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">Stats<i class="material-icons right">close</i></span>
-          <p>Attending: {{ event.attending }}</p>
+          <p>Attending: {{ user.attending }}</p>
         </div>
       </div>
     </div>

@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+<!--
+
+https://code.google.com/p/fullcalendar/issues/detail?id=1313
+
+-->
+
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<!-- Materialize -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<!-- Lightbox -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.1/css/lightbox.min.css" rel="stylesheet">
+
+	<!-- Maps -->
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=true&v=3"></script>
+
+	<!-- FullCalendar -->
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.css' />
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/lang/es.js'></script>
+
+
+	<!-- Eventos Frontend -->
+		
+	<script type="text/javascript" src="evento.js"></script>
+	<script type="text/javascript" src="comentarios.js"></script>
+	<script type="text/javascript" src="mapa.js"></script>
+	<script type="text/javascript" src="calendario.js"></script>
+	<script type="text/javascript" src="rsvps.js"></script>
+	<style>
+
+		td img {
+	    	max-width: 500px;
+		}
+
+		#socialMedia{
+			text-align: center;
+		}
+     	#legend {
+        font-family: Arial, sans-serif;
+        background: #fff;
+        padding: 5px;
+        padding-right: 10 px;
+        margin: 10px;
+        border: 3px solid #000;
+      }
+      #legend span {
+        margin-top: 0;
+        font-size: 15px;
+        padding-right: 10px;
+        text-align: center;
+      }
+      #legend div {
+      	font-size: 15px;
+      }
+      #legend img {
+        vertical-align: middle;
+        max-width: 15px;
+
+      }
+
+	</style>
+
+
+	<title>Expotec</title>
+
+</head>
+
+<body>
+	<nav>
+		<div class="nav-wrapper blue darken-4">
+			<a href="#" class="brand-logo center">Evento: Expotec</a>
+			<ul class="left">
+				<li>
+					<a href="#">
+						<i class="material-icons">fast_rewind</i>
+					</a>
+				</li>
+			</ul>
+			<ul class="left">
+				<li>
+					<a href="#">
+						<i class="material-icons">email</i>
+					</a>
+				</li>
+			</ul>
+			<ul id="nav-mobile" class="right">
+				<li>
+					<a href="#">
+						<img src="img/usuario.jpg" class="circle" width="50px" style="vertical-align:middle;" />
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<br />
+	<div class="container">
+
+		<div class="row">
+		    <div class="col s5">
+		    	<img src="img/Expotec2015.jpg" style="vertical-align:middle;" />
+		    	<div id="map" style="width:100%;height:480px;"></div>
+		    	<div id="legend" style="width:200px;height:100px"><span><b>Leyenda</b></span></div>
+		    	<form id="radioRSVP" >
+				    <p>
+				      <input name="group1" type="radio" id="test1" />
+				      <label for="test1">Asistir&eacute</label>
+				      <input name="group1" type="radio" id="test2" />
+				      <label for="test2">No Asistir&eacute</label>
+				      <input class="with-gap" name="group1" type="radio" id="test3"  />
+				      <label for="test3">Talvez Asistir&eacute</label>
+				    </p>
+			  	</form>
+			 	<table class="striped" width="500px">
+			    	<thead>
+			    		<tr>
+			    			<th data-field="id">Invitado</th>
+			    			<th data-field="name">Estatus</th>
+			    		</tr>
+			    	</thead>
+
+			    	<tbody id="attendants">
+
+
+
+
+			    	</tbody>
+			    </table>
+			    <div class="card">
+			    	<div class="card-image">
+
+
+						<div class="image-set">
+              <a  href="img/imgEvento.jpg" data-lightbox="example-set" >
+								<img class="example-image" src="img/imgEvento.jpg">
+							</a>
+              <a  href="img/imgEvento2.jpg" data-lightbox="example-set"></a>
+              <a  href="img/imgEvento3.jpg" data-lightbox="example-set" ></a>
+              <a  href="img/barneyParty.jpg" data-lightbox="example-set"></a>
+            </div>
+
+
+
+			    		<span class="card-title">Gente Feliz</span>
+			    	</div>
+		    		<div class="card-action">
+		    			<a href="#">Ver Imagenes del evento</a>
+		    		</div>
+			    </div>
+		    </div>
+
+			<div class="col s7">
+				<h5>Descripcion:</h5>
+				<p>
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+				</p>
+				<h5>Calendario:</h5>
+				<div id='calendar'></div>
+				<h5>Comentarios:</h5>
+				<div id="comentarios">
+
+
+				</div>
+
+
+
+				<div class="row">
+					<form  action="javascript:void(0);" class="col s12">
+						<div class="row">
+							<div class="input-field col s12">
+								<textarea id="comentarioNuevo" class="materialize-textarea" length="120"></textarea>
+								<label for="comentarioNuevo">Comentario:</label>
+							</div>
+						</div>
+						<button id="commentButton" class="btn waves-effect waves-light blue darken-4">
+				    		Enviar<i class="material-icons right">send</i>
+						</button>
+					</form>
+				</div>
+
+			</div>
+	  	</div>
+	  	<div id="socialMedia">
+	  		<img src="img/facebookLogo.jpg" style="vertical-align:middle;" />
+		  	<img src="img/twitterLogo.jpg" style="vertical-align:middle;" />
+		  	<img src="img/googleLogo.jpg" style="vertical-align:middle;" />
+	  	</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.1/js/lightbox.min.js"></script>
+</body>
+
+</html>
