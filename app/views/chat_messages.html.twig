@@ -1,0 +1,52 @@
+{% extends "base/template.html.twig" %}
+{% block content %}
+    <main>
+      <div class="row">
+        <div class="col s12 m6 offset-m3">
+            <table>
+              <tbody>
+                <tr>
+                  <td class="center"><a href="/chat/delete/{{conversation}}" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-action-delete left"></i>Delete Chat</a></td>
+                  <td class="center"><a href="/blockUser/{{conversation}}" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-content-block left"></i>Block User</a></td>
+                </tr>
+              </tbody>
+            </table>
+          <div id="messages" style="overflow-y: auto; max-height:550px">
+          </div>
+      </div>
+      <div class="row">
+        <form class="col s12 m6 offset-m3" id="messageForm" method="post" action="/chat/reply/{{conversation}}">
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea name="message" id="textarea1" class="materialize-textarea"></textarea>
+              <label for="textarea1">Write a reply...</label>
+            </div>
+            <a href="javascript:{}" onclick="document.getElementById('messageForm').submit();" class="waves-effect waves-light btn-large" style="float:right"><i class="material-icons right">reply</i>Reply</a>
+          </div>
+        </form>
+      </div>
+    </main>
+    {% endblock content %}
+    {% block customjs %}
+    <script>
+      $(document).ready(function(){
+        var data = {{ data|json_encode|raw}};
+        var inbox = document.getElementById("messages");
+        for(i=0; i<data.length; i++) {
+          var name = document.createElement("p");
+          var msg = document.createElement("p");
+          var time = document.createElement("p");
+          name.innerHTML = "<b>" + data[i].first_name + " " + data[i].last_name + "</b>";
+          msg.innerHTML = data[i].message;
+          time.innerHTML = data[i].time;
+          inbox.appendChild(name);
+          inbox.appendChild(msg);
+          inbox.appendChild(time);
+        }
+         $(".button-collapse").sideNav();
+         $('.modal-trigger').leanModal({
+           dismissible: true
+         });
+      });
+    </script>
+    {% endblock customjs %}
