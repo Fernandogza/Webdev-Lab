@@ -109,11 +109,8 @@ app.use('/eventos/:eventId/markers', function(req, res) {
 	]);
 });
 
-console.log(process.argv[2]);
 
-app.use(express.static(process.argv[2]));
-console.log(__dirname);
-
+app.use(express.static(__dirname));
 // correr el servidor
 const server = http.createServer(app).listen(port, () => {
 	console.log('Servidor express creado en puerto ' + port);
