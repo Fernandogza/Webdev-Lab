@@ -24,18 +24,19 @@
         <li class="active"><a href="../profile"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
         <li><a href="./dashboard.html"> <i class="small mdi-action-dashboard left"></i> Dashboard</a></li>
         <li><a href="../chat"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
-        <div class="section" style="margin-top: 600px;">
-            <div class="row">
-              <div class="col s12"><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></div>
-            </div>
-          </div>
+        <li><form action="" method="POST">
+                    <input type="hidden" name="_METHOD" value="DELETE" />
+                    <button type="submit" name="action" class="waves-effect waves-teal btn-flat">Delete Profile
+                    </button>
+                  </form></li>
+        <li><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></li>
       </ul>
     </header>
     <main>
-      <div class="row">
+      <div class="row" style="margin-top: 30px;">
         <div class="col s4 center">
           <div class="col s12">
-            <h5>Username</h5>
+            <h5>Welcome</h5>
           </div>
           <div class="col s12">
             <i class="large mdi-action-account-box"></i>
@@ -45,7 +46,6 @@
           </div>
         </div>
         <div class="col s4">
-          <h4 class="left">Personal Information:</h4>
           <table>
             <thead>
             </thead>
@@ -76,15 +76,7 @@
               </tr>
               <tr>
                 <td>
-                  <form action="" method="POST">
-                    <input type="hidden" name="_METHOD" value="DELETE" />
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Delete Profile
-                     <i class="material-icons right">delete</i>
-                    </button>
-                  </form>
-                </td>
-                <td>
-                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal">Edit Profile </a>
+                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons prefix">mode_edit</i>Edit Profile </a>
                 </td>
               </tr>
             </tbody>
