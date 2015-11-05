@@ -19,8 +19,13 @@ var comments = [
 
 
 $(document).ready(function() {
-		$("#commentButton").click(submitComment);
-		comments.forEach(addComment);
+	$("#commentButton").click(submitComment);
+	// comments.forEach(addComment);
+
+	$.get('/eventos/' + idEvento + '/comments', function(comentarios) {
+  	console.log(comentarios);
+  	comentarios.forEach(addComment);
+  });
 });
 
 

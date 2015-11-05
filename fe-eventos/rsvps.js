@@ -21,7 +21,12 @@ var attendants = [
 
 $(document).ready(function() {
 	$("#commentButton").click(submitRSVP);
-	attendants.forEach(addRSVP);
+	//attendants.forEach(addRSVP);
+
+	$.get('/eventos/' + idEvento + '/rsvps', function(rsvps) {
+    	console.log(rsvps);
+    	rsvps.forEach(addRSVP);
+    });
 });
 
 
