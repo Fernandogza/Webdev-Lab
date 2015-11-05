@@ -86,6 +86,7 @@
         <h4>Editar Usuario</h4>
           <div class="row">
             <div class="input-field col s12 m6">
+              <input type="hidden" name="id" id="eid" value="">
               <input id="efirst_name" name="first_name" type="text" class="validate">
               <label for="efirst_name">Nombre</label>
             </div>
@@ -115,12 +116,14 @@
       $("#efirst_name").val("");
       $("#elast_name").val("");
       $("#eemail").val("");
+      $("#eid").val("");
 
       $.getJSON('/api/user/'+$(this).data("id"), function(json, textStatus) {
           var data = json.data[0];
           $("#efirst_name").val(data.first_name);
           $("#elast_name").val(data.last_name);
           $("#eemail").val(data.email);
+          $("#eid").val(data.id);
       });
     });
   });

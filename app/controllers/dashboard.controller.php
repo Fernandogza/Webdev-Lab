@@ -64,10 +64,14 @@ $app->get('/blog/delete/:id', $authenticate($app, 'admin'), function ($id) use (
 //POST route
 $app->post('/users/edit', $authenticate($app, 'admin'), function () use ($app) {
 	$post = (object)$app->request()->post();
-    $users = R::find('user','ORDER BY role ASC');
 
-    $data = array('users' => $users);
-    $app->render('users.html.twig', $data);
+    $user = R::load('user', $post->id);
+    $user->first_name = $post->first_name;
+    $user->last_name = $post->last_name;
+    $user->email = $post->email;
+    R::store($user);
+
+    $app->redirect('/users');
 });
 
 $app->post('/events/new', $authenticate($app, 'admin'), function () use ($app) {
