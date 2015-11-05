@@ -171,7 +171,14 @@ $(document).ready(function() {
     // page is now ready, initialize the calendar...
 
     $('#calendar').fullCalendar({
-				lang: 'es'
+				lang: 'es',
+
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+				defaultView: 'basicWeek'
     })
 
 });
