@@ -58,7 +58,14 @@ $(document).ready(function() {
 					right: 'month,agendaWeek,agendaDay'
 				},
 				defaultView: 'agendaWeek',
-				events: calendar
+				//events: calendar
     })
+
+    $.get('/eventos/' + idEvento + '/calendar', function(eventos) {
+    	console.log(eventos);
+    	eventos.forEach(function(evento) {
+    		$('#calendar').fullCalendar('renderEvent', evento);
+    	});
+    });
 
 });
