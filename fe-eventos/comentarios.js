@@ -88,7 +88,7 @@ $(document).ready(function() {
 
 	$.get('/eventos/' + idEvento + '/comments', function(comentarios) {
   	//comentarios.forEach(addComment);
-  	createPaginationComments();
+  	// createPaginationComments();
   	loadPageComments();
   });
 });
