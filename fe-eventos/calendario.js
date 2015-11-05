@@ -16,13 +16,13 @@ var calendar = [
 ];
 
 
-function gotoStartDate(){
-	var ev_start = calendar.events[0].start;
+function gotoStartDate(events){
+	var ev_start = events[0].start;
 
-	var ev_end = calendar.events[0];
+	var ev_end = events[0];
 
-	for (var i = 1; i < calendar.events.length; i++) {
-		ev_end = (calendar.events[i] > ev_end) ? calendar.events[i]:ev_end;
+	for (var i = 1; i < events.length; i++) {
+		ev_end = (events[i] > ev_end) ? events[i]:ev_end;
 	};
 
 
@@ -47,7 +47,7 @@ function gotoStartDate(){
 
 $(document).ready(function() {
 
-    // page is now ready, initialize the calendar...
+    // page is now ready, initialize the ..
 
     $('#calendar').fullCalendar({
 				lang: 'es',
@@ -66,6 +66,8 @@ $(document).ready(function() {
     	eventos.forEach(function(evento) {
     		$('#calendar').fullCalendar('renderEvent', evento);
     	});
+    	gotoStartDate(eventos);
+
     });
 
 });
