@@ -12,7 +12,7 @@
     <div class="row full-height" style="margin-bottom: 0px;">
       <div class="col s12 m6 l4 offset-m3 offset-l4 login-wrapper">
         <div class="col s12 m10 offset-m1  z-depth-4 card-panel login">
-          <form class="login-form">
+          <form class="login-form" action="/login" method="POST">
 
             <div class="row">
               <div class="input-field col s12 center">
@@ -24,8 +24,8 @@
             <div class="row margin">
               <div class="input-field col s12">
                 <i class="mdi-social-person-outline prefix"></i>
-                <input id="username" type="text">
-                <label for="username" name="username" class="center-align">Usuario</label>
+                <input id="username" name="email" type="text">
+                <label for="username" name="email" class="center-align">E-Mail</label>
               </div>
             </div>
 
@@ -46,13 +46,13 @@
 
             <div class="row">
               <div class="input-field col s12">
-                <a href="/" class="btn waves-effect waves-light col s12 pink accent-2">Ingresar</a>
+                <button type="submit" class="btn waves-effect waves-light col s12 pink accent-2">Ingresar</a>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col s8 m8 l8 offset-s3 offset-m3 offset-l3">
-                  <p class="margin right-align medium-small"><a href="page-forgot-password.html">Olvido la contraseña?</a></p>
+                  <p class="margin right-align medium-small"><a href="/signup">Nuevo Usuario</a></p>
               </div>
             </div>
 

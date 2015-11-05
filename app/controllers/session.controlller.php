@@ -4,13 +4,17 @@
 
 $app->get("/logout", function () use ($app) {
   $env = $app->environment();
- 	unset($_SESSION['user']);
- 	$app->view()->setData('user', null);
- 	$app->redirect($env['rootUri']);
+  unset($_SESSION['user']);
+  $app->view()->setData('user', null);
+  $app->redirect("/login");
 });
 
 $app->get("/login", function () use ($app) {
-	$env = $app->environment();
+
+  if(isset($_SESSION['user'])){
+    $app->redirect("/dashboard");
+  }
+  $env = $app->environment();
 
   $flash = $app->view()->getData('flash');
 
@@ -44,61 +48,140 @@ $app->get("/login", function () use ($app) {
   }
 
   $app->render('login.html.twig',
-  	array(
-  		'error' => $error,
-  		'email_value' => $email_value,
-  		'email_error' => $email_error,
-  		'password_error' => $password_error,
-  		'urlRedirect' => $urlRedirect
-  	)
-	);
+    array(
+      'error' => $error,
+      'email_value' => $email_value,
+      'email_error' => $email_error,
+      'password_error' => $password_error,
+      'urlRedirect' => $urlRedirect
+    )
+  );
 
 });
+
+
+$app->get("/signup", function () use ($app) {
+  $env = $app->environment();
+
+  $flash = $app->view()->getData('flash');
+
+  $error = '';
+  if (isset($flash['danger'])) {
+     $error = $flash['danger'];
+  }
+
+  $urlRedirect = $env['rootUri'];
+
+  if ($app->request()->get('r') && $app->request()->get('r') != '/logout' && $app->request()->get('r') != '/login') {
+     $_SESSION['urlRedirect'] = $app->request()->get('r');
+  }
+
+  if (isset($_SESSION['urlRedirect'])) {
+     $urlRedirect = $_SESSION['urlRedirect'];
+  }
+
+  $email_error = '';
+
+  if (isset($flash['errors']['email'])) {
+     $email_error = $flash['errors']['email'];
+  }
+
+
+  $app->render('signup.html.twig',
+    array(
+      'error' => $error,
+      'email_error' => $email_error,
+      'urlRedirect' => $urlRedirect
+    )
+  );
+
+});
+
 
 //POST routes
 
 $app->post("/login", function () use ($app) {
-	$env = $app->environment();
+  $env = $app->environment();
 
-	$post = (object)$app->request()->post();
+  $post = (object)$app->request()->post();
 
-	$email 		= 	$post->email;
-	$password 	=	$post->password;
+  $email    =   $post->email;
+  $password   = md5($post->password);
 
-	$errors = array();
+  $errors = array();
 
-	/*
-	*	Logica de login
-	*/
+  /*
+  * Logica de login
+  */
 
   $user = R::findOne('user',' email = :param ',
              array(':param' => $email )
            );
 
-	  if (!$user) {
+    if (!$user) {
         $errors['email'] = "Email no registrado.";
-    } else if (md5($password) != $user->password) {
+    } else if ($password != $user->password) {
         $app->flash('email', $email);
         $errors['password'] = "Password incorrecto.";
     }
 
     if (count($errors) > 0) {
         $app->flash('errors', $errors);
-        $app->redirect($env['rootUri'].'login');
+        $app->redirect('/login');
     }
 
-    $_SESSION['user']   = $email;
-    $_SESSION['role']   = $user->role;
-    $_SESSION['nombre'] = $user->username;
+    $_SESSION['user'] = $user;
+    
+    $_SESSION['id']     = $user->id;
+    $_SESSION['nombre'] = $user->firstName;
+    $_SESSION['role'] = $user->role;
 
-  	if (isset($_SESSION['urlRedirect'])) {
-       	$tmp = $_SESSION['urlRedirect'];
-       	unset($_SESSION['urlRedirect']);
-       	$app->redirect($env['rootUri'].substr($tmp,1));
+    if (isset($_SESSION['urlRedirect'])) {
+         $tmp = $_SESSION['urlRedirect'];
+         unset($_SESSION['urlRedirect']);
+         $app->redirect($env['rootUri'].substr($tmp,1));
     }
 
-    $app->redirect($env['rootUri']);
-
+    $app->redirect('/dashboard');
 });
+
+
+$app->post("/signup", function () use ($app) {
+  $env = $app->environment();
+
+  $post = (object)$app->request()->post();
+
+  $email     = $post->email;
+  $password  = $post->password;
+  $firstName = $post->firstName;
+  $lastName  = $post->lastName;
+
+  $errors = array();
+
+  /*
+  * Logica de signup
+  */
+
+  $user = R::findOne('user',' email = :param ',
+             array(':param' => $email ));
+
+  if ($user) {
+    $errors['email'] = "Email ya registrado.";
+  } else {
+    $newUser = R::dispense('user');
+    $newUser->email = $email;
+    $newUser->firstName = $firstName;
+    $newUser->lastName = $lastName;
+    $newUser->password = $password;
+    $newUser->role = "guest";
+    R::store($newUser);
+  }
+  if (count($errors) > 0) {
+      $app->flash('errors', $errors);
+      $app->redirect('signup');
+  }
+  $app->redirect('/login');
+});
+
 
 ?>

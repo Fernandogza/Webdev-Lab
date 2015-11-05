@@ -28,7 +28,10 @@ $app->get('/api/user/:id', function($id) use ($app){
     
     delFromArray($arr, array('password'));
 
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
     echo json_encode($arr);
+    http_response_code(200);
 });
 
 //Event
@@ -41,7 +44,11 @@ $app->get('/api/event/', function () use ($app) {
     
     delFromArray($arr, array('id_admin'));
 
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
     echo json_encode($arr);
+    http_response_code(200);
 });
 
 //Get a specific event
@@ -53,7 +60,11 @@ $app->get('/api/event/:id', function ($id) use ($app) {
     
     delFromArray($arr, array('id_admin'));
 
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
     echo json_encode($arr);
+    http_response_code(200);
 });
 
 
@@ -67,7 +78,11 @@ $app->get('/api/event/:id/schedule/', function ($id) use ($app) {
     
     delFromArray($arr, array('id_event'));
 
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+    
     echo json_encode($arr);
+    http_response_code(200);
 });
 
 //Get a specific schedule

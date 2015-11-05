@@ -84,8 +84,10 @@ function delFromArray(&$array, $keys) {
 $app->hook('slim.before.dispatch', function() use ($app) {
    $user = Array();
    if (isset($_SESSION['user'])) {
-        $user['email']=$_SESSION['user'];
+        $user['user']=$_SESSION['user'];
+        $user['id']=$_SESSION['id'];
         $user['nombre']=$_SESSION['nombre'];
+        $user['role']=$_SESSION['role'];
    }
    $app->view()->setData('user', $user);
 });

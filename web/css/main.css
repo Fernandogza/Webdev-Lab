@@ -70,7 +70,7 @@
     z-index: 999;
     height: auto;
 }
-#main, footer {
+footer {
     padding-left: 240px;
 }
 

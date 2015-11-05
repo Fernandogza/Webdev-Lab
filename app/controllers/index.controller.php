@@ -2,7 +2,7 @@
 
 //GET route
 $app->get('/', function () use ($app) {
-   $app->render('index.html.twig');
+   $app->redirect("/login");
 });
 
 $app->get('/init', function () use ($app) {
