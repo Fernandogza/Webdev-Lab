@@ -13,8 +13,11 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-
+	
+	<script src="./js/simple.datagrid.js"></script>
+	<script src="./js/jquery.mockjax.js"></script>
+	<script type="text/javascript" src="lista_eventos.js"></script>
+	
 	<style>
 	td img {
 	    max-width: 300px;
@@ -55,7 +58,7 @@
 			        <div class="input-field col s6">
 			          <i class="material-icons prefix">search</i>
 			          <input id="icon_prefix" type="text" class="validate">
-			          <label for="icon_prefix">Buscar</label>
+			          <label for="icon_prefix">Buscar por nombre</label>
 			        </div>
 		    	</div>
 			    <div class="row" align="center">
@@ -78,42 +81,31 @@
 					</div>
 		      	</div>
 		    </form>
-	  	</div>
+	  	
+			<table class="centered highlight" id="demo-table" data-url="/fruit_data/">
+			  <thead>
+				<tr>
+					<th>Foto</th>
+					<th>Nombre</th>
+					<th>Lugar</th>
+					<th>Fecha</th>
+					<th>Estatus</th>
+				</tr>
+			  </thead>
+			</table>
 
-		<table class="responsive-table highlight">
-			<thead>
-				<tr>
-					<th data-field="imagen"></th>
-					<th data-field="nombre">Nombre</th>
-					<th data-field="lugar">Lugar</th>
-					<th data-field="fecha">Fecha</th>
-					<th data-field="estatus">Estatus</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><img src="img/Expotec2015.jpg"  style="vertical-align:middle;" /></td>
-					<td>Expotec</td>
-					<td>Estacionamiento E3</td>
-					<td>23 de Octubre 2015</td>
-					<td>Asistire</td>
-				</tr>
-				<tr>
-					<td><img src="img/empleatec.jpg" style="vertical-align:middle;" /></td>
-					<td>Empleatec</td>
-					<td>Centro Estudiantil</td>
-					<td>10 de Septiembre 2015</td>
-					<td>No Asistire</td>
-				</tr>
-				<tr>
-					<td><img src="img/raices.jpg" style="vertical-align:middle;" /></td>
-					<td>Raices</td>
-					<td>Auditorio Luis Elizondo</td>
-					<td>25 de Diciembre 2015</td>
-					<td>Talvez Asistire</td>
-				</tr>
-			</tbody>
-		</table>
+			<!--<td><img src="img/empleatec.jpg" style="vertical-align:middle;width:100%" /></td>
+
+			<ul class="pagination center">
+				<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+				<li class="active blue darken-4"><a href="#!">1</a></li>
+				<li class="waves-effect"><a href="#!">2</a></li>
+				<li class="waves-effect"><a href="#!">3</a></li>
+				<li class="waves-effect"><a href="#!">4</a></li>
+				<li class="waves-effect"><a href="#!">5</a></li>
+				<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+			 </ul>-->
+		</div>
 	</div>
 </body>
 
