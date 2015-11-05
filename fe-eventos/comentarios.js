@@ -20,7 +20,6 @@ var comments = [
 
 $(document).ready(function() {
 		$("#commentButton").click(submitComment);
-
 		comments.forEach(addComment);
 });
 

@@ -33,10 +33,10 @@ https://code.google.com/p/fullcalendar/issues/detail?id=1313
 
 
 	<!-- Eventos Frontend -->
+		<script type="text/javascript" src="rsvps.js"></script>
 	<script type="text/javascript" src="evento.js"></script>
 	<script type="text/javascript" src="comentarios.js"></script>
 	<script type="text/javascript" src="mapa.js"></script>
-	<script type="text/javascript" src="rsvps.js"></script>
 	<script type="text/javascript" src="calendario.js"></script>
 
 	<style>
@@ -113,7 +113,7 @@ https://code.google.com/p/fullcalendar/issues/detail?id=1313
 		    	<img src="img/Expotec2015.jpg" style="vertical-align:middle;" />
 		    	<div id="map" style="width:100%;height:480px;"></div>
 		    	<div id="legend" style="width:200px;height:100px"><span><b>Leyenda</b></span></div>
-		    	<form>
+		    	<form id="radioRSVP" >
 				    <p>
 				      <input name="group1" type="radio" id="test1" />
 				      <label for="test1">Asistir&eacute</label>
@@ -131,19 +131,16 @@ https://code.google.com/p/fullcalendar/issues/detail?id=1313
 			    		</tr>
 			    	</thead>
 
-			    	<tbody>
-			    		<tr>
-			    			<td>Alvin</td>
-			    			<td>Asistira</td>
-			    		</tr>
-			    		<tr>
-			    			<td>Alan</td>
-			    			<td>No Asistira</td>
-			    		</tr>
-			    		<tr>
-			    			<td>Jonathan</td>
-			    			<td>Talvez Asistira</td>
-			    		</tr>
+			    	<tbody id="attendants">
+
+
+
+
+			    		
+
+
+
+
 			    	</tbody>
 			    </table>
 			    <div class="card">
