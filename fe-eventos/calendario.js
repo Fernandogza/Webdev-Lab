@@ -4,14 +4,14 @@ var calendar = [
 	{
 		"title" : "Inauguracion",
 		"allDay" : false,
-		"start" : "2015-11-04T12:00:00",
-		"end": "2015-11-04T16:00:00"
+		"start" : "2015-11-14T12:00:00",
+		"end": "2015-11-14T16:00:00"
 	},
 	{
 		"title" : "Cena",
 		"allDay" : false,
-		"start" : "2015-11-04T19:00:00",
-		"end": "2015-11-04T22:00:00"
+		"start" : "2015-11-14T19:00:00",
+		"end": "2015-11-14T22:00:00"
 	}
 ];
 
@@ -19,10 +19,11 @@ var calendar = [
 function gotoStartDate(events){
 	var ev_start = events[0].start;
 
-	var ev_end = events[0];
+	var ev_end = events[0].end;
+	// alert(ev_end);
 
 	for (var i = 1; i < events.length; i++) {
-		ev_end = (events[i] > ev_end) ? events[i]:ev_end;
+		ev_end = (events[i].end > ev_end) ? events[i].end:ev_end;
 	};
 
 
@@ -32,13 +33,17 @@ function gotoStartDate(events){
 
 	if(ev_start >= today){
 
+	
+
 		$('#calendar').fullCalendar('gotoDate', ev_start);
 
 	} else if( ev_end >= today){
 
+
 		$('#calendar').fullCalendar('gotoDate', today);
 
 	} else {
+
 
 		$('#calendar').fullCalendar('gotoDate', ev_start);
 	
