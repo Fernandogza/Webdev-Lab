@@ -31,7 +31,7 @@ $(document).ready(function() {
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
-				defaultView: 'basicWeek',
+				defaultView: 'agendaWeek',
 				events: calendar.events
     })
 
