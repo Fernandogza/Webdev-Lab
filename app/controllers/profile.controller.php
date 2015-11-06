@@ -9,6 +9,12 @@ $app->get('/profile/:id', $authenticate($app, 'guest'), function ($id) use ($app
 	         );
 	$data;
 	if($user){
+    if($user->picture) {
+      $pic = $user->picture;
+    }
+    else {
+      $pic = "../web/img/profilePics/unknown.jpg";
+    }
 		$data = array(
       'firstName' => $user->firstName,
       'lastName'  => $user->lastName,
@@ -17,6 +23,7 @@ $app->get('/profile/:id', $authenticate($app, 'guest'), function ($id) use ($app
       'tShirtSize' => $user->tShirtSize,
       'foodPreference' => $user->foodPreference,
       'specialNeeds' => $user->specialNeeds,
+      'picture' => $pic,
     );
 	}
 	$app->view()->appendData($data);
@@ -35,6 +42,12 @@ $app->get('/viewProfile/:id', $authenticate($app, 'guest'), function ($id) use (
 	           array(':param' => $id ));
 	$data;
 	if($user){
+    if($user->picture) {
+      $pic = $user->picture;
+    }
+    else {
+      $pic = "../web/img/profilePics/unknown.jpg";
+    }
 		$data = array(
       'firstName' => $user->firstName,
       'lastName'  => $user->lastName,
@@ -43,6 +56,7 @@ $app->get('/viewProfile/:id', $authenticate($app, 'guest'), function ($id) use (
       'tShirtSize' => $user->tShirtSize,
       'foodPreference' => $user->foodPreference,
       'specialNeeds' => $user->specialNeeds,
+      'picture' => $pic,
     );
 	}
 	$app->view()->appendData($data);
@@ -60,8 +74,6 @@ $app->get('/profile', $authenticate($app, 'guest'), function() use ($app){
 	$user = R::findOne('user',' id = :param ',
 	           array(':param' => $_SESSION['id']));
 
-  print_r($user);
-
 	if($user){
 		$app->redirect($env['rootUri'].'profile/'.$user->id);
 	}else{
@@ -70,6 +82,35 @@ $app->get('/profile', $authenticate($app, 'guest'), function() use ($app){
 	}
 });
 
+$app->post('/profile/pic', $authenticate($app, 'guest'), function() use ($app) {
+  $env = $app->environment();
+  if(isset($_FILES['image'])){
+    $errors= array();
+    $target_dir = "web/img/profilePics/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+    $extension = array("jpeg","jpg","png", "JPEG", "JPG", "PNG");
+    if(in_array($imageFileType,$extension)=== false){
+      $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+    }
+
+    if($file_size > 2097152){
+       $errors[]='File size must be less than 2 MB';
+		}
+    if(empty($errors)==true){
+      if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+        $id = $_SESSION['id'];
+        rename ($target_file, $target_dir.$id.'.'.$imageFileType);
+        $user = R::load('user', $id);
+        $user->picture = '../'.$target_dir.$id.'.'.$imageFileType;
+        R::store($user);
+      }
+    }
+    //print_r($target_file);
+  }
+  $app->redirect('/profile');
+});
 //Put routes
 
 $app->put("/profile/edit", $authenticate($app, 'guest'), function() use ($app) {

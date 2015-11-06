@@ -45,7 +45,7 @@ $app->get('/chat', $authenticate($app, 'guest'), function() use ($app){
                       array($_SESSION['id']));
   $arr = array();
   foreach($chats as $chat) {
-    $group = R::getAll('SELECT user.id, user.first_name, user.last_name, participants.conversation_id
+    $group = R::getAll('SELECT user.id, user.first_name, user.last_name, user.picture, participants.conversation_id
                         FROM participants INNER JOIN user
                         WHERE user.id = participants.user_id
                         AND participants.conversation_id = :conversation AND user.id != :userID AND user.id NOT IN

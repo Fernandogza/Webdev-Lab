@@ -39,10 +39,10 @@
             <h5>Welcome</h5>
           </div>
           <div class="col s12">
-            <i class="large mdi-action-account-box"></i>
+             <img class="materialboxed" width="150" src="{{picture}}">
           </div>
           <div class="col s12">
-            <a href="#!">Change Pic</a>
+            <a class="modal-trigger" href="#pictureModal">Change Pic</a>
           </div>
         </div>
         <div class="col s4">
@@ -139,6 +139,26 @@
     </div>
   </div>
 
+    <!-- Edit Modal Space -->
+    <div id="pictureModal" class="modal">
+      <div class="modal-content">
+        <h4 class="center">Upload a new picture!</h4>
+        <form action="/profile/pic" method="POST" enctype="multipart/form-data">
+          <div class="file-field input-field">
+            <div class="btn">
+              <span>File</span>
+              <input name="image" type="file">
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text">
+            </div>
+          </div>
+          <p>Supported formats: jpeg, jpg, png</p>
+          <button class="btn waves-effect waves-light" style="float:right" type="submit">Upload
+           <i class="material-icons right">archive</i>
+        </form>
+      </div>
+    </div>
     <script src="../web/js/jQuery.min.js"></script>
     <script type="text/javascript" src="../web/js/materialize.min.js"></script>
     <script>
