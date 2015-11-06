@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <title>Eventos - ITESM</title>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../web/css/materialize.min.css"  media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <style>
+      main, footer {
+        padding-left: 240px;
+      }
+    </style>
+    <meta charset="UTF-8"></meta>
+  </head>
+  <body class="white">
+    <header>
+      <nav class="top-nav teal lighten-2">
+        <a href="#" data-activates="slide-out" class="button-collapse top-nav full show-on-large"><i class="mdi-navigation-menu"></i></a>
+        <div class="container">
+          <div class="nav-wrapper"><a class="brand-logo center">Profile</a></div>
+        </div>
+      </nav>
+      <ul id="slide-out" class="side-nav">
+        <li class="active"><a href="../profile"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
+        <li><a href="../chat"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
+        <li><a href="../lista_eventos.html"><i class="small mdi-action-dashboard left"></i>Lista Eventos</a></li>
+        <li><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></li>
+      </ul>
+    </header>
+    <main>
+      <div class="row" style="margin-top: 30px;">
+        <div class="col s4 center">
+          <div class="col s12">
+            <i class="large mdi-action-account-box"></i>
+          </div>
+        </div>
+        <div class="col s4">
+          <table>
+            <thead>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Name:</td>
+                <td>{{firstName}} {{lastName}}</td>
+              </tr>
+              <tr>
+                <td>E-mail:</td>
+                <td>{{email}}</td>
+              </tr>
+              <tr>
+                <td>Company:</td>
+                <td>{{company}}</td>
+              </tr>
+              <tr>
+                <td>T-Shirt Size:</td>
+                <td>{{tShirtSize}}</td>
+              </tr>
+              <tr>
+                <td>Food Preference:</td>
+                <td>{{foodPreference}}</td>
+              </tr>
+              <tr>
+                <td>Special Needs:</td>
+                <td>{{specialNeeds}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <script src="../web/js/jQuery.min.js"></script>
+    <script type="text/javascript" src="../web/js/materialize.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $(".button-collapse").sideNav();
+        $('.modal-trigger').leanModal();
+        $('select').material_select();
+      });
+    </script>
+  </body>
+</html>

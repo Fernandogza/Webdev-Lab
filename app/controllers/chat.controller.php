@@ -14,7 +14,13 @@ $app->get('/chat/:id', $authenticate($app, 'guest'), function ($id) use ($app){
     "conversation" => $id,
   );
 	$app->view()->appendData($data);
-  $app->render('chat_messages.html.twig');
+  $role = $_SESSION['role'];
+  if($role == 'admin') {
+    $app->render('chat_messages_admin.html.twig');
+  }
+  else {
+    $app->render('chat_messages_user.html.twig');
+  }
 });
 
 
@@ -58,7 +64,13 @@ $app->get('/chat', $authenticate($app, 'guest'), function() use ($app){
   );
 
   $app->view()->appendData($data);
-  $app->render('chat.html.twig', $data);
+  $role = $_SESSION['role'];
+  if($role == 'admin') {
+    $app->render('chat_admin.html.twig', $data);
+  }
+  else {
+    $app->render('chat_user.html.twig', $data);
+  }
 });
 
 
@@ -182,9 +194,7 @@ $app->post('/chat/newmsg', $authenticate($app, 'guest'), function() use($app) {
     R::store($msg);
     $link = '/chat/'.$conversation->id;
   }
-
   $app->redirect($link);
-
 });
 
 ?>

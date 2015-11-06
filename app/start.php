@@ -15,7 +15,7 @@
 // Instantiate application
 $app = new \Slim\Slim(require_once ROOT . 'app/config/app.php');
 //Nombre del sitio:
-$app->setName('Site-Template');
+$app->setName('Eventos');
 
 
 // For native PHP session
@@ -50,33 +50,44 @@ $app->add(new \Slim\Middleware\SessionCookie(array(
 */
 
 $authenticate = function ($app, $role) {
-	return function () use ($app, $role) {
-		$env = $app->environment();
-		if (!isset($_SESSION['user'])) {
-			$_SESSION['urlRedirect'] = $app->request()->getPathInfo();
-			$app->flash('danger', 'Necesitas iniciar sesion.');
-			$app->redirect($env['rootUri'].'login');
-		}else if($role == 'admin'){
-			if($_SESSION['role']!='admin'){
-				$app->flash('danger', 'Necesitas iniciar sesion como administrador.');
-				$app->redirect($env['rootUri']);
-			}
-		}
-		else if($role == 'guest'){
-			if($_SESSION['role']!='guest'){
-				$app->flash('danger', 'Necesitas iniciar sesion como invitado.');
-				$app->redirect($env['rootUri']);
-			}
-		}
-	};
+    return function () use ($app, $role) {
+        $env = $app->environment();
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['urlRedirect'] = $app->request()->getPathInfo();
+            $app->flash('danger', 'Necesitas iniciar sesion.');
+            $app->redirect($env['rootUri'].'login');
+        }else if($role == 'admin'){
+            if($_SESSION['role']!='admin'){
+                $app->flash('danger', 'Necesitas iniciar sesion como administrador.');
+                $app->redirect($env['rootUri'].'admin/login');
+            }
+        }
+    };
 };
+
+function delFromArray(&$array, $keys) {
+  foreach ($array as $key => &$value) {
+      if (in_array($key, $keys, true)){
+        unset($array[$key]);
+      }
+      else {
+        if (is_array($value)) {
+            delFromArray($value, $keys);
+        }
+      }
+
+  }
+}
+
 
 //crea variable $user y se la agrega a todos los views para facil deteccion de sesiones
 $app->hook('slim.before.dispatch', function() use ($app) {
    $user = Array();
    if (isset($_SESSION['user'])) {
-        $user['email']=$_SESSION['user'];
+        $user['user']=$_SESSION['user'];
+        $user['id']=$_SESSION['id'];
         $user['nombre']=$_SESSION['nombre'];
+        $user['role']=$_SESSION['role'];
    }
    $app->view()->setData('user', $user);
 });

@@ -1,0 +1,70 @@
+{% extends "base/template.html.twig" %}
+
+{% block nav %}
+{% endblock nav %}
+{% block body %}
+<body class="cyan login-body">
+{% endblock body %}
+{% block sidebar %}
+{% endblock sidebar %}
+{% block content %}
+  <div class="container full-height">
+    <div class="row full-height" style="margin-bottom: 0px;">
+      <div class="col s12 m6 l4 offset-m3 offset-l4 login-wrapper">
+        <div class="col s12 m10 offset-m1  z-depth-4 card-panel login">
+          <form class="login-form" action="/admin/signup" method="POST">
+
+            <div class="row">
+              <div class="input-field col s12 center">
+                <img src="http://placehold.it/150x150" alt="" class="circle responsive-img valign profile-image-login">
+                <p class="center login-form-text">Administrador de Eventos</p>
+              </div>
+            </div>
+
+            <div class="row margin">
+              <div class="input-field col s12">
+                <i class="mdi-social-person-outline prefix"></i>
+                <input id="username" name="email" type="text">
+                <label for="username" name="email" class="center-align">E-Mail</label>
+              </div>
+            </div>
+
+            <div class="row margin">
+              <div class="input-field col s12">
+                <i class="mdi-action-lock-outline prefix"></i>
+                <input id="password" name="password" type="password">
+                <label class="" for="password">Contraseña</label>
+              </div>
+            </div>
+
+            <div class="row margin">
+              <div class="input-field col s12">
+                <i class="mdi-social-person-outline prefix"></i>
+                <input id="first_name" name="firstName" type="text">
+                <label class="" for="first_name">Nombre</label>
+              </div>
+            </div>
+
+            <div class="row margin">
+              <div class="input-field col s12">
+                <i class="mdi-social-person-outline prefix"></i>
+                <input id="last_name" name="lastName" type="text">
+                <label class="" for="last_name">Apellidos</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button type="submit" class="btn waves-effect waves-light col s12 pink accent-2">Registrar</a>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block endmain %}
+{% endblock endmain %}

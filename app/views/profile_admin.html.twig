@@ -1,0 +1,119 @@
+{% extends "base/template.html.twig" %}
+
+{% block content %}
+    <main>
+      <div class="row" style="">
+        <div class="col s12 m4 center">
+          <div class="col s12">
+            <h5>Welcome</h5>
+          </div>
+          <div class="col s12">
+            <i class="large mdi-action-account-box"></i>
+          </div>
+          <div class="col s12">
+            <a href="#!">Change Pic</a>
+          </div>
+        </div>
+        <div class="col s4">
+          <table>
+            <thead>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Name:</td>
+                <td>{{firstName}} {{lastName}}</td>
+              </tr>
+              <tr>
+                <td>E-mail:</td>
+                <td>{{email}}</td>
+              </tr>
+              <tr>
+                <td>Company:</td>
+                <td>{{company}}</td>
+              </tr>
+              <tr>
+                <td>T-Shirt Size:</td>
+                <td>{{tShirtSize}}</td>
+              </tr>
+              <tr>
+                <td>Food Preference:</td>
+                <td>{{foodPreference}}</td>
+              </tr>
+              <tr>
+                <td>Special Needs:</td>
+                <td>{{specialNeeds}}</td>
+              </tr>
+              <tr>
+                <td>
+                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Edit Profile </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Edit Modal Space -->
+    <div id="editModal" class="modal">
+    <div class="modal-content">
+      <form id="editForm" action="/profile/edit" method="post">
+        <div class="row">
+          <div class="input-field col s6">
+            <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}">
+            <label for="firstName">First Name</label>
+          </div>
+          <div class="input-field col s6">
+            <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}">
+            <label for="lastName">Last Name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input name="email" id="email" type="email" class="validate" value="{{email}}">
+            <label for="email">E-mail</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input name="company" id="company" type="text" class="validate" value="{{company}}">
+            <label for="company">Company</label>
+          </div>
+          <div class="input-field col s6">
+            <select name="tShirtSize" id="tShirtSize">
+              <option {% if tShirtSize == "Small"%} selected {% endif %} value="Small">Small</option>
+              <option {% if tShirtSize == "Medium"%} selected {% endif %} value="Medium">Medium</option>
+              <option {% if tShirtSize == "Large"%} selected {% endif %} value="Large">Large</option>
+              <option {% if tShirtSize == "X-Large"%} selected {% endif %} value="X-Large">X-Large</option>
+            </select>
+            <label>T-Shirt Size</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea name="foodPreference" id="foodPreference" class="materialize-textarea" length="120">{{foodPreference}}</textarea>
+            <label for="foodPreference">Food Preference</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea name="specialNeeds" id="specialNeeds" class="materialize-textarea" length="120">{{specialNeeds}}</textarea>
+            <label for="specialNeeds">Special Needs</label>
+          </div>
+        </div>
+        <input type="hidden" name="_METHOD" value="PUT"/>
+        <button class="btn waves-effect waves-light" type="submit">Update profile
+         <i class="material-icons right">save</i>
+      </form>
+    </div>
+  </div>
+  {% endblock content %}
+  {% block customjs %}
+    <script>
+      $(document).ready(function(){
+        $(".button-collapse").sideNav();
+        $('.modal-trigger').leanModal();
+        $('select').material_select();
+      });
+    </script>
+  {% endblock %}

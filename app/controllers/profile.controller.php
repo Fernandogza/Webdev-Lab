@@ -19,17 +19,48 @@ $app->get('/profile/:id', $authenticate($app, 'guest'), function ($id) use ($app
       'specialNeeds' => $user->specialNeeds,
     );
 	}
-  echo "<script>console.log( 'Debug Hola: " . $env['rootUri'] . "' );</script>";
 	$app->view()->appendData($data);
-  $app->render('profile.html.twig');
+  $role = $_SESSION['role'];
+  if($role == 'admin') {
+    $app->render('profile_admin.html.twig');
+  }
+  else {
+    $app->render('profile_user.html.twig');
+  }
 });
 
+$app->get('/viewProfile/:id', $authenticate($app, 'guest'), function ($id) use ($app){
+
+	$user = R::findOne('user',' id = :param ',
+	           array(':param' => $id ));
+	$data;
+	if($user){
+		$data = array(
+      'firstName' => $user->firstName,
+      'lastName'  => $user->lastName,
+      'email' => $user->email,
+      'company' => $user->company,
+      'tShirtSize' => $user->tShirtSize,
+      'foodPreference' => $user->foodPreference,
+      'specialNeeds' => $user->specialNeeds,
+    );
+	}
+	$app->view()->appendData($data);
+  $role = $_SESSION['role'];
+  if($role == 'admin') {
+    $app->render('profile_admin.html.twig');
+  }
+  else {
+    $app->render('profile_other_user.html.twig');
+  }
+});
 
 $app->get('/profile', $authenticate($app, 'guest'), function() use ($app){
 	$env = $app->environment();
 	$user = R::findOne('user',' id = :param ',
-	           array(':param' => $_SESSION['id'] )
-	         );
+	           array(':param' => $_SESSION['id']));
+
+  print_r($user);
 
 	if($user){
 		$app->redirect($env['rootUri'].'profile/'.$user->id);
@@ -45,7 +76,7 @@ $app->put("/profile/edit", $authenticate($app, 'guest'), function() use ($app) {
   $env = $app->environment();
   $put = (object)$app->request->put();
   $id = $_SESSION['id'];
-  echo "<script>console.log( 'Debug Hola: " . json_encode($post) . "' );</script>";
+
   //Retrieve values from form.
   $firstName = $put->firstName;
   $lastName = $put->lastName;
@@ -75,7 +106,13 @@ $app->put("/profile/edit", $authenticate($app, 'guest'), function() use ($app) {
 $app->delete('/profile/:id', $authenticate($app, 'guest'), function($id) use ($app) {
   $user = R::load('user', $id);
   R::trash($user);
-  $app->redirect('/login');
+  $role = $_SESSION['role'];
+  if($role == 'admin') {
+    $app->redirect('/admin/logout');
+  }
+  else {
+    $app->redirect('/logout');
+  }
 });
 
 ?>

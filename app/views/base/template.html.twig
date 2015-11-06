@@ -4,7 +4,6 @@
     <head>
 			<title>{{ app.getName() }}</title>
 			<meta charset="UTF-8">
-
       <!--Import materialize.css-->
 			{% use "base/stylesheets.twig" %}
 			{% block stylesheets %}
@@ -14,19 +13,84 @@
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     </head>
+    <header>
+      {% block nav %}
+        <div class="navbar-fixed">
+            <nav class="cyan">
+                <div class="nav-wrapper">
 
-    <body>
-			{% block nav %}
-
+                    <ul class="left">
+                      <li><h1 class="logo-wrapper"><a href="/" class="brand-logo darken-1">Eventos</a> <span class="logo-text">Eventos</span></h1></li>
+                    </ul>
+                    <ul class="right">
+{#                         <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light"><i class="mdi-navigation-apps"></i></a>
+                        </li>
+                        <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light"><i class="mdi-social-notifications"></i></a>
+                        </li>     #}
+                        <li><a href="/chat" class="waves-effect waves-block waves-light"><i class="mdi-communication-chat"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
 			{% endblock nav %}
+    </header>
+    {% block body %}
+    <body>
+    {% endblock body %}
+    {% block sidebar %}
+    <div id="main">
+    <aside id="left-sidebar-nav">
+        <ul style="width: 240px;" id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y">
+            <li class="user-details cyan darken-2">
+                <div class="row">
+                    <div class="col col s4 m4 l4">
+                        <img src="/web/img/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+                    </div>
+                    <div class="col col s8 m8 l8">
 
+                        <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">{{ user.nombre }}<i class="mdi-navigation-arrow-drop-down right"></i></a><ul id="profile-dropdown" class="dropdown-content">
+                            <li><a href="/profile"><i class="mdi-action-face-unlock"></i> Perfil</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="/admin/logout"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                            </li>
+                        </ul>
+                        <p class="user-roal">{{ user.role|upper }}</p>
+                    </div>
+                </div>
+            </li>
+            <li class="bold"><a href="/dashboard" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Dashboard</a>
+            </li>
+            <li class="bold"><a href="/users" class="waves-effect waves-cyan"><i class="mdi-social-people"></i> Usuarios</a>
+            </li>
+			<li class="bold"><a href="/events" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation"></i> Eventos</a>
+            </li>
+
+
+            {# <li class="li-hover"><div class="divider"></div></li> #}
+
+        <div style="left: 0px; bottom: 3px;" class="ps-scrollbar-x-rail"><div style="left: 0px; width: 0px;" class="ps-scrollbar-x"></div></div><div style="top: 0px; height: 667px; right: 3px;" class="ps-scrollbar-y-rail"><div style="top: 0px; height: 401px;" class="ps-scrollbar-y"></div></div></ul>
+        <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
+    </aside>
+    {% endblock sidebar %}
 			{% block content %}
 
 			{% endblock content %}
+            {% block endmain %}
+            </div>
+            {% endblock endmain %}
 			<!-- jQuery && Materialize JavaScript -->
 			{% use "base/javascripts.twig" %}
 			{% block javascripts %}
 				{{ parent() }}
 	    {% endblock javascripts %}
+        {% block customjs %}
+        {% endblock customjs %}
+        <script>
+            $(document).ready(function(){
+                $(".sidebar-collapse").sideNav();
+            });
+        </script>
     </body>
   </html>

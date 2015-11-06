@@ -1,1 +1,82 @@
 /* CSS de la aplicacion */
+.login-wrapper{
+  height: 100%;
+}
+
+.login{
+  position: relative;
+  height: 520px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.login-body{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.full-height{
+  height: 100%;
+}
+
+.profile-image-login {
+    width: 70px;
+    height: 70px !important;
+}
+
+   /* label focus color */
+   .input-field input[type=text]:focus + label {
+     color: #FF4081;
+   }
+   /* label underline focus color */
+   .input-field input[type=text]:focus {
+     border-bottom: 1px solid #FF4081;
+     box-shadow: 0 1px 0 0 #FF4081;
+   }
+
+   /* label underline focus color */
+   .input-field input[type=checkbox]:checked + label::before {
+     color: #FF4081;
+     border-color: transparent #FF4081 #FF4081 transparent;;
+   }
+
+   /* label focus color */
+   .input-field input[type=password]:focus + label {
+     color: #FF4081;
+   }
+   /* label underline focus color */
+   .input-field input[type=password]:focus {
+     border-bottom: 1px solid #FF4081;
+     box-shadow: 0 1px 0 0 #FF4081;
+   }
+
+.input-field .prefix.active {
+    color: #FF4081;
+}
+
+.btn, .btn-large {
+  background-color: #FF4081;
+}
+
+.margin {
+    margin: 0px !important;
+}
+
+#left-sidebar-nav {
+    position: fixed;
+    width: 100px;
+    left: 180px;
+    z-index: 999;
+    height: auto;
+}
+footer {
+    padding-left: 240px;
+}
+
+ul.side-nav.leftside-navigation {
+    overflow: hidden;
+}
+ul.side-nav.leftside-navigation {
+    top: 64px;
+}
