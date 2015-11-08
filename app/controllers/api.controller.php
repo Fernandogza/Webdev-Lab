@@ -9,7 +9,24 @@ $app->get('/api/user/', function() use ($app){
     $arr = array(
         'data' => R::exportAll($users)
     );
-    
+
+    delFromArray($arr, array('password'));
+
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+    echo json_encode($arr);
+    http_response_code(200);
+});
+
+//Get current user id.
+$app->get('/api/cuser/', function() use ($app){
+    $id = $_SESSION['id'];
+    $users = R::load('user', $id);
+    $arr = array(
+        'data' => R::exportAll($users)
+    );
+
     delFromArray($arr, array('password'));
 
     $app->response->headers->set("Access-Control-Allow-Origin","*");
@@ -25,7 +42,7 @@ $app->get('/api/user/:id', function($id) use ($app){
     $arr = array(
         'data' => R::exportAll($users)
     );
-    
+
     delFromArray($arr, array('password'));
 
     $app->response->headers->set("Access-Control-Allow-Origin","*");
@@ -41,7 +58,7 @@ $app->get('/api/event/', function () use ($app) {
     $arr = array(
         'data' => R::exportAll($events)
     );
-    
+
     delFromArray($arr, array('id_admin'));
 
     $app->response->headers->set("Access-Control-Allow-Origin","*");
@@ -57,7 +74,7 @@ $app->get('/api/event/:id', function ($id) use ($app) {
     $arr = array(
         'data' => R::exportAll($events)
     );
-    
+
     delFromArray($arr, array('id_admin'));
 
     $app->response->headers->set("Access-Control-Allow-Origin","*");
@@ -75,12 +92,12 @@ $app->get('/api/event/:id/schedule/', function ($id) use ($app) {
     $arr = array(
         'data' => R::exportAll($schedules)
     );
-    
+
     delFromArray($arr, array('id_event'));
 
     $app->response->headers->set("Access-Control-Allow-Origin","*");
     $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-    
+
     echo json_encode($arr);
     http_response_code(200);
 });
@@ -102,7 +119,7 @@ $app->get('/api/event/:id/rsvp/', function ($id) use ($app) {
     $arr = array(
         'data' => R::exportAll($rsvps)
     );
-    
+
     delFromArray($arr, array('id_event'));
 
     echo json_encode($arr);
@@ -114,7 +131,7 @@ $app->get('/api/event/:id/rsvp/:userId', function ($id, $userId) use ($app) {
     $arr = array(
         'data' => R::exportAll($rsvps)
     );
-    
+
     delFromArray($arr, array('id_event', 'id_user'));
 
     echo json_encode($arr);
@@ -127,7 +144,7 @@ $app->get('/api/event/:id/blog/', function ($id) use ($app) {
     $arr = array(
         'data' => R::exportAll($blogs)
     );
-    
+
     delFromArray($arr, array('id_event'));
 
     echo json_encode($arr);

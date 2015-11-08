@@ -242,7 +242,7 @@ $app->post("/login", function () use ($app) {
 
   if (count($errors) > 0) {
       $app->flash('errors', $errors);
-      $app->redirect('/admin/login');
+      $app->redirect('/login');
   }
 
   $_SESSION['user'] = $user;

@@ -11,7 +11,9 @@
                 </tr>
               </tbody>
             </table>
-          <div id="conversations">
+          <div>
+            <ul class="collection" id="conversations">
+            </ul>
           </div>
       </div>
     </main>
@@ -70,37 +72,52 @@
         //Loads chats
         var chats = {{ chats|json_encode|raw}};
         var inbox = document.getElementById("conversations");
+
         for(i=0; i<chats.length; i++) {
           var row = chats[i];
           var groupChatTitle = "";
+          var profile_url = "/viewProfile/";
           for(j=0; j<row.length; j++) {
             groupChatTitle = groupChatTitle + row[j].first_name + " " + row[j].last_name + " ";
+            profile_url = profile_url + row[j].id;
           }
-          var column = document.createElement("div");
-          var card = document.createElement("div");
-          var content = document.createElement("div");
-          var actions = document.createElement("div");
-          var openLink = document.createElement("a");
-          var deleteLink = document.createElement("a");
+          var listItem = document.createElement("li");
+          var avatar = document.createElement("img");
+          var profileLink = document.createElement("a");
+          var title = document.createElement("span");
+          var openChat = document.createElement("a");
+          var deleteChat = document.createElement("a");
+          var deleteIcon = document.createElement("i");
 
-          column.className = 'col s12';
-          card.className = 'card blue-grey darken-1';
-          content.className = 'card-content white-text';
-          actions.className = 'card-action';
+          listItem.className = 'collection-item avatar';
+          avatar.className = 'circle';
+          title.className = 'Title';
+          deleteChat.className = 'secondary-content';
+          deleteIcon.className = 'material-icons';
 
-          content.innerHTML = groupChatTitle;
+          if(chats[i].picture == null) {
+            avatar.src = "../web/img/profilePics/unknown.jpg";
+          } else {
+            avatar.src = chats[i].picture;
+          }
+
+          title.innerHTML = groupChatTitle + '<br>';
+          //profileLink.setAttribute('href', profile_url);
+          profileLink.style.color = "black";
           var link = "/chat/"+ row[0].conversation_id;
-          openLink.setAttribute('href', link);
+          openChat.setAttribute('href', link);
           link = "/chat/delete/"+ row[0].conversation_id;
-          deleteLink.setAttribute('href', link);
-          openLink.innerHTML = "Open chat";
-          deleteLink.innerHTML = "Delete chat";
-          actions.appendChild(openLink);
-          actions.appendChild(deleteLink);
-          card.appendChild(content);
-          card.appendChild(actions);
-          column.appendChild(card);
-          inbox.appendChild(column);
+          deleteChat.setAttribute('href', link);
+          openChat.innerHTML = "Open chat";
+          deleteIcon.innerHTML = "delete";
+
+          listItem.appendChild(avatar);
+          profileLink.appendChild(title);
+          listItem.appendChild(profileLink);
+          listItem.appendChild(openChat);
+          deleteChat.appendChild(deleteIcon);
+          listItem.appendChild(deleteChat);
+          inbox.appendChild(listItem);
         }
 
         //Load user list (Sending msg)

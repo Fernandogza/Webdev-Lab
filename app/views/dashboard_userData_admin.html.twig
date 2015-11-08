@@ -1,0 +1,114 @@
+{% extends "base/template.html.twig" %}
+
+{% block content %}
+<div class="row" style="margin-top: 30px;">
+  <div class="col s4 center">
+    <div class="col s12">
+       <img class="materialboxed" width="150" src="{{users.picture}}">
+    </div>
+  </div>
+  <div class="col s4">
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Name:</td>
+          <td>{{users.first_name}} {{users.last_name}}</td>
+        </tr>
+        <tr>
+          <td>E-mail:</td>
+          <td>{{users.email}}</td>
+        </tr>
+        <tr>
+          <td>Company:</td>
+          <td>{{users.company}}</td>
+        </tr>
+        <tr>
+          <td>T-Shirt Size:</td>
+          <td>{{users.tShirtSize}}</td>
+        </tr>
+        <tr>
+          <td>Food Preference:</td>
+          <td>{{users.foodPreference}}</td>
+        </tr>
+        <tr>
+          <td>Special Needs:</td>
+          <td>{{users.specialNeeds}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <h5 class="center">Attended Events</h5>
+  <div class="col s6 offset-s3" id="table_div">
+  </div>
+<div class="row">
+  <div id="vis_div" style="height: 400px; width: 600px;"></div>
+<div>
+
+  </div>
+{% endblock content %}
+{% block customjs %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1.1", {packages:["table"]});
+  google.load('visualization', '1.0', {packages: ['charteditor']});
+  google.setOnLoadCallback(drawTable);
+  google.setOnLoadCallback(loadEditor);
+  function drawTable() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('string', 'Place');
+    data.addColumn('date', 'Date');
+    var events = {{events|json_encode|raw}};
+    for(i=0; i<events.length; i++) {
+      data.addRow([
+        events[i].name,
+        events[i].place,
+        new Date(events[i].date)
+      ]);
+    }
+    var table = new google.visualization.Table(document.getElementById('table_div'));
+    table.draw(data, {showRowNumber: true, width: '100%', height: '10%'});
+  }
+
+  var chartEditor = null;
+
+  function loadEditor() {
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('string', 'Place');
+    data.addColumn('date', 'Date');
+    var events = {{events|json_encode|raw}};
+    for(i=0; i<events.length; i++) {
+      data.addRow([
+        events[i].name,
+        events[i].place,
+        new Date(events[i].date)
+      ]);
+    }
+    // Create the chart to edit.
+    var wrapper = new google.visualization.ChartWrapper({
+      'chartType':'LineChart',
+      dataTable: data,
+      options: {'title': 'Countries'},
+      containerId: 'visualization'
+    });
+
+    chartEditor = new google.visualization.ChartEditor();
+    google.visualization.events.addListener(chartEditor, 'ok', redrawChart);
+    chartEditor.openDialog(wrapper, {});
+  }
+  function redrawChart(){
+    chartEditor.getChartWrapper().draw(document.getElementById('vis_div'));
+  }
+
+  // On "OK" save the chart to a <div> on the page.
+  function redrawChart(){
+    chartEditor.getChartWrapper().draw(document.getElementById('vis_div'));
+  }
+</script>
+{% endblock customjs %}

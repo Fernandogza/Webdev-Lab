@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="row">
+  <!--
   {% for event in events %}
     <div class="col s12 m6 l4">
       <div class="card cyan darken-2">
@@ -17,5 +18,68 @@
       </div>
     </div>
   {% endfor %}
+-->
+<div class="row">
+   <div class="col s12">
+     <ul class="tabs">
+       <li class="tab col s6"><a href="#users">Users</a></li>
+       <li class="tab col s6"><a href="#events">Events</a></li>
+     </ul>
+   </div>
+   <div id="users" class="col s12">
+     {% for user in users %}
+       <div class="col s12 m4 l4">
+         <div id="profile-card" class="card">
+           <div class="card-image waves-effect waves-block waves-light">
+             <img class="activator" src="/web/img/user-bg.jpg" alt="user bg">
+           </div>
+           <div class="card-content">
+             <img src="{{user.picture}}" alt="" class="circle responsive-img activator card-profile-image">
+             <a class="btn-floating modal-trigger edit-trigger btn-move-up waves-effect waves-light darken-2 right" data-id="{{ user.id }}" href="#modalEditUser">
+               <i class="mdi-editor-mode-edit"></i>
+             </a>
+             <a href="/dashboard/user/{{user.id}}"><span class="card-title activator grey-text text-darken-4">{{ user.first_name }} {{ user.last_name }}</span></a>
+             <p><i class="mdi-action-perm-identity"></i> {{ user.role }}</p>
+             <p><i class="mdi-communication-email"></i> {{ user.email }}</p>
+           </div>
+         </div>
+       </div>
+     {% endfor %}
+     <input type="submit" name="loadcharteditor" id="loadcharteditor" value="Customize" onclick="loadEditor()" style="font-size:18px;">
+   </div>
+   <div id="events" class="col s12">
+   </div>
+</div>
+
+<div id="vis_div" style="height: 400px; width: 600px;"></div>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    google.load('visualization', '1.0', {packages: ['charteditor']});
+  </script>
+  <script type="text/javascript">
+    //google.setOnLoadCallback(loadEditor);
+    var chartEditor = null;
+
+    function loadEditor() {
+      // Create the chart to edit.
+      var wrapper = new google.visualization.ChartWrapper({
+        'chartType':'LineChart',
+        dataTable: [['Germany', 'USA', 'Brazil', 'Canada', 'France', 'RU'],
+                [700, 300, 400, 500, 600, 800]],
+        options: {'title': 'Countries'},
+        containerId: 'visualization'
+      });
+
+      chartEditor = new google.visualization.ChartEditor();
+      google.visualization.events.addListener(chartEditor, 'ok', redrawChart);
+      chartEditor.openDialog(wrapper, {});
+    }
+
+    // On "OK" save the chart to a <div> on the page.
+    function redrawChart(){
+      chartEditor.getChartWrapper().draw(document.getElementById('vis_div'));
+    }
+
+  </script>
 </div>
 {% endblock content %}

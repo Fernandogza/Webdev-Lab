@@ -9,12 +9,6 @@ $app->get('/profile/:id', $authenticate($app, 'guest'), function ($id) use ($app
 	         );
 	$data;
 	if($user){
-    if($user->picture) {
-      $pic = $user->picture;
-    }
-    else {
-      $pic = "../web/img/profilePics/unknown.jpg";
-    }
 		$data = array(
       'firstName' => $user->firstName,
       'lastName'  => $user->lastName,
@@ -23,7 +17,7 @@ $app->get('/profile/:id', $authenticate($app, 'guest'), function ($id) use ($app
       'tShirtSize' => $user->tShirtSize,
       'foodPreference' => $user->foodPreference,
       'specialNeeds' => $user->specialNeeds,
-      'picture' => $pic,
+      'picture' => $user->picture,
     );
 	}
 	$app->view()->appendData($data);
@@ -42,12 +36,6 @@ $app->get('/viewProfile/:id', $authenticate($app, 'guest'), function ($id) use (
 	           array(':param' => $id ));
 	$data;
 	if($user){
-    if($user->picture) {
-      $pic = $user->picture;
-    }
-    else {
-      $pic = "../web/img/profilePics/unknown.jpg";
-    }
 		$data = array(
       'firstName' => $user->firstName,
       'lastName'  => $user->lastName,
@@ -56,7 +44,7 @@ $app->get('/viewProfile/:id', $authenticate($app, 'guest'), function ($id) use (
       'tShirtSize' => $user->tShirtSize,
       'foodPreference' => $user->foodPreference,
       'specialNeeds' => $user->specialNeeds,
-      'picture' => $pic,
+      'picture' => $user->picture,
     );
 	}
 	$app->view()->appendData($data);
@@ -103,7 +91,7 @@ $app->post('/profile/pic', $authenticate($app, 'guest'), function() use ($app) {
         $id = $_SESSION['id'];
         rename ($target_file, $target_dir.$id.'.'.$imageFileType);
         $user = R::load('user', $id);
-        $user->picture = '../'.$target_dir.$id.'.'.$imageFileType;
+        $user->picture = '/'.$target_dir.$id.'.'.$imageFileType;
         R::store($user);
       }
     }

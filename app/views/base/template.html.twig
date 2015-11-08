@@ -45,7 +45,7 @@
             <li class="user-details cyan darken-2">
                 <div class="row">
                     <div class="col col s4 m4 l4">
-                        <img src="/web/img/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+                        <img id='eProfilepic' src="" alt="" class="circle responsive-img valign profile-image">
                     </div>
                     <div class="col col s8 m8 l8">
 
@@ -85,11 +85,15 @@
 			{% block javascripts %}
 				{{ parent() }}
 	    {% endblock javascripts %}
-        {% block customjs %}
+        {% block customjs %}.
         {% endblock customjs %}
         <script>
             $(document).ready(function(){
                 $(".sidebar-collapse").sideNav();
+                $.getJSON('/api/cuser/', function(json, textStatus) {
+                    var data = json.data[0];
+                    $("#eProfilepic").attr('src',data.picture);
+                });
             });
         </script>
     </body>

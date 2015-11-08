@@ -8,13 +8,30 @@ $app->get('/dashboard/', $authenticate($app, 'admin'), function () use ($app) {
     	$event->attending = count($rsvps);
     }
 
-    $data = array('events' => $events);
+    $users = R::find('user','role = ?', ["user"]);
+
+    $data = array(
+      'events' => $events,
+      'users' => $users
+    );
     $app->render('dashboard_admin.html.twig', $data);
+});
+
+$app->get('/dashboard/user/:id', $authenticate($app, 'admin'), function($id) use ($app) {
+    $users = R::load('user', $id);
+
+    $events = R::getAll('SELECT event.* FROM rsvp JOIN event JOIN user WHERE rsvp.id_user = user.id AND rsvp.id_event = event.id AND rsvp.status = "going" AND user.id = ?', [$id]);
+
+    $data = array(
+      'events' => $events,
+      'users' => $users
+    );
+    echo "<script>console.log( 'Debug Objects: " . json_encode($data) . "' );</script>";
+    $app->render('dashboard_userData_admin.html.twig', $data);
 });
 
 $app->get('/users/', $authenticate($app, 'admin'), function () use ($app) {
     $users = R::find('user','ORDER BY role ASC');
-
     $data = array('users' => $users);
     $app->render('users_admin.html.twig', $data);
 });
