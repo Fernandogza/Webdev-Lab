@@ -1,94 +1,20 @@
 // GET /eventos/:eventId/comments
 
-var comments2 = [
-	{
-		"name" : "Juan",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Juan",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Juan",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Juan",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Juan",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "Maria",
-		"text" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-	{
-		"name" : "SATANSA",
-		"text" : "Lorem Ipsum is asdasdasdasasdas dasd asdsimply dummy text of the printing and typesetting industry. and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	},
-
-];
+var comments = [];
 
 
 var pageNumberComments = 1;
 
 var PER_PAGE_COMMENTS = 5;
 
+var cont = 0;
+
 $(document).ready(function() {
 	$("#commentButton").click(submitComment);
 });
 
 function loadComentariosAjax(idEvento) {
-	$.get('/eventos/' + idEvento + '/comments', loadPageComments);
+	$.get('api/event/' + idEvento + '/blog', loadPageComments);
 }
 
 
@@ -153,9 +79,11 @@ function createPaginationComments(){
 	$("#commentPagination").append('<li ' + rightOnclick + ' id="nextCommentPagination" class="' + rightArrow + '"><a ><i class="material-icons">chevron_right</i></a></li>');
 }
 
-function loadPageComments(comments){
-
+function loadPageComments(comment){
+	var jsonComment = JSON.parse(comment);
+	comments = jsonComment.data;
 	$("#comentarios").empty();
+	cont = 0;
 
 	loadPage(pageNumberComments, comments, PER_PAGE_COMMENTS, genComment, insertComment, createPaginationComments);
 }
@@ -206,14 +134,28 @@ function insertComment(commentDiv){
 	return;
 }
 
+
+function getUserName(id, num){
+	$.get('api/user/' + id, function(user) {
+		var json = JSON.parse(user);
+		user = json.data[0].first_name;
+		console.log(user);
+		$('#comentario'+num).html(user);
+	});
+}
+
 function genComment(comment){
 
-		var text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i>' 
-		+ '</p></div><div class="col s2"><p>' 
-		+ comment.name 
-		+ '</p></div><div class="col s9"><p>' 
-		+ comment.text
-		+ '</p></div></div>';
+	var text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i>' 
+	+ '</p></div><div class="col s2"><p id="comentario'+cont+'">' 
+	+ '</p></div><div class="col s9"><p>' 
+	+ comment.text
+	+ '</p></div></div>';
 
-		return text;
+	getUserName(comment.id_user,cont);
+
+	cont++;
+
+
+	return text;
 }

@@ -25,10 +25,11 @@ $(document).ready(function(){
 
 
 function loadEventoAjax(idEvento) {
-	$.get('/eventos/' + idEvento, function(evento) {
-		console.log(evento);
-		$('#descripcion').html(evento.description);
+	$.get('api/event/' + idEvento, function(evento) {
+		//console.log(evento);
+		var json = JSON.parse(evento);
+		$('#descripcionEvento').html(json.data[0].description);
+		$('#nombreEvento').html(json.data[0].name);
+		$('#lugarEvento').html(json.data[0].place);
 	});
-
-	
 }
