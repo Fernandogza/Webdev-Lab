@@ -95,10 +95,10 @@
 var eventos = [
 {
     "foto": "img/Expotec2015.jpg",
-    "nombre": "Expotec",
+    "nombre": "Expote222c",
 	"lugar": "Estacionamiento E3",
     "fecha": "2015-10-23",
-	"estatus": "Asistire",
+	"estatus": "Asistire222",
 	"liga": "1"
 },
 {
@@ -328,13 +328,15 @@ var dataSet = [
 ];
  
 $(document).ready(function() {
+	$
     var table=$('#example').DataTable( {
-        data: dataSet,
+    	ajax: '/api/event/',
         columns: [
-            { title: "Nombre" },
-            { title: "Lugar" },
-            { title: "Fecha" },
-            { title: "Estatus" }
+            { data: 'id' },
+            { data: 'name' },
+            {data: 'place' },
+            { data: 'date' },
+            { data: 'description' }
         ]
     } );
 
@@ -345,7 +347,8 @@ $(document).ready(function() {
         else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            window.location.assign("evento.html?id=1");
+
+            window.location.assign("evento.html?id="+$($('.selected').children()[0])[0].innerHTML);
         }
     } );
 } );
