@@ -13,15 +13,22 @@ $(document).ready(function() {
 	//attendants.forEach(addRSVP);
 });
 var users;
+var userRSP;
+var ev;
+var edited=0;
 function loadRSVPsAjax(idEvento) {
 	$.get('/api/user/', setUsers);
-
-	$.get('/api/event/'+idEvento+'/rsvp/', loadPageRSVP);
+	$.get('api/cuser', function(user) {
+			var json = JSON.parse(user);
+			userRSP = json.data[0].id;
+		});
+	ev=idEvento;
+	//$.get('/api/event/'+idEvento+'/rsvp/', loadPageRSVP);
 }
 
 function setUsers(usr){
 	users=JSON.parse(usr)['data'];
-	$.get('/api/event/'+idEvento+'/rsvp/', loadPageRSVP);
+	$.get('/api/event/'+ev+'/rsvp/', loadPageRSVP);
 }
 function getUser(id){
 	var x=0;
@@ -44,13 +51,28 @@ function submitRSVP(el) {
 		s="not going";
 
 	}
+	var ur;
+	if(edited!= 0){
+		ur="/api/rsvp/"+edited;
+
 	$.ajax({
-		  url: "/api/rsvp",
-		  method: "PUT",
-		  data: { idEvent: ev, idUser:20, status:s},
+		  url: ur,
+		  method: "POST",
+		  data: { idEvent: ev, idUser:userRSP, status:s},
 		  dataType: "html"
 	});
-	addRSVP({name: getUser(20), attending: s});
+	}else{
+		ur="/api/rsvp";
+
+	$.ajax({
+		  url: ur,
+		  method: "PUT",
+		  data: { idEvent: ev, idUser:userRSP, status:s},
+		  dataType: "html"
+	});
+	}
+	if(edited==0)
+		addRSVP({name: getUser(userRSP), attending: s});
 }
 
 
@@ -86,6 +108,15 @@ function gotoPageRSVP(pageNum){
 function loadPageRSVP(attendants2){
 	var att= JSON.parse(attendants2)['data'];
 	att.forEach(function(element, index, array){
+		if(element.id_user==userRSP){
+			edited=element.id;
+			if(element.status=='going')
+				$('#test1').prop("checked", true);
+			else if (element.status=='maybe')
+				$('#test3').prop("checked", true);
+			else if(element.status=='not going')
+				$('#test2').prop("checked", true);
+		}
 		var name= getUser(element.id_user);
 		attendantsN.push({ "name": name, "attending": element.status});
 		//attendants.push( { "name": getUser(element.id_user), "attending": element.status});

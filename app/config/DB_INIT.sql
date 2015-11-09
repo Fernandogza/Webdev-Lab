@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.13.1
+-- version 4.4.7
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Nov 08, 2015 at 10:39 AM
--- Server version: 5.6.26
--- PHP Version: 5.5.29
+-- Generation Time: Nov 08, 2015 at 11:12 PM
+-- Server version: 5.6.25
+-- PHP Version: 5.5.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `eventos`
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `blog` (
   `text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_user` tinyint(3) unsigned DEFAULT NULL,
   `id_event` tinyint(3) unsigned DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `blog`
@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS `blog` (
 
 INSERT INTO `blog` (`id`, `text`, `id_user`, `id_event`) VALUES
 (1, 'El evento es el mejor evento que he ido en mi vida.', 6, 4),
-(2, 'Estoy ansioso para que se vuelva a hacer el evento el próximo año.', 10, 4);
+(2, 'Estoy ansioso para que se vuelva a hacer el evento el próximo año.', 10, 4),
+(8, 'Que padre', 21, 1);
 
 -- --------------------------------------------------------
 
@@ -83,18 +84,20 @@ CREATE TABLE IF NOT EXISTS `event` (
   `place` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date` datetime DEFAULT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `lon` double DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `event`
 --
 
-INSERT INTO `event` (`id`, `id_admin`, `place`, `name`, `date`, `description`) VALUES
-(1, 1, 'Cintermex', 'Feria del libro', '2015-11-02 06:09:38', 'This is a description, it can have a lot of words!'),
-(2, 1, 'Cintermex', 'Expo tu Casa', '2015-11-06 06:09:39', 'This is a description, it can have a lot of words! This is a description, it can have a lot of words! This is a description, it can have a lot of words!'),
-(5, 9, 'Mi Casa', 'WebDev Lab', '2015-11-20 20:15:00', 'Hola que hace'),
-(6, 9, 'ITESM', 'Evento Prueba', '2015-11-18 20:15:00', 'Evento prueba...');
+INSERT INTO `event` (`id`, `id_admin`, `place`, `name`, `date`, `description`, `lat`, `lon`) VALUES
+(1, 1, 'Cintermex', 'Feria del libro', '2015-11-02 06:09:38', 'This is a description, it can have a lot of words!', 25.6781737, -100.28790240000001),
+(2, 1, 'Cintermex', 'Expo tu Casa', '2015-11-06 06:09:39', 'This is a description, it can have a lot of words! This is a description, it can have a lot of words! This is a description, it can have a lot of words!', 25.6781737, -100.28790240000001),
+(5, 9, 'Tecnologico de monterrey, Monterrey', 'WebDev Lab', '2015-11-20 20:15:00', 'Hola que hace', 25.651933, -100.2894607),
+(6, 9, 'cintermex', 'Evento Prueba', '2015-11-18 20:15:00', 'Evento prueba...', 25.6781737, -100.28790240000001);
 
 -- --------------------------------------------------------
 
@@ -108,14 +111,15 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `sender_id` int(11) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `conversation_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `messages`
 --
 
 INSERT INTO `messages` (`id`, `message`, `sender_id`, `time`, `conversation_id`) VALUES
-(29, 'Hola!!', 19, '2015-11-08 03:19:38', 20);
+(29, 'Hola!!', 19, '2015-11-08 03:19:38', 20),
+(30, 'Que paso', 19, '2015-11-09 06:07:57', 20);
 
 -- --------------------------------------------------------
 
@@ -148,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `rsvp` (
   `id_event` tinyint(3) unsigned DEFAULT NULL,
   `id_user` tinyint(3) unsigned DEFAULT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `rsvp`
@@ -159,7 +163,11 @@ INSERT INTO `rsvp` (`id`, `id_event`, `id_user`, `status`) VALUES
 (2, 2, 4, 'going'),
 (3, 1, 20, 'going'),
 (4, 5, 20, 'going'),
-(5, 2, 20, 'not going');
+(5, 2, 20, 'not going'),
+(6, 1, 20, 'going'),
+(7, 1, 20, 'not going'),
+(8, 1, 20, 'going'),
+(9, 1, 20, 'going');
 
 -- --------------------------------------------------------
 
@@ -206,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `picture` varchar(80) DEFAULT '/web/img/profilePics/unknown.jpg',
   `role` varchar(255) DEFAULT NULL,
   `modify_date` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
@@ -215,7 +223,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `email`, `password`, `facebook_id`, `twitter_id`, `google_id`, `company`, `t_shirt_size`, `food_preference`, `special_needs`, `language`, `picture`, `role`, `modify_date`) VALUES
 (18, 'Fernando', 'Garza Conde', 'fernandogarzaconde@gmail.com', '963f4557f5d4d004d0cfca120cbf4829', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'admin', '2015-11-07 20:33:17'),
 (19, 'Administrador', 'Eventos-App', 'lol@itesm.mx', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'admin', '2015-11-07 20:40:27'),
-(20, 'a01191305', 'test', 'a01191305@itesm.mx', '098f6bcd4621d373cade4e832627b4f6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-07 21:16:17');
+(20, 'a01191305', 'test', 'a01191305@itesm.mx', '098f6bcd4621d373cade4e832627b4f6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-07 21:16:17'),
+(21, 'juan', 'gonzalez', 'a01190381@itesm.mx', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/21.jpg', 'user', '2015-11-09 00:04:56');
 
 --
 -- Indexes for dumped tables
@@ -294,7 +303,7 @@ ALTER TABLE `blocked`
 -- AUTO_INCREMENT for table `blog`
 --
 ALTER TABLE `blog`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `conversation`
 --
@@ -309,7 +318,7 @@ ALTER TABLE `event`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `participants`
 --
@@ -319,7 +328,7 @@ ALTER TABLE `participants`
 -- AUTO_INCREMENT for table `rsvp`
 --
 ALTER TABLE `rsvp`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `schedule`
 --
@@ -329,7 +338,7 @@ ALTER TABLE `schedule`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- Constraints for dumped tables
 --
