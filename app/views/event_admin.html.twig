@@ -57,6 +57,20 @@
                 </div>
                 <!-- Profile About  -->
 
+                <div class="card cyan darken-2">
+                  <div class="card-content white-text center-align">
+                    <div class="slider">
+                      <ul class="slides">
+                        {% for img in imgs %}
+                          <li>
+                            <img src="{{ img.url }}"> <!-- random image -->
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
                 <!-- Profile About  -->
                 <div class="card amber darken-2">
                   <div class="card-content white-text center-align">
@@ -210,40 +224,44 @@
                     </div>
                     <!-- AddPhotos -->
                     <div style="display: none;" id="AddPhotos" class="tab-content col s12  grey lighten-4">
-                      <div class="row">
-                        <div class="col s2">
-                          <img src="/web/img/avatar.jpg" alt="" class="circle responsive-img valign profile-image-post">
-                        </div>
-                        <div class="file-field input-field">
-                          <div class="btn">
-                            <span>Archivo</span>
-                            <input type="file">
+                      <form action="/events/pic" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                          <div class="col s2">
+                            <img src="/web/img/avatar.jpg" alt="" class="circle responsive-img valign profile-image-post">
                           </div>
-                          <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
+                          <div class="file-field input-field">
+                            <div class="btn">
+                              <span>Archivo</span>
+                              <input type="hidden" name="id" value="{{ event.id }}">
+                              <input name="image" type="file">
+                            </div>
+                            <div class="file-path-wrapper">
+                              <input class="file-path validate" type="text">
+                            </div>
+                          </div>
+                          <p>Supported formats: jpeg, jpg, png</p>
+                        </div>
+                        <div class="row">
+                          <div class="col s12 m6 share-icons">
+                            <a href="#"><i class="mdi-image-camera-alt"></i></a>
+                            <a href="#"><i class="mdi-action-account-circle"></i></a>
+                            <a href="#"><i class="mdi-hardware-keyboard-alt"></i></a>
+                            <a href="#"><i class="mdi-communication-location-on"></i></a>
+                          </div>
+                          <div class="col s12 m6 right-align">
+                             <!-- Dropdown Trigger -->
+                              <a class="dropdown-button btn" href="#" data-activates="profliePost2"><i class="mdi-action-language"></i> Public</a><ul id="profliePost2" class="dropdown-content">
+                                <li><a href="#!"><i class="mdi-action-language"></i> Public</a></li>
+                                <li><a href="#!"><i class="mdi-action-face-unlock"></i> Admins</a></li>
+                              </ul>
+
+                              <!-- Dropdown Structure -->
+
+
+                              <button type="submit" class="waves-effect waves-light btn"><i class="mdi-maps-rate-review left"></i>Publicar</button>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col s12 m6 share-icons">
-                          <a href="#"><i class="mdi-image-camera-alt"></i></a>
-                          <a href="#"><i class="mdi-action-account-circle"></i></a>
-                          <a href="#"><i class="mdi-hardware-keyboard-alt"></i></a>
-                          <a href="#"><i class="mdi-communication-location-on"></i></a>
-                        </div>
-                        <div class="col s12 m6 right-align">
-                           <!-- Dropdown Trigger -->
-                            <a class="dropdown-button btn" href="#" data-activates="profliePost2"><i class="mdi-action-language"></i> Public</a><ul id="profliePost2" class="dropdown-content">
-                              <li><a href="#!"><i class="mdi-action-language"></i> Public</a></li>
-                              <li><a href="#!"><i class="mdi-action-face-unlock"></i> Admins</a></li>
-                            </ul>
-
-                            <!-- Dropdown Structure -->
-
-
-                            <a class="waves-effect waves-light btn"><i class="mdi-maps-rate-review left"></i>Publicar</a>
-                        </div>
-                      </div>
+                      </form>
                     </div>
                   </div>
                 </div>
