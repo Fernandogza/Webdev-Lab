@@ -62,11 +62,6 @@ function initializeMap() {
 	  mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 
-	var marker = new google.maps.Marker({
-		  position: new google.maps.LatLng(lat, lon),
-		  map: map
-	  });
-
 
 	$.get('/api/event/' + ev + '/mapFeatures/', loadFeaturesAjax);
 

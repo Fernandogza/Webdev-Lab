@@ -26,8 +26,11 @@ $(document).ready(function(){
 	loadRSVPsAjax(idEvento);
 })
 
+var asd;
+
 
 function loadEventoAjax(idEvento) {
+
 	this.idEvento = idEvento;
 	$.get('api/event/' + idEvento, function(evento) {
 		//console.log(evento);
@@ -40,9 +43,13 @@ function loadEventoAjax(idEvento) {
 	});
 
 	$.get('/api/event/'+ idEvento+"/pic", function(pics){
+			console.log(pics);
+
 		var json = JSON.parse(pics);
+		asd = json;
 		$("#imgholder").attr('href', json.data[0].url);
 		$("#imgimg").attr('src', json.data[0].url);
+		$("#titlePic").attr('src', json.data[0].url);
 		$.each(json.data, function(index, pic) {
 			if(index>0){
 				$(".image-set").append("<a  href='"+pic.url+"' data-lightbox='example-set'></a>");
