@@ -19,22 +19,39 @@ function loadComentariosAjax(idEvento) {
 
 
 function submitComment() {
-	addComment({name: 'Jorge', text: $('#comentarioNuevo').val()});
-	$('#comentarioNuevo').val('')
+	$.get('api/cuser', function(user) {
+		var json = JSON.parse(user);
+		
+		user = json.data[0].first_name;
+		idUsuario = json.data[0].id;
+		idEvento = getUrlParameter('id');
+
+		addComment({idEvento: idEvento, idUsuario: idUsuario, name: user, text: $('#comentarioNuevo').val()});
+		$('#comentarioNuevo').val('')
+	});
 }
 
 
 function addComment(comment){
-	var text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i>' 
-		+ '</p></div><div class="col s2"><p>' 
-		+ comment.name 
-		+ '</p></div><div class="col s9"><p>' 
-		+ comment.text
-		+ '</p></div></div>';
+
+	$.ajax({
+		url: "/api/blog",
+	  	method: "PUT",
+	  	data: { idEvent: comment.idEvento, idUser: comment.idUsuario, text: comment.text},
+	  	dataType: "html",
+	  	success: function(){
+	        
+	        var text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i>' 
+			+ '</p></div><div class="col s2"><p>' 
+			+ comment.name 
+			+ '</p></div><div class="col s9"><p>' 
+			+ comment.text
+			+ '</p></div></div>';
 
 
-	$("#comentarios").append(text);
-
+			$("#comentarios").append(text);
+	    }
+	});
 	return;
 }
 
@@ -139,7 +156,6 @@ function getUserName(id, num){
 	$.get('api/user/' + id, function(user) {
 		var json = JSON.parse(user);
 		user = json.data[0].first_name;
-		console.log(user);
 		$('#comentario'+num).html(user);
 	});
 }
