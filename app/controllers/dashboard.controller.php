@@ -136,6 +136,8 @@ $app->post('/events/new', $authenticate($app, 'admin'), function () use ($app) {
   $event->id_admin = $_SESSION['id'];
   $event->place = $post->place;
   $event->name = $post->name;
+  $event->lat = $post->lat;
+  $event->lon = $post->lon;
   $event->date = date("Y-m-d H:i:s",strtotime($post->date));
   $event->description = $post->description;
 
@@ -149,6 +151,8 @@ $app->post('/events/edit', $authenticate($app, 'admin'), function () use ($app) 
   $event = R::load("event",$post->id);
   $event->place = $post->place;
   $event->name = $post->name;
+  $event->lat = $post->lat;
+  $event->lon = $post->lon;
   $event->date = date("Y-m-d H:i:s",strtotime($post->date));
   $event->description = $post->description;
 
