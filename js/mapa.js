@@ -48,12 +48,17 @@ var eventMarkers = [
 
 
 
-function initialize() {
+function initialize(lat, lon) {
 	map = new google.maps.Map(document.getElementById('map'), {
 	  zoom: 16,
-	  center: new google.maps.LatLng(25.651313, -100.289604),
+	  center: new google.maps.LatLng(lat, lon),
 	  mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
+
+	var marker = new google.maps.Marker({
+		  position: new google.maps.LatLng(lat, lon),
+		  map: map
+	  });
 
 
 
@@ -87,4 +92,11 @@ function initialize() {
 	 map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+$(document).ready(function() {
+	var idEvento = getUrlParameter('id');
+	$.get('/api/event/' + idEvento, function(evento) {
+		//console.log(evento);
+		var json = JSON.parse(evento);
+		initialize(json.data[0].lat,json.data[0].lon);
+	});
+});
