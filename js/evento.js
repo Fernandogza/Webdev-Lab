@@ -37,6 +37,16 @@ function loadEventoAjax(idEvento) {
 		$('#nombreEvento').html(events.data[0].name);
 		$('#lugarEvento').html(events.data[0].place);
 		initializeMap();
+	});
 
+	$.get('/api/event/'+ idEvento+"/pic", function(pics){
+		var json = JSON.parse(pics);
+		$("#imgholder").attr('href', json.data[0].url);
+		$("#imgimg").attr('src', json.data[0].url);
+		$.each(json.data, function(index, pic) {
+			if(index>0){
+				$(".image-set").append("<a  href='"+pic.url+"' data-lightbox='example-set'></a>");
+			}
+		});
 	});
 }

@@ -70,12 +70,6 @@ $app->get('/api/event/', function () use ($app) {
 
 //Get a specific event
 $app->get('/api/event/:id', function ($id) use ($app) {
-  //tables should be normalized.
-  /* database should look something like:
-    ... (other tables)
-  events: id (PK), place ...
-  mapPositions: eventID (fk), lat, lng, type //eventID, latitude, longitude, image type name
-  */
 
    $events = R::load('event', $id);
     $arr = array(
@@ -83,6 +77,39 @@ $app->get('/api/event/:id', function ($id) use ($app) {
     );
 
     delFromArray($arr, array('id_admin'));
+
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+    echo json_encode($arr);
+    http_response_code(200);
+});
+
+//Get a specific event pictures
+$app->get('/api/event/:id/pic', function ($id) use ($app) { 
+    $imgs = R::find('eventimg', 'id_event = ?', [$id]);
+    $arr = array(
+        'data' => R::exportAll($imgs)
+    );
+
+    delFromArray($arr, array('id_event'));
+
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+    echo json_encode($arr);
+    http_response_code(200);
+});
+
+//Get a specific picture for a specific event
+$app->get('/api/event/:id/pic/:pid', function ($id, $pid) use ($app) {
+    $imgs = R::find('eventimg', 'id_event = ? AND id = ?', [$id,$pid]);
+
+    $arr = array(
+        'data' => R::exportAll($imgs)
+    );
+
+    delFromArray($arr, array('id_event'));
 
     $app->response->headers->set("Access-Control-Allow-Origin","*");
     $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
@@ -304,28 +331,9 @@ $app->delete('/api/blog/:id', function ($id) use ($app) {
    R::trash($blog);
 });
 
-//map
-//Get all mapFeatures from a specific event
-// $app->get('/api/event/:id/mapFeatures/', function ($id) use ($app) {
-//    $mapFeats = R::find('mapPositions', 'eventID = ?', array($id));
-//     $arr = array(
-//         'data' => R::exportAll($mapFeats)
-//     );
-
-//    // delFromArray($arr, array('eventID'));
-
-//     echo json_encode($arr);
-// });
-
 
 $app->get('/api/event/:id/mapFeatures/', function ($id) use ($app) {
-   // $schedules = R::getAll('mapPositions', 'eventID = ?', array($id));
    $arr = R::GetAll('select * from mapPositions where eventID = ?', array($id));
-    // $arr = array(
-    //     'data' => R::exportAll($schedules)
-    // );
-
-    //delFromArray($arr, array('event_id'));
 
     $app->response->headers->set("Access-Control-Allow-Origin","*");
     $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");

@@ -70,7 +70,9 @@ $app->get('/events/:id', $authenticate($app, 'admin'), function ($id) use ($app)
   	$blog->user = $user->first_name." ".$user->last_name;
   }
 
-  $data = array('event' => $event, 'blogs' => $blogs);
+  $imgs = R::find('eventimg', 'id_event = ?', [$id]);
+
+  $data = array('event' => $event, 'blogs' => $blogs, 'imgs' => $imgs);
   $app->render('event_admin.html.twig', $data);
 });
 
@@ -159,6 +161,38 @@ $app->post('/events/edit', $authenticate($app, 'admin'), function () use ($app) 
   R::store($event);
 
   $app->redirect('/events');
+});
+
+$app->post('/events/pic', $authenticate($app, 'admin'), function() use ($app) {
+  $post = (object)$app->request()->post();
+  $img = R::dispense('eventimg');
+  $img->idEvent = $post->id;
+  if(isset($_FILES['image'])){
+    $errors= array();
+    $target_dir = "web/img/eventsImg/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+    $extension = array("jpeg","jpg","png", "JPEG", "JPG", "PNG");
+    if(in_array($imageFileType,$extension)=== false){
+      $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+    }
+
+    if($file_size > 2097152){
+       $errors[]='File size must be less than 2 MB';
+    }
+    if(empty($errors)==true){
+      if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+        $id = $post->id;
+        $name = uniqid();
+        rename ($target_file, $target_dir.$name.'.'.$imageFileType);
+        $img->url = '/'.$target_dir.$name.'.'.$imageFileType;
+        R::store($img);
+      }
+    }
+    //print_r($target_file);
+  }
+  $app->redirect('/events/'.$id);
 });
 
 $app->post('/blog/new', $authenticate($app, 'admin'), function () use ($app) {
