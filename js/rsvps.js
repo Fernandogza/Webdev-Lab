@@ -21,6 +21,7 @@ function loadRSVPsAjax(idEvento) {
 
 function setUsers(usr){
 	users=JSON.parse(usr)['data'];
+	$.get('/api/event/'+idEvento+'/rsvp/', loadPageRSVP);
 }
 function getUser(id){
 	var x=0;
