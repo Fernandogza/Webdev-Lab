@@ -1,97 +1,6 @@
 // GET /eventos/:eventId/rsvps
 
-var attendants = [
-	{
-		"name" : "Juan",
-		"attending" : "Yes"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "No"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "Maybe"
-	},
-	
-	{
-		"name" : "Juan",
-		"attending" : "Yes"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "No"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "Maybe"
-	},
-	
-	{
-		"name" : "Juan",
-		"attending" : "Yes"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "No"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "Maybe"
-	},
-	
-	{
-		"name" : "Juan",
-		"attending" : "Yes"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "No"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "Maybe"
-	},
-	
-	{
-		"name" : "Juan",
-		"attending" : "Yes"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "No"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "Maybe"
-	},
-	
-	{
-		"name" : "Juan",
-		"attending" : "Yes"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "No"
-	},
-
-	{
-		"name" : "Maria",
-		"attending" : "Maybe"
-	},
-	
-];
+var attendantsN = [];
 
 var pageNumberRSVP = 1;
 
@@ -100,29 +9,61 @@ var PER_PAGE_RSVP = 4;
 
 
 $(document).ready(function() {
-	$("#radioRSVP").click(submitRSVP);
+	//$("#radioRSVP").click(submitRSVP);
 	//attendants.forEach(addRSVP);
 });
-
+var users;
 function loadRSVPsAjax(idEvento) {
-	$.get('/eventos/' + idEvento + '/rsvps', loadPageRSVP);
+	$.get('/api/user/', setUsers);
+
+	$.get('/api/event/'+idEvento+'/rsvp/', loadPageRSVP);
 }
 
+function setUsers(usr){
+	users=JSON.parse(usr)['data'];
+}
+function getUser(id){
+	var x=0;
+	for(x=0; x<users.length; x++){
+		if(users[x].id == id){
+			break;
+		}
+	}
+	return users[x].first_name
+}
+function submitRSVP(el) {
+	var ev = getUrlParameter('id');
+	var s;
+	if (el ==1) {
+		s="going";
+	}else if (el ==2){
+		s="maybe";
+	}else{
+		s="not going";
 
-function submitRSVP() {
-	addRSVP({name: 'Jorge', attending: $('#radioRSVP').val()});
+	}
+	$.ajax({
+		  url: "/api/rsvp",
+		  method: "PUT",
+		  data: { idEvent: ev, idUser:20, status:s},
+		  dataType: "html"
+	});
+	addRSVP({name: getUser(20), attending: s});
 }
 
 
 function addRSVP(attendant){
 
-	var text = 
-		'<tr><td>' +
-		attendant.name +
-		'</td><td>' +
-		attendant.attending + 
-		'</td></tr>';
-	$("#attendants").append(text);
+	attendantsN.push({ "name": attendant.name, "attending": attendant.attending});
+	$("#attendants").empty();
+	loadPage(pageNumberRSVP, attendantsN, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
+	// var text = 
+	// 	'<tr><td>' +
+	// 	attendant.name +
+	// 	'</td><td>' +
+	// 	attendant.attending + 
+	// 	'</td></tr>';
+	// $("#attendants").append(text);
 
 	return;
 }
@@ -137,14 +78,19 @@ function gotoPageRSVP(pageNum){
 	pageNumberRSVP = pageNum;
 	$("#attendants").empty();
 
-	loadPage(pageNumberRSVP, attendants, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
+	loadPage(pageNumberRSVP, attendantsN, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
 }
 
-function loadPageRSVP(attendants){
-
+function loadPageRSVP(attendants2){
+	var att= JSON.parse(attendants2)['data'];
+	att.forEach(function(element, index, array){
+		var name= getUser(element.id_user);
+		attendantsN.push({ "name": name, "attending": element.status});
+		//attendants.push( { "name": getUser(element.id_user), "attending": element.status});
+	});
 	$("#attendants").empty();
 
-	loadPage(pageNumberRSVP, attendants, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
+	loadPage(pageNumberRSVP, attendantsN, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
 }
 
 function previousPageRSVP(){
@@ -152,14 +98,14 @@ function previousPageRSVP(){
 	pageNumberRSVP--;
 	$("#attendants").empty();
 
-	loadPage(pageNumberRSVP, attendants, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
+	loadPage(pageNumberRSVP, attendantsN, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
 }
 function nextPageRSVP(){
 
 	pageNumberRSVP++;
 	$("#attendants").empty();
 
-	loadPage(pageNumberRSVP, attendants, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
+	loadPage(pageNumberRSVP, attendantsN, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
 }
 
 
@@ -168,9 +114,9 @@ function nextPageRSVP(){
 
 
 function createPaginationRSVP(){
-	var totalPages = Math.floor((attendants.length) / PER_PAGE_RSVP);
+	var totalPages = Math.floor((attendantsN.length) / PER_PAGE_RSVP);
 
-	if( (attendants.length) % PER_PAGE_RSVP > 0 ) totalPages ++;
+	if( (attendantsN.length) % PER_PAGE_RSVP > 0 ) totalPages ++;
 
 	$("#attendantsPagination").empty();
 
