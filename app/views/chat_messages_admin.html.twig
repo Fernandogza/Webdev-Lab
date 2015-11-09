@@ -11,7 +11,7 @@
                 </tr>
               </tbody>
             </table>
-          <div id="messages" style="overflow-y: auto; max-height:550px">
+          <div id="messages" style="overflow-y: auto; vertical-align:bottom; height:550px; max-height:550px">
           </div>
       </div>
       <div class="row">
@@ -21,6 +21,7 @@
               <textarea name="message" id="textarea1" class="materialize-textarea"></textarea>
               <label for="textarea1">Write a reply...</label>
             </div>
+             <a href="/chat" class="waves-effect waves-light btn-large" style="float:left"><i class="material-icons right">email</i>Close chat</a>
             <a href="javascript:{}" onclick="document.getElementById('messageForm').submit();" class="waves-effect waves-light btn-large" style="float:right"><i class="material-icons right">reply</i>Reply</a>
           </div>
         </form>
@@ -33,15 +34,24 @@
         var data = {{ data|json_encode|raw}};
         var inbox = document.getElementById("messages");
         for(i=0; i<data.length; i++) {
+          var message = document.createElement('div');
           var name = document.createElement("p");
           var msg = document.createElement("p");
           var time = document.createElement("p");
+
+          if (i % 2 == 0) {
+            message.style.backgroundColor = "ghostwhite";
+          }
+          else {
+            message.style.backgroundColor = "white";
+          }
           name.innerHTML = "<b>" + data[i].first_name + " " + data[i].last_name + "</b>";
           msg.innerHTML = data[i].message;
           time.innerHTML = data[i].time;
-          inbox.appendChild(name);
-          inbox.appendChild(msg);
-          inbox.appendChild(time);
+          message.appendChild(name);
+          message.appendChild(msg);
+          message.appendChild(time);
+          inbox.appendChild(message);
         }
          $(".button-collapse").sideNav();
          $('.modal-trigger').leanModal({
