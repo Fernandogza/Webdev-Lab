@@ -24,7 +24,6 @@ $(document).ready(function(){
 	loadComentariosAjax(idEvento);
 	loadCalendarioAjax(idEvento);
 	loadRSVPsAjax(idEvento);
-	loadMapInfoAjax(idEvento);
 })
 
 
@@ -37,5 +36,7 @@ function loadEventoAjax(idEvento) {
 		$('#descripcionEvento').html(events.data[0].description);
 		$('#nombreEvento').html(events.data[0].name);
 		$('#lugarEvento').html(events.data[0].place);
+		initializeMap();
+
 	});
 }

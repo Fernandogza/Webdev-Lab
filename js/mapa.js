@@ -5,60 +5,61 @@ var map;
 
 // GET /markertypes
 
-// var markerTypes = [];
-// var eventMarkers = [];
+var markerTypes = [];
+var eventMarkers = [];
 
 
-var markerTypes = {
-	"parking" : {
-	  "name": "Estacionamiento",
-	  "icon": "https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png"
-  },
-  "library" : {
-	  "name": "Biblioteca",
-	  "icon": "https://maps.google.com/mapfiles/kml/shapes/library_maps.png"
-  },
-  "info" : {
-	  "name": "Informacion",
-	  "icon": "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png"
-  }
-};
+// var markerTypes = {
+// 	"parking" : {
+// 	  "name": "Estacionamiento",
+// 	  "icon": "https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png"
+//   },
+//   "library" : {
+// 	  "name": "Biblioteca",
+// 	  "icon": "https://maps.google.com/mapfiles/kml/shapes/library_maps.png"
+//   },
+//   "info" : {
+// 	  "name": "Informacion",
+// 	  "icon": "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png"
+//   }
+// };
 
-// GET /eventos/:eventId/markers
+// // GET /eventos/:eventId/markers
 
-var eventMarkers = [
-	{
-	  "position": {"lat" : 25.651505, "lng" : -100.290877}, //rectoria
-	  "type": "info"
-	}, 
-	{
-	  "position": {"lat" : 25.649447, "lng" : -100.289871}, //a3
-	  "type": "parking"
-	},  
-	{
-	  "position": {"lat" : 25.652315, "lng" : -100.287709}, //e2
-	  "type": "parking"
-	}, 
-	{
-	  "position": {"lat" : 25.650486, "lng" : -100.289750}, //bib
-	  "type": "library"
-	}
-];
-
-
+// var eventMarkers = [
+// 	{
+// 	  "position": {"lat" : 25.651505, "lng" : -100.290877}, //rectoria
+// 	  "type": "info"
+// 	}, 
+// 	{
+// 	  "position": {"lat" : 25.649447, "lng" : -100.289871}, //a3
+// 	  "type": "parking"
+// 	},  
+// 	{
+// 	  "position": {"lat" : 25.652315, "lng" : -100.287709}, //e2
+// 	  "type": "parking"
+// 	}, 
+// 	{
+// 	  "position": {"lat" : 25.650486, "lng" : -100.289750}, //bib
+// 	  "type": "library"
+// 	}
+// ];
 
 
 
-function loadMapInfoAjax(idEvento) {
-
-	$.get('/api/event/'+idEvento+'/maps/', initialize);
-}
 
 
-function initialize() {
+// function loadMapInfoAjax(idEvento) {
+
+// 	$.get('/api/event/'+idEvento+'/maps/', initialize);
+// }
+
+
+function initializeMap() {
+	//Object { lat: "25.6781737", lon: "-100.28790240000001" }
 	map = new google.maps.Map(document.getElementById('map'), {
 	  zoom: 16,
-	  center: new google.maps.LatLng(25.651313, -100.289604),
+	  center: new google.maps.LatLng(events.data[0].lat, events.data[0].lon),
 	  mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 
