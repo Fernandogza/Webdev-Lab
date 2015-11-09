@@ -19,21 +19,25 @@ function loadComentariosAjax(idEvento) {
 
 
 function submitComment() {
-	$.get('api/cuser', function(user) {
-		var json = JSON.parse(user);
-		
-		user = json.data[0].first_name;
-		idUsuario = json.data[0].id;
-		idEvento = getUrlParameter('id');
 
-		addComment({idEvento: idEvento, idUsuario: idUsuario, name: user, text: $('#comentarioNuevo').val()});
-		$('#comentarioNuevo').val('')
-	});
+	var input = document.getElementById("comentarioNuevo").value;
+	input = input.trim();
+	if (input){
+    	$.get('api/cuser', function(user) {
+			var json = JSON.parse(user);
+			
+			user = json.data[0].first_name;
+			idUsuario = json.data[0].id;
+			idEvento = getUrlParameter('id');
+
+			addComment({idEvento: idEvento, idUsuario: idUsuario, name: user, text: $('#comentarioNuevo').val()});
+			$('#comentarioNuevo').val('')
+		});
+	} 
 }
 
 
 function addComment(comment){
-
 	$.ajax({
 		url: "/api/blog",
 	  	method: "PUT",

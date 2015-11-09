@@ -1,79 +1,86 @@
 // GET /eventos/:eventId/calendar
 
-var calendar = [
-	{
-		"title" : "Inauguracion",
-		"allDay" : false,
-		"start" : "2015-11-14T12:00:00",
-		"end": "2015-11-14T16:00:00"
-	},
-	{
-		"title" : "Cena",
-		"allDay" : false,
-		"start" : "2015-11-14T19:00:00",
-		"end": "2015-11-14T22:00:00"
-	}
-];
-
+var calendar = [];
 
 function gotoStartDate(events){
-	var ev_start = events[0].start;
 
+	var ev_start = events[0].start;
 	var ev_end = events[0].end;
-	// alert(ev_end);
+	 
 
 	for (var i = 1; i < events.length; i++) {
 		ev_end = (events[i].end > ev_end) ? events[i].end:ev_end;
 	};
 
-
 	var todate = new Date();
 	var today = todate.toJSON();
 
-
 	if(ev_start >= today){
-
-	
-
 		$('#calendar').fullCalendar('gotoDate', ev_start);
-
 	} else if( ev_end >= today){
-
-
 		$('#calendar').fullCalendar('gotoDate', today);
-
 	} else {
-
-
 		$('#calendar').fullCalendar('gotoDate', ev_start);
-	
 	}
 }
 
-$(document).ready(function() {
 
-    // page is now ready, initialize the ..
-
-    $('#calendar').fullCalendar({
-				lang: 'es',
-
-				header: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
-				defaultView: 'agendaWeek',
-				//events: calendar
-    })
-});
+function formatSeconds(seconds) {
+		var date = new Date(seconds*1000);
+		var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
+		return iso[1] + "T" + iso[2];			
+}
 
 function loadCalendarioAjax(idEvento) {
-	$.get('/eventos/' + idEvento + '/calendar', function(actividads) {
-    	console.log(actividads);
-    	actividads.forEach(function(actividad) {
-    		$('#calendar').fullCalendar('renderEvent', actividad);
-    	});
-    	gotoStartDate(actividads);
+
+	$.get('api/event/' + idEvento + '/schedule', function(actividads) {
+		
+		var json = JSON.parse(actividads);
+
+	    actividads = json.data;
+		
+		for(var i = 0; i < actividads.length; i++) {
+			var eventId = json.data[i].id;
+			var eventStart = json.data[i].start_date;
+			var eventEnd = json.data[i].end_date;
+			var eventTitle = json.data[i].name;
+			var newEvent = {
+				title : eventTitle,
+				allDay : false,
+				start: formatSeconds(eventStart),
+				end: formatSeconds(eventEnd)
+			};
+			
+			calendar[i] = newEvent;
+
+			$('#calendar').fullCalendar('renderEvent', newEvent);
+			
+		}
+
+		$('#calendar').fullCalendar({
+			lang: 'es',
+
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			defaultView: 'agendaWeek',
+			events: calendar,
+			eventClick: function(data, event, view) {
+				var content = '<h3>'+data.title+'</h3>' + 
+					'<p><b>Start:</b> '+data.start+'<br />' + 
+					(data.end && '<p><b>End:</b> '+data.end+'</p>' || '');
+
+				tooltip.set({
+					'content.text': content
+				})
+				.reposition(event).show(event);
+			}
+		});
+		
+    	gotoStartDate(calendar);
 
     });
+
 }
