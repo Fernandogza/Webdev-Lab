@@ -70,6 +70,13 @@ $app->get('/api/event/', function () use ($app) {
 
 //Get a specific event
 $app->get('/api/event/:id', function ($id) use ($app) {
+  //tables should be normalized.
+  /* database should look something like:
+    ... (other tables)
+  events: id (PK), place ...
+  mapPositions: eventID (fk), lat, lng, type //eventID, latitude, longitude, image type name
+  */
+
    $events = R::load('event', $id);
     $arr = array(
         'data' => R::exportAll($events)
@@ -295,6 +302,19 @@ $app->delete('/api/blog/:id', function ($id) use ($app) {
    $post = (object)$app->request()->post();
    $blog = R::load("blog", $id);
    R::trash($blog);
+});
+
+//map
+//Get all mapFeatures from a specific event
+$app->get('/api/event/:id/mapFeatures/', function ($id) use ($app) {
+   $mapFeats = R::find('mapPositions', 'eventID = ?', array($id));
+    $arr = array(
+        'data' => R::exportAll($mapFeats)
+    );
+
+    delFromArray($arr, array('id_event'));
+
+    echo json_encode($arr);
 });
 
 ?>

@@ -9,20 +9,20 @@ var markerTypes = [];
 var eventMarkers = [];
 
 
-// var markerTypes = {
-// 	"parking" : {
-// 	  "name": "Estacionamiento",
-// 	  "icon": "https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png"
-//   },
-//   "library" : {
-// 	  "name": "Biblioteca",
-// 	  "icon": "https://maps.google.com/mapfiles/kml/shapes/library_maps.png"
-//   },
-//   "info" : {
-// 	  "name": "Informacion",
-// 	  "icon": "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png"
-//   }
-// };
+var markerTypes = {
+	"parking" : {
+	  "name": "Estacionamiento",
+	  "icon": "https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png"
+  },
+  "library" : {
+	  "name": "Biblioteca",
+	  "icon": "https://maps.google.com/mapfiles/kml/shapes/library_maps.png"
+  },
+  "info" : {
+	  "name": "Informacion",
+	  "icon": "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png"
+  }
+};
 
 // // GET /eventos/:eventId/markers
 
@@ -64,23 +64,43 @@ function initializeMap() {
 	});
 
 
+	$.get('/api/event/' + ev + '/mapFeatures/', loadFeaturesAjax);
 
-	var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+
+
+}
+
+
+function loadFeaturesAjax (mapFeatures) {
+	var data = JSON.parse(mapFeatures)['data'];
+
+		var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 	var icons = markerTypes;
 	var features = eventMarkers;
 
-	function addMarker(feature) {
+	function addMarker(lat, lng, featType) {
+		console.log(featType);
+		console.log(icons);
+				console.log(icons[featType]);
+
 	  var marker = new google.maps.Marker({
-		  position: new google.maps.LatLng(feature.position.lat, feature.position.lng),
-		  icon: icons[feature.type].icon,
+		  position: new google.maps.LatLng(lat, lng),
+		  icon: icons[featType].icon,
 		  map: map
 	  });
 	}
 
 
-	for (var i = 0, feature; feature = features[i]; i++) {
-	  addMarker(feature);
-	}
+	data.forEach( function(element, index, array){
+		addMarker(element.lat, element.lng, element.feat_type);
+
+	});
+
+
+
+	// for (var i = 0, feature; feature = features[i]; i++) {
+	//   addMarker(feature);
+	// }
 
 	var legend = document.getElementById('legend');
 	for (var key in icons) {
@@ -94,3 +114,10 @@ function initializeMap() {
 
 	 map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 }
+
+
+
+
+
+
+

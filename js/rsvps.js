@@ -104,9 +104,10 @@ function gotoPageRSVP(pageNum){
 
 	loadPage(pageNumberRSVP, attendantsN, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
 }
-
+var test;
 function loadPageRSVP(attendants2){
 	var att= JSON.parse(attendants2)['data'];
+	test = att;
 	att.forEach(function(element, index, array){
 		if(element.id_user==userRSP){
 			edited=element.id;
