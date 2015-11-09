@@ -85,8 +85,11 @@ $app->get('/api/event/:id', function ($id) use ($app) {
 });
 
 //Get a specific event pictures
-$app->get('/api/event/:id/pic', function ($id) use ($app) {
+$app->get('/api/event/:id/pic', function ($id) use ($app) { 
     $imgs = R::find('eventimg', 'id_event = ?', [$id]);
+    $arr = array(
+        'data' => R::exportAll($imgs)
+    );
 
     delFromArray($arr, array('id_event'));
 
@@ -100,6 +103,10 @@ $app->get('/api/event/:id/pic', function ($id) use ($app) {
 //Get a specific picture for a specific event
 $app->get('/api/event/:id/pic/:pid', function ($id, $pid) use ($app) {
     $imgs = R::find('eventimg', 'id_event = ? AND id = ?', [$id,$pid]);
+
+    $arr = array(
+        'data' => R::exportAll($imgs)
+    );
 
     delFromArray($arr, array('id_event'));
 
