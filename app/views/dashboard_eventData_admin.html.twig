@@ -1,0 +1,185 @@
+{% extends "base/template.html.twig" %}
+
+{% block content %}
+<div class="row" style="margin-top: 30px;">
+  <div class="col s4 center">
+    <div class="col s12">
+       <img class="materialboxed" width="150" src="{{users.picture}}">
+    </div>
+  </div>
+  <div class="col s4">
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Name:</td>
+          <td>{{event.name}}</td>
+        </tr>
+        <tr>
+          <td>Place:</td>
+          <td>{{event.place}}</td>
+        </tr>
+        <tr>
+          <td>Date:</td>
+          <td>{{ event.date|date("d") }}, {{ event.date|date("M") }} {{ event.date|date("Y") }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <h5 class="center">Schedule</h5>
+  <div class="col s6 offset-s3" id="calendar">
+  </div>
+<div class="row">
+  <div class="col s12">
+    <br>
+    <br>
+    <br>
+    <br>
+    <button class="btn waves-effect waves-light" type="submit" name="action" onclick="loadEditor()">Edit graph
+      <i class="material-icons right">send</i>
+    </button>
+    <div class ="col s12 offset-s3">
+      <div id="vis_div" style="height: 600px; width: 800px;"></div>
+    </div>
+  </div>
+{% endblock content %}
+{% block customjs %}
+<!-- FullCalendar -->
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.css' />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/lang/es.js'></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1.1", {packages:["table"]});
+  google.load('visualization', '1.0', {packages: ['charteditor']});
+  google.setOnLoadCallback(drawChartEditor);
+
+  $(document).ready(function(){
+  	loadCalendarioAjax();
+  });
+
+  var chartEditor = null;
+  var wrapper = null;
+  var chartEditorDiv = null;
+
+  function drawChartEditor() {
+    chartEditorDiv = document.getElementById('vis_div');
+    chartEditor = new google.visualization.ChartEditor();
+    google.visualization.events.addListener(chartEditor, 'ok', redrawChart);
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Status');
+    data.addColumn('number', 'Quantity');
+    var event = {{event|json_encode|raw}};
+    notGoing = {{event.invited}} - {{event.attending}} - {{event.maybe}}
+    data.addRows([
+      ['Attending', {{event.attending}}],
+      ['Maybe', {{event.maybe}}],
+      ['Not-Attending', notGoing]
+    ]);
+
+    // Create the chart to edit.
+    wrapper = new google.visualization.ChartWrapper({
+      'chartType':'PieChart',
+      dataTable: data,
+      options: {'title': 'RSVP Event'},
+      containerId: 'visualization'
+    });
+    wrapper.draw(chartEditorDiv);
+  }
+  function redrawChart(){
+    chartEditor.getChartWrapper().draw(chartEditorDiv);
+  }
+  function loadEditor() {
+    chartEditor.openDialog(wrapper, {});
+  }
+  var calendar = [];
+
+function gotoStartDate(events){
+
+	var ev_start = events[0].start;
+	var ev_end = events[0].end;
+
+
+	for (var i = 1; i < events.length; i++) {
+		ev_end = (events[i].end > ev_end) ? events[i].end:ev_end;
+	};
+
+	var todate = new Date();
+	var today = todate.toJSON();
+
+	if(ev_start >= today){
+		$('#calendar').fullCalendar('gotoDate', ev_start);
+	} else if( ev_end >= today){
+		$('#calendar').fullCalendar('gotoDate', today);
+	} else {
+		$('#calendar').fullCalendar('gotoDate', ev_start);
+	}
+}
+
+
+function formatSeconds(seconds) {
+		var date = new Date(seconds*1000);
+		var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
+		return iso[1] + "T" + iso[2];
+}
+
+function loadCalendarioAjax() {
+  var idEvento = {{event.id}};
+	$.get('/api/event/' + idEvento + '/schedule', function(actividads) {
+
+		var json = JSON.parse(actividads);
+
+	    actividads = json.data;
+
+		for(var i = 0; i < actividads.length; i++) {
+			var eventId = json.data[i].id;
+			var eventStart = json.data[i].start_date;
+			var eventEnd = json.data[i].end_date;
+			var eventTitle = json.data[i].name;
+			var newEvent = {
+				title : eventTitle,
+				allDay : false,
+				start: formatSeconds(eventStart),
+				end: formatSeconds(eventEnd)
+			};
+
+			calendar[i] = newEvent;
+
+			$('#calendar').fullCalendar('renderEvent', newEvent);
+
+		}
+
+		$('#calendar').fullCalendar({
+			lang: 'es',
+
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			defaultView: 'agendaWeek',
+			events: calendar,
+			eventClick: function(data, event, view) {
+				var content = '<h3>'+data.title+'</h3>' +
+					'<p><b>Start:</b> '+data.start+'<br />' +
+					(data.end && '<p><b>End:</b> '+data.end+'</p>' || '');
+
+				tooltip.set({
+					'content.text': content
+				})
+				.reposition(event).show(event);
+			}
+		});
+
+    	gotoStartDate(calendar);
+
+    });
+
+}
+</script>
+{% endblock customjs %}

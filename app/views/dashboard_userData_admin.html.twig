@@ -41,13 +41,21 @@
   </div>
 </div>
 <div class="row">
-  <h5 class="center">Attended Events</h5>
+  <h5 class="center">Attended/Going Events</h5>
   <div class="col s6 offset-s3" id="table_div">
   </div>
 <div class="row">
-  <div id="vis_div" style="height: 400px; width: 600px;"></div>
-<div>
-
+  <div class="col s12">
+    <br>
+    <br>
+    <br>
+    <br>
+    <button class="btn waves-effect waves-light" type="submit" name="action" onclick="loadEditor()">Edit graph
+      <i class="material-icons right">send</i>
+    </button>
+    <div class ="col s12 offset-s3">
+      <div id="vis_div" style="height: 600px; width: 800px;"></div>
+    </div>
   </div>
 {% endblock content %}
 {% block customjs %}
@@ -56,7 +64,8 @@
   google.load("visualization", "1.1", {packages:["table"]});
   google.load('visualization', '1.0', {packages: ['charteditor']});
   google.setOnLoadCallback(drawTable);
-  google.setOnLoadCallback(loadEditor);
+  google.setOnLoadCallback(drawChartEditor);
+
   function drawTable() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Name');
@@ -64,51 +73,94 @@
     data.addColumn('date', 'Date');
     var events = {{events|json_encode|raw}};
     for(i=0; i<events.length; i++) {
-      data.addRow([
-        events[i].name,
-        events[i].place,
-        new Date(events[i].date)
-      ]);
+      if(events[i].status == "going") {
+        data.addRow([
+          events[i].name,
+          events[i].place,
+          new Date(events[i].date)
+        ]);
+      }
     }
     var table = new google.visualization.Table(document.getElementById('table_div'));
     table.draw(data, {showRowNumber: true, width: '100%', height: '10%'});
   }
 
   var chartEditor = null;
+  var wrapper = null;
+  var chartEditorDiv = null;
 
-  function loadEditor() {
+  function drawChartEditor() {
+    chartEditorDiv = document.getElementById('vis_div');
+    chartEditor = new google.visualization.ChartEditor();
+    google.visualization.events.addListener(chartEditor, 'ok', redrawChart);
 
     var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Name');
-    data.addColumn('string', 'Place');
-    data.addColumn('date', 'Date');
+    data.addColumn('string', 'Month');
+    data.addColumn('number', 'Attended');
+    data.addColumn('number', 'Not-Attended');
     var events = {{events|json_encode|raw}};
-    for(i=0; i<events.length; i++) {
+    var pData = processInfo(events);
+    for(i=0; i<pData.length; i++) {
       data.addRow([
-        events[i].name,
-        events[i].place,
-        new Date(events[i].date)
+        pData[i].date,
+        pData[i].attended,
+        pData[i].notattended,
       ]);
     }
     // Create the chart to edit.
-    var wrapper = new google.visualization.ChartWrapper({
-      'chartType':'LineChart',
+    wrapper = new google.visualization.ChartWrapper({
+      'chartType':'BarChart',
       dataTable: data,
-      options: {'title': 'Countries'},
+      options: {'title': 'Events in 2015/2016'},
       containerId: 'visualization'
     });
-
-    chartEditor = new google.visualization.ChartEditor();
-    google.visualization.events.addListener(chartEditor, 'ok', redrawChart);
+    wrapper.draw(chartEditorDiv);
+  }
+  function redrawChart(){
+    chartEditor.getChartWrapper().draw(chartEditorDiv);
+  }
+  function loadEditor() {
     chartEditor.openDialog(wrapper, {});
   }
-  function redrawChart(){
-    chartEditor.getChartWrapper().draw(document.getElementById('vis_div'));
-  }
-
-  // On "OK" save the chart to a <div> on the page.
-  function redrawChart(){
-    chartEditor.getChartWrapper().draw(document.getElementById('vis_div'));
+  function processInfo(events) {
+    var pData = [
+          {date:"Jan 2015", attended:0, notattended:0},
+          {date:"Feb 2015", attended:0, notattended:0},
+          {date:"Mar 2015", attended:0, notattended:0},
+          {date:"Apr 2015", attended:0, notattended:0},
+          {date:"May 2015", attended:0, notattended:0},
+          {date:"Jun 2015", attended:0, notattended:0},
+          {date:"Jul 2015", attended:0, notattended:0},
+          {date:"Aug 2015", attended:0, notattended:0},
+          {date:"Sep 2015", attended:0, notattended:0},
+          {date:"Oct 2015", attended:0, notattended:0},
+          {date:"Nov 2015", attended:0, notattended:0},
+          {date:"Dec 2015", attended:0, notattended:0},
+          {date:"Jan 2016", attended:0, notattended:0},
+          {date:"Feb 2016", attended:0, notattended:0},
+          {date:"Mar 2016", attended:0, notattended:0},
+          {date:"Apr 2016", attended:0, notattended:0},
+          {date:"May 2016", attended:0, notattended:0},
+          {date:"Jun 2016", attended:0, notattended:0},
+          {date:"Jul 2016", attended:0, notattended:0},
+          {date:"Aug 2016", attended:0, notattended:0},
+          {date:"Sep 2016", attended:0, notattended:0},
+          {date:"Oct 2016", attended:0, notattended:0},
+          {date:"Nov 2016", attended:0, notattended:0},
+          {date:"Dec 2016", attended:0, notattended:0}];
+    for(i=0; i<events.length; i++) {
+      var date = new Date(events[i].date);
+      var monthNum = date.getMonth();
+      var year = date.getFullYear();
+      var index = year == "2015" ? monthNum : monthNum+12;
+      if(events[i].status == 'going') {
+        pData[index].attended+=1;
+      }
+      else {
+        pData[index].notattended+=1;
+      }
+    }
+    return pData;
   }
 </script>
 {% endblock customjs %}

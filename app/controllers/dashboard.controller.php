@@ -2,12 +2,7 @@
 
 //GET route
 $app->get('/dashboard/', $authenticate($app, 'admin'), function () use ($app) {
-    $events = R::find('event', 'date > ?',[date("Y-m-d H:i:s")]);
-    foreach ($events as $event) {
-    	$rsvps = R::find('rsvp', 'id_event = ? AND status = "going"',[$event->id]);
-    	$event->attending = count($rsvps);
-    }
-
+    $events = R::findAll('event');
     $users = R::find('user','role = ?', ["user"]);
 
     $data = array(
@@ -20,14 +15,30 @@ $app->get('/dashboard/', $authenticate($app, 'admin'), function () use ($app) {
 $app->get('/dashboard/user/:id', $authenticate($app, 'admin'), function($id) use ($app) {
     $users = R::load('user', $id);
 
-    $events = R::getAll('SELECT event.* FROM rsvp JOIN event JOIN user WHERE rsvp.id_user = user.id AND rsvp.id_event = event.id AND rsvp.status = "going" AND user.id = ?', [$id]);
+    $events = R::getAll('SELECT event.*, rsvp.status FROM rsvp JOIN event JOIN user WHERE rsvp.id_user = user.id AND rsvp.id_event = event.id AND user.id = ?', [$id]);
 
     $data = array(
       'events' => $events,
       'users' => $users
     );
-    echo "<script>console.log( 'Debug Objects: " . json_encode($data) . "' );</script>";
     $app->render('dashboard_userData_admin.html.twig', $data);
+});
+
+$app->get('/dashboard/event/:id', $authenticate($app, 'admin'), function($id) use ($app) {
+    $event = R::load('event', $id);
+    $blogs = R::find('blog', 'id_event = ? ORDER BY id DESC',[$id]);
+
+    $rsvps = R::find('rsvp', 'id_event = ? AND status = "going"',[$event->id]);
+    $event->attending = count($rsvps);
+    $rsvps = R::find('rsvp', 'id_event = ? AND status = "maybe"',[$event->id]);
+    $event->maybe = count($rsvps);
+    $rsvps = R::find('rsvp', 'id_event = ?',[$event->id]);
+    $event->invited = count($rsvps);
+    $data = array(
+      'event' => $event,
+    );
+    echo "<script>console.log( 'Debug Objects: " . json_encode($data) . "' );</script>";
+    $app->render('dashboard_eventData_admin.html.twig', $data);
 });
 
 $app->get('/users/', $authenticate($app, 'admin'), function () use ($app) {
