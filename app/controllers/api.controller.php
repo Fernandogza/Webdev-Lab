@@ -84,6 +84,32 @@ $app->get('/api/event/:id', function ($id) use ($app) {
     http_response_code(200);
 });
 
+//Get a specific event pictures
+$app->get('/api/event/:id/pic', function ($id) use ($app) {
+    $imgs = R::find('eventimg', 'id_event = ?', [$id]);
+
+    delFromArray($arr, array('id_event'));
+
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+    echo json_encode($arr);
+    http_response_code(200);
+});
+
+//Get a specific picture for a specific event
+$app->get('/api/event/:id/pic/:pid', function ($id, $pid) use ($app) {
+    $imgs = R::find('eventimg', 'id_event = ? AND id = ?', [$id,$pid]);
+
+    delFromArray($arr, array('id_event'));
+
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+    echo json_encode($arr);
+    http_response_code(200);
+});
+
 
 //Schedule
 //Get all schedules for a specific event
