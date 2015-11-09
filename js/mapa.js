@@ -71,10 +71,13 @@ function initializeMap() {
 }
 
 
-function loadFeaturesAjax (mapFeatures) {
-	var data = JSON.parse(mapFeatures)['data'];
 
-		var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+function loadFeaturesAjax (mapFeatures) {
+	var data = JSON.parse(mapFeatures);
+
+
+
+	var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 	var icons = markerTypes;
 	var features = eventMarkers;
 
@@ -92,7 +95,8 @@ function loadFeaturesAjax (mapFeatures) {
 
 
 	data.forEach( function(element, index, array){
-		addMarker(element.lat, element.lng, element.feat_type);
+		console.log("adasd");
+		addMarker(element.lat, element.lng, element.featType);
 
 	});
 

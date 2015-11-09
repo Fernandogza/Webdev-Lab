@@ -72,6 +72,22 @@ $app->get('/init', function () use ($app) {
         $schedule->name = "Conferencia Magistral";
         $schedule->description = "This is a description, it can have a lot of words!";
     R::store($schedule);
+
+
+    $mapPositions = R::dispense("mapPositions");
+        $mapPositions->eventID = 1;
+        $mapPositions->lat = 25.6781737;
+        $mapPositions->lng = -100.28790240000001;
+        $mapPositions->type = "library";
+    R::store($mapPositions);
+    $mapPositions = R::dispense("mapPositions");
+        $mapPositions->eventID = 1;
+        $mapPositions->lat = 25.6781737;
+        $mapPositions->lng = -100.27790240000001;
+        $mapPositions->type = "parking";
+    R::store($mapPositions);  
+
+    echo $mapPositions.__toString();
         
 });
 

@@ -306,15 +306,33 @@ $app->delete('/api/blog/:id', function ($id) use ($app) {
 
 //map
 //Get all mapFeatures from a specific event
-$app->get('/api/event/:id/mapFeatures/', function ($id) use ($app) {
-   $mapFeats = R::find('mapPositions', 'eventID = ?', array($id));
-    $arr = array(
-        'data' => R::exportAll($mapFeats)
-    );
+// $app->get('/api/event/:id/mapFeatures/', function ($id) use ($app) {
+//    $mapFeats = R::find('mapPositions', 'eventID = ?', array($id));
+//     $arr = array(
+//         'data' => R::exportAll($mapFeats)
+//     );
 
-    delFromArray($arr, array('id_event'));
+//    // delFromArray($arr, array('eventID'));
+
+//     echo json_encode($arr);
+// });
+
+
+$app->get('/api/event/:id/mapFeatures/', function ($id) use ($app) {
+   // $schedules = R::getAll('mapPositions', 'eventID = ?', array($id));
+   $arr = R::GetAll('select * from mapPositions where eventID = ?', array($id));
+    // $arr = array(
+    //     'data' => R::exportAll($schedules)
+    // );
+
+    //delFromArray($arr, array('event_id'));
+
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 
     echo json_encode($arr);
+    http_response_code(200);
 });
+
 
 ?>
