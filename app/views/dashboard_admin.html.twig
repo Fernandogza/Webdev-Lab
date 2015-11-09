@@ -35,9 +35,6 @@
            </div>
            <div class="card-content">
              <img src="{{user.picture}}" alt="" class="circle responsive-img activator card-profile-image">
-             <a class="btn-floating modal-trigger edit-trigger btn-move-up waves-effect waves-light darken-2 right" data-id="{{ user.id }}" href="#modalEditUser">
-               <i class="mdi-editor-mode-edit"></i>
-             </a>
              <a href="/dashboard/user/{{user.id}}"><span class="card-title activator grey-text text-darken-4">{{ user.first_name }} {{ user.last_name }}</span></a>
              <p><i class="mdi-action-perm-identity"></i> {{ user.role }}</p>
              <p><i class="mdi-communication-email"></i> {{ user.email }}</p>
@@ -45,9 +42,22 @@
          </div>
        </div>
      {% endfor %}
-     <input type="submit" name="loadcharteditor" id="loadcharteditor" value="Customize" onclick="loadEditor()" style="font-size:18px;">
    </div>
    <div id="events" class="col s12">
+     {% for event in events %}
+       <div class="col s12 m4 l4">
+         <div id="profile-card" class="card">
+           <div class="card-image waves-effect waves-block waves-light">
+             <img class="activator" src="/web/img/user-bg.jpg" alt="event bg">
+           </div>
+           <div class="card-content">
+             <!--<img src="{{event.picture}}" alt="" class="circle responsive-img activator card-profile-image">-->
+             <a href="/dashboard/event/{{event.id}}"><span class="card-title activator grey-text text-darken-4">{{ event.name }}</span></a>
+             <p><i class="material-icons left">web</i> {{ event.date|date("d") }}, {{ event.date|date("M") }} {{ event.date|date("Y") }} @ {{ event.place }}</p>
+           </div>
+         </div>
+       </div>
+     {% endfor %}
    </div>
 </div>
 
