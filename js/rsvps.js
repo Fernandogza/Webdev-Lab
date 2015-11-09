@@ -32,11 +32,12 @@ function setUsers(usr){
 }
 function getUser(id){
 	var x=0;
-	for(x=0; x<users.length; x++){
+	for(x=0; x<users.length -1; x++){
 		if(users[x].id == id){
 			break;
 		}
 	}
+
 	return users[x].first_name
 }
 function submitRSVP(el) {
@@ -103,9 +104,10 @@ function gotoPageRSVP(pageNum){
 
 	loadPage(pageNumberRSVP, attendantsN, PER_PAGE_RSVP, genRSVP, insertRSVP, createPaginationRSVP);
 }
-
+var test;
 function loadPageRSVP(attendants2){
 	var att= JSON.parse(attendants2)['data'];
+	test = att;
 	att.forEach(function(element, index, array){
 		if(element.id_user==userRSP){
 			edited=element.id;

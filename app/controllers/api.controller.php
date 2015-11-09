@@ -70,6 +70,7 @@ $app->get('/api/event/', function () use ($app) {
 
 //Get a specific event
 $app->get('/api/event/:id', function ($id) use ($app) {
+
    $events = R::load('event', $id);
     $arr = array(
         'data' => R::exportAll($events)
@@ -329,5 +330,17 @@ $app->delete('/api/blog/:id', function ($id) use ($app) {
    $blog = R::load("blog", $id);
    R::trash($blog);
 });
+
+
+$app->get('/api/event/:id/mapFeatures/', function ($id) use ($app) {
+   $arr = R::GetAll('select * from mapPositions where eventID = ?', array($id));
+
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+    echo json_encode($arr);
+    http_response_code(200);
+});
+
 
 ?>

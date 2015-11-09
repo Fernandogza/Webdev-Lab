@@ -1,4 +1,7 @@
 
+var events = [];
+var idEvento;
+
 // parametros GET, http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -25,13 +28,15 @@ $(document).ready(function(){
 
 
 function loadEventoAjax(idEvento) {
+	this.idEvento = idEvento;
 	$.get('api/event/' + idEvento, function(evento) {
 		//console.log(evento);
-		var json = JSON.parse(evento);
-		$('#descripcionEvento').html(json.data[0].description);
-		$('#nombreEvento').html(json.data[0].name);
-		$("title").html(json.data[0].name);
-		$('#lugarEvento').html(json.data[0].place);
+		console.log(events);
+		events = JSON.parse(evento);
+		$('#descripcionEvento').html(events.data[0].description);
+		$('#nombreEvento').html(events.data[0].name);
+		$('#lugarEvento').html(events.data[0].place);
+		initializeMap();
 	});
 
 	$.get('/api/event/'+ idEvento+"/pic", function(pics){
