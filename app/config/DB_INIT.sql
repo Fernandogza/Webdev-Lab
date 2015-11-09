@@ -115,6 +115,17 @@ CREATE TABLE IF NOT EXISTS `eventimg` (
 -- Dumping data for table `eventimg`
 --
 
+CREATE TABLE IF NOT EXISTS `eventTitlePic` (
+  `id_event` int(11),
+  `url` varchar(255)
+)
+
+ALTER TABLE `eventTitlePic`
+  ADD CONSTRAINT FOREIGN KEY (`id_event`) REFERENCES `event` (`id`) ON DELETE CASCADE
+ALTER TABLE `eventTitlePic`
+ADD PRIMARY KEY (`id_event`);
+
+
 INSERT INTO `eventimg` (`id`, `id_event`, `url`) VALUES
 (1, 5, '/web/img/eventsImg/564069ae47073.jpg');
 

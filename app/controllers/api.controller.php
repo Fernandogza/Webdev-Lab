@@ -343,4 +343,16 @@ $app->get('/api/event/:id/mapFeatures/', function ($id) use ($app) {
 });
 
 
+
+$app->get('/api/event/:id/titlePic', function ($id) use ($app) {
+   $arr = R::GetAll('select * from eventTitlePic where id_event = ?', array($id));
+
+    $app->response->headers->set("Access-Control-Allow-Origin","*");
+    $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+    echo json_encode($arr);
+    http_response_code(200);
+});
+
+
 ?>
