@@ -5,8 +5,8 @@ var map;
 
 // GET /markertypes
 
-var markerTypes = [];
-var eventMarkers = [];
+// var markerTypes = [];
+// var eventMarkers = [];
 
 
 var markerTypes = {

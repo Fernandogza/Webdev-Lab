@@ -25,11 +25,12 @@ function setUsers(usr){
 }
 function getUser(id){
 	var x=0;
-	for(x=0; x<users.length; x++){
+	for(x=0; x<users.length -1; x++){
 		if(users[x].id == id){
 			break;
 		}
 	}
+
 	return users[x].first_name
 }
 function submitRSVP(el) {
