@@ -57,6 +57,28 @@ $app->get('/viewProfile/:id', $authenticate($app, 'guest'), function ($id) use (
   }
 });
 
+$app->post('/profile/changepwd', $authenticate($app, 'guest'), function() use ($app) {
+  $env = $app->environment();
+  $post = (object)$app->request()->post();
+  $oldPassword = md5($post->oldPassword);
+  $newPassword = md5($post->newPassword);
+  $user = R::findOne('user', 'id = ?', [$_SESSION['id']]);
+
+  $app->response->headers->set("Access-Control-Allow-Origin","*");
+  $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+  if($oldPassword == $user->password) {
+    $user->password = $newPassword;
+    R::store($user);
+    echo "Success";
+    http_response_code(200);
+  }
+  else {
+    echo "Failure";
+    http_response_code(400);
+  }
+
+});
+
 $app->get('/profile', $authenticate($app, 'guest'), function() use ($app){
 	$env = $app->environment();
 	$user = R::findOne('user',' id = :param ',

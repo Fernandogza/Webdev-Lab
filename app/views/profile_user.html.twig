@@ -76,7 +76,10 @@
               </tr>
               <tr>
                 <td>
-                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Edit Profile </a>
+                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Editar perfil </a>
+                </td>
+                <td>
+                  <a class="waves-effect waves-light btn modal-trigger" href="#passwordModal"><i class="material-icons left">mode_edit</i>Cambiar contraseña </a>
                 </td>
               </tr>
             </tbody>
@@ -159,6 +162,22 @@
         </form>
       </div>
     </div>
+    <!-- Edit Modal Space -->
+    <div id="passwordModal" class="modal">
+      <div class="modal-content">
+        <h4 class="center">Cambiar contraseña</h4>
+        <div class="input-field col s12">
+          <input id="oldpassword" type="password" class="validate">
+          <label for="password">Contraseña actual</label>
+        </div>
+        <div class="input-field col s12">
+          <input id="newpassword" type="password" class="validate">
+          <label for="password">Nueva contraseña</label>
+        </div>
+        <button class="btn waves-effect waves-light" style="float:right" onclick="submitPassword()">Submit
+         <i class="material-icons right">done</i>
+      </div>
+    </div>
     <script src="../web/js/jQuery.min.js"></script>
     <script type="text/javascript" src="../web/js/materialize.min.js"></script>
     <script>
@@ -167,6 +186,24 @@
         $('.modal-trigger').leanModal();
         $('select').material_select();
       });
+      function submitPassword() {
+        var pwd1 = document.getElementById('oldpassword').value;
+        var pwd2 = document.getElementById('newpassword').value;
+        var call = $.ajax({
+          url: '/profile/changepwd',
+          method: 'POST',
+          data: { oldPassword: pwd1, newPassword: pwd2},
+          dataType: 'html',
+          complete: function (xhr, status) {
+            if(xhr.responseText == "Failure")
+              alert("Contraseña actual incorrecta!")
+            else {
+              alert("Contraseña actualizada")
+            }
+          }
+        });
+        $('#passwordModal').closeModal();
+      }
     </script>
   </body>
 </html>
