@@ -86,7 +86,7 @@ $app->get('/api/event/:id', function ($id) use ($app) {
 });
 
 //Get a specific event pictures
-$app->get('/api/event/:id/pic', function ($id) use ($app) { 
+$app->get('/api/event/:id/pic', function ($id) use ($app) {
     $imgs = R::find('eventimg', 'id_event = ?', [$id]);
     $arr = array(
         'data' => R::exportAll($imgs)
@@ -136,6 +136,40 @@ $app->get('/api/event/:id/schedule/', function ($id) use ($app) {
     http_response_code(200);
 });
 
+//Personal Schedule
+//Get all schedules for a specific user
+$app->get('/api/personalschedule/:id', function ($id) use ($app) {
+  $schedules = R::find('personalschedule', 'id_user = ?', array($id));
+  $arr = array(
+      'data' => R::exportAll($schedules)
+  );
+
+  delFromArray($arr, array('id_user'));
+
+  $app->response->headers->set("Access-Control-Allow-Origin","*");
+  $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+  echo json_encode($arr);
+  http_response_code(200);
+});
+
+//Get all schedules for the current user
+$app->get('/api/personalschedule/current', function () use ($app) {
+  $id = $_SESSION['id'];
+  $schedules = R::find('personalschedule', 'id_user = ?', array($id));
+  $arr = array(
+      'data' => R::exportAll($schedules)
+  );
+
+  delFromArray($arr, array('id_user'));
+
+  $app->response->headers->set("Access-Control-Allow-Origin","*");
+  $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+  echo json_encode($arr);
+  http_response_code(200);
+});
+
 //Get a specific schedule
 $app->get('/api/schedule/:id', function ($id) use ($app) {
    $schedules = R::load('schedule', $id);
@@ -145,6 +179,7 @@ $app->get('/api/schedule/:id', function ($id) use ($app) {
 
     echo json_encode($arr);
 });
+
 
 //RSVP
 //Get all RSVPs from a specific event
@@ -220,6 +255,18 @@ $app->post('/api/schedule/:id', function ($id) use ($app) {
     R::store($schedule);
 });
 
+//Edit Personal Schedule
+$app->post('/api/personalschedule/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $schedule = R::load("personalschedule", $id);
+        $schedule->idUser = $post->idUser;
+        $schedule->startDate = $post->startDate;
+        $schedule->endDate = $post->endDate;
+        $schedule->name = $post->name;
+        $schedule->description = $post->description;
+    R::store($schedule);
+});
+
 //Edit RSVP
 $app->post('/api/rsvp/:id', function ($id) use ($app) {
    $post = (object)$app->request()->post();
@@ -275,6 +322,18 @@ $app->put('/api/schedule', function () use ($app) {
     R::store($schedule);
 });
 
+//New Personal Schedule
+$app->put('/api/personalschedule', function () use ($app) {
+   $post = (object)$app->request()->post();
+   $schedule = R::dispense("personalschedule");
+        $schedule->idUser = $post->idUser;
+        $schedule->startDate = $post->startDate;
+        $schedule->endDate = $post->endDate;
+        $schedule->name = $post->name;
+        $schedule->description = $post->description;
+    R::store($schedule);
+});
+
 //New RSVP
 $app->put('/api/rsvp', function () use ($app) {
    $post = (object)$app->request()->post();
@@ -310,21 +369,28 @@ $app->delete('/api/event/:id', function ($id) use ($app) {
     R::trash($event);
 });
 
-//Edit Schedule
+//Delete Schedule
 $app->delete('/api/schedule/:id', function ($id) use ($app) {
    $post = (object)$app->request()->post();
    $schedule = R::load("schedule", $id);
    R::trash($schedule);
 });
 
-//Edit RSVP
+//Delete Schedule
+$app->delete('/api/personalschedule/:id', function ($id) use ($app) {
+   $post = (object)$app->request()->post();
+   $schedule = R::load("personalschedule", $id);
+   R::trash($schedule);
+});
+
+//Delete RSVP
 $app->delete('/api/rsvp/:id', function ($id) use ($app) {
    $post = (object)$app->request()->post();
    $rsvp = R::load("rsvp", $id);
    R::trash($rsvp);
 });
 
-//Edit BLOG
+//Delete BLOG
 $app->delete('/api/blog/:id', function ($id) use ($app) {
    $post = (object)$app->request()->post();
    $blog = R::load("blog", $id);
