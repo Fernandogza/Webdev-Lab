@@ -180,17 +180,6 @@ $app->get('/api/schedule/:id', function ($id) use ($app) {
 });
 
 
-//Get a specific schedule
-$app->get('/api/personalschedule/:id', function ($id) use ($app) {
-   $schedules = R::load('personalschedule', $id);
-    $arr = array(
-        'data' => R::exportAll($schedules)
-    );
-
-    echo json_encode($arr);
-});
-
-
 //RSVP
 //Get all RSVPs from a specific event
 $app->get('/api/event/:id/rsvp/', function ($id) use ($app) {
@@ -266,7 +255,7 @@ $app->post('/api/schedule/:id', function ($id) use ($app) {
 });
 
 //Edit Personal Schedule
-$app->post('/api/schedule/:id', function ($id) use ($app) {
+$app->post('/api/personalschedule/:id', function ($id) use ($app) {
    $post = (object)$app->request()->post();
    $schedule = R::load("personalschedule", $id);
         $schedule->idUser = $post->idUser;
