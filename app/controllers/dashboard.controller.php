@@ -156,6 +156,13 @@ $app->post('/register', $authenticate($app, 'admin'), function () use ($app) {
       $newUser++;
     }
     $user = R::findOne('user', 'email = ?', [$email]);
+
+    $rsvp = R::dispense('rsvp');
+    $rsvp->idEvent = $eventId;
+    $rsvp->idUser = $user->id;
+    $rsvp->status = "going";
+    R::store($rsvp);
+
     foreach($schedules as $conf) {
       $personal = R::dispense('personalschedule');
       $personal->idUser = $user->id;
