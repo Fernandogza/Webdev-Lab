@@ -4,8 +4,8 @@
  */
  //*/
 R::setup('mysql:host=localhost;dbname=eventos', // host|ip; nombre de la base de datos
-         'eventos', //user
-         '123456'); //password
+         'root', //user
+         '251993'); //password
          //mysql
 //*/
 

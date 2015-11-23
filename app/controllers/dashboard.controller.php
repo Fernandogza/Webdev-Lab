@@ -2,7 +2,7 @@
 
 //GET route
 $app->get('/dashboard/', $authenticate($app, 'admin'), function () use ($app) {
-    $events = R::findAll('event');
+    $events = R::find('event', 'id_admin = ?', [$_SESSION['id']]);
     $users = R::find('user','role = ?', ["user"]);
 
     $data = array(
@@ -41,6 +41,13 @@ $app->get('/dashboard/event/:id', $authenticate($app, 'admin'), function($id) us
     $app->render('dashboard_eventData_admin.html.twig', $data);
 });
 
+$app->get('/register', $authenticate($app, 'admin'), function () use ($app) {
+  $events = R::find('event', 'id_admin = ? ORDER BY date DESC', [$_SESSION['id']]);
+
+  $data = array('events' => $events);
+  $app->render('register_admin.html.twig', $data);
+});
+
 $app->get('/users/', $authenticate($app, 'admin'), function () use ($app) {
     $users = R::find('user','ORDER BY role ASC');
     $data = array('users' => $users);
@@ -48,7 +55,7 @@ $app->get('/users/', $authenticate($app, 'admin'), function () use ($app) {
 });
 
 $app->get('/events/', $authenticate($app, 'admin'), function () use ($app) {
-    $events = R::find('event', 'ORDER BY date DESC');
+    $events = R::find('event', 'id_admin = ? ORDER BY date DESC', [$_SESSION['id']]);
 
     $data = array('events' => $events);
     $app->render('events_admin.html.twig', $data);
@@ -118,6 +125,58 @@ $app->post('/users/new', $authenticate($app, 'admin'), function () use ($app) {
   R::store($user);
 
   $app->redirect('/users');
+});
+
+$app->post('/register', $authenticate($app, 'admin'), function () use ($app) {
+	$post = (object)$app->request()->post();
+  $data = array();
+  $eventId = $post->event;
+  $data = $post->script;
+  $existingUser=0;
+  $newUser=0;
+  $schedules = R::findAll('schedule', 'id_event = ?', array($eventId));
+  $response = array();
+  foreach ($data as $arr) {
+    $email = $arr[0];
+    $name = $arr[1];
+    $lastName = $arr[2];
+    $user = R::findOne('user', 'email = ?', [$email]);
+
+    if($user) {
+      $existingUser++;
+    }
+    else {
+      $user = R::dispense('user');
+      $user->firstName = $name;
+      $user->lastName = $lastName;
+      $user->email = $email;
+      $user->password = md5('password');
+      $user->role = 'user';
+      R::store($user);
+      $newUser++;
+    }
+    $user = R::findOne('user', 'email = ?', [$email]);
+
+    $rsvp = R::dispense('rsvp');
+    $rsvp->idEvent = $eventId;
+    $rsvp->idUser = $user->id;
+    $rsvp->status = "going";
+    R::store($rsvp);
+
+    foreach($schedules as $conf) {
+      $personal = R::dispense('personalschedule');
+      $personal->idUser = $user->id;
+      $personal->startDate = $conf->start_date;
+      $personal->endDate = $conf->end_date;
+      $personal->name = $conf->name;
+      $personal->description = $conf->description;
+      R::store($personal);
+    }
+  }
+  $response[] = "Usuarios existentes: ".$existingUser;
+  $response[] = "Usuarios agregados: ".$newUser;
+  echo json_encode($response);
+  http_response_code(200);
 });
 
 $app->post('/users/edit', $authenticate($app, 'admin'), function () use ($app) {
