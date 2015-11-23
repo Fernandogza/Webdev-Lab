@@ -193,10 +193,10 @@ $app->post("/admin/login", function () use ($app) {
              array(':param' => $email ));
 
   if (!$user || $user->role != 'admin') {
-      $errors['email'] = "Email no registrado.";
+      $errors['password'] = "Email o password incorrecto.";
   } else if ($password != $user->password) {
       $app->flash('email', $email);
-      $errors['password'] = "Password incorrecto.";
+      $errors['password'] = "Email o password incorrecto.";
   }
 
   if (count($errors) > 0) {
@@ -234,10 +234,10 @@ $app->post("/login", function () use ($app) {
              array(':param' => $email ));
 
   if (!$user || $user->role != 'user') {
-      $errors['email'] = "Email no registrado.";
+      $errors['password'] = "Email o password incorrecto.";
   } else if ($password != $user->password) {
       $app->flash('email', $email);
-      $errors['password'] = "Password incorrecto.";
+      $errors['password'] = "Email o password incorrecto.";
   }
 
   if (count($errors) > 0) {

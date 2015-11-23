@@ -41,6 +41,11 @@
   </div>
 </div>
 <div class="row">
+  <h5 class="center">Calendario</h5>
+  <div class="col s6 offset-s3" id="calendar">
+  </div>
+</div>
+<div class="row">
   <h5 class="center">Attended/Going Events</h5>
   <div class="col s6 offset-s3" id="table_div">
   </div>
@@ -60,12 +65,18 @@
 {% endblock content %}
 {% block customjs %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.css' />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/lang/es.js'></script>
 <script type="text/javascript">
   google.load("visualization", "1.1", {packages:["table"]});
   google.load('visualization', '1.0', {packages: ['charteditor']});
   google.setOnLoadCallback(drawTable);
   google.setOnLoadCallback(drawChartEditor);
-
+  $(document).ready(function(){
+    loadCalendarioAjax();
+  });
   function drawTable() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Name');
@@ -161,6 +172,64 @@
       }
     }
     return pData;
+  }
+  var calendar = [];
+
+  function formatSeconds(seconds) {
+      var date = new Date(seconds*1000);
+      var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
+      return iso[1] + "T" + iso[2];
+  }
+  
+  function loadCalendarioAjax() {
+
+    $.get('/api/personalschedule/' + {{users.id}}, function(actividads) {
+
+      var json = JSON.parse(actividads);
+
+      actividads = json.data;
+
+      for(var i = 0; i < actividads.length; i++) {
+        var eventId = json.data[i].id;
+        var eventStart = json.data[i].start_date;
+        var eventEnd = json.data[i].end_date;
+        var eventTitle = json.data[i].name;
+        var newEvent = {
+          title : eventTitle,
+          allDay : false,
+          start: formatSeconds(eventStart),
+          end: formatSeconds(eventEnd)
+        };
+
+        calendar[i] = newEvent;
+
+        $('#calendar').fullCalendar('renderEvent', newEvent);
+
+      }
+
+      $('#calendar').fullCalendar({
+        lang: 'es',
+
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay'
+        },
+        defaultView: 'agendaWeek',
+        events: calendar,
+        eventClick: function(data, event, view) {
+          var content = '<h3>'+data.title+'</h3>' +
+            '<p><b>Start:</b> '+data.start+'<br />' +
+            (data.end && '<p><b>End:</b> '+data.end+'</p>' || '');
+
+          tooltip.set({
+            'content.text': content
+          })
+          .reposition(event).show(event);
+        }
+        });
+      });
+
   }
 </script>
 {% endblock customjs %}

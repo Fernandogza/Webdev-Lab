@@ -76,11 +76,19 @@
               </tr>
               <tr>
                 <td>
-                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Edit Profile </a>
+                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Editar perfil </a>
+                </td>
+                <td>
+                  <a class="waves-effect waves-light btn modal-trigger" href="#passwordModal">Cambiar contraseña </a>
                 </td>
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+      <div class="row">
+        <h5 class="center">Calendario</h5>
+        <div class="col s6 offset-s3" id="calendar">
         </div>
       </div>
     </main>
@@ -159,14 +167,115 @@
         </form>
       </div>
     </div>
+    <!-- Edit Modal Space -->
+    <div id="passwordModal" class="modal">
+      <div class="modal-content">
+        <h4 class="center">Cambiar contraseña</h4>
+        <div class="input-field col s12">
+          <input id="oldpassword" type="password" class="validate">
+          <label for="password">Contraseña actual</label>
+        </div>
+        <div class="input-field col s12">
+          <input id="newpassword" type="password" class="validate">
+          <label for="password">Nueva contraseña</label>
+        </div>
+        <button class="btn waves-effect waves-light" style="float:right" onclick="submitPassword()">Submit
+         <i class="material-icons right">done</i>
+      </div>
+    </div>
     <script src="../web/js/jQuery.min.js"></script>
     <script type="text/javascript" src="../web/js/materialize.min.js"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.css' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/lang/es.js'></script>
     <script>
       $(document).ready(function(){
         $(".button-collapse").sideNav();
-        $('.modal-trigger').leanModal();
         $('select').material_select();
       });
+      function submitPassword() {
+        var pwd1 = document.getElementById('oldpassword').value;
+        var pwd2 = document.getElementById('newpassword').value;
+        var call = $.ajax({
+          url: '/profile/changepwd',
+          method: 'POST',
+          data: { oldPassword: pwd1, newPassword: pwd2},
+          dataType: 'html',
+          complete: function (xhr, status) {
+            if(xhr.responseText == "Failure")
+              alert("Contraseña actual incorrecta!")
+            else {
+              alert("Contraseña actualizada")
+            }
+          }
+        });
+        $('#passwordModal').closeModal();
+      }
+      var calendar = [];
+
+      function formatSeconds(seconds) {
+      		var date = new Date(seconds*1000);
+      		var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
+      		return iso[1] + "T" + iso[2];
+      }
+      var userId;
+      $.get('/api/cuser', function(data) {
+        var json = JSON.parse(data);
+        data = json.data;
+        userId = json.data[0].id;
+        loadCalendarioAjax();
+      });
+      function loadCalendarioAjax() {
+
+      	$.get('/api/personalschedule/' + userId, function(actividads) {
+
+      		var json = JSON.parse(actividads);
+
+    	    actividads = json.data;
+
+      		for(var i = 0; i < actividads.length; i++) {
+      			var eventId = json.data[i].id;
+      			var eventStart = json.data[i].start_date;
+      			var eventEnd = json.data[i].end_date;
+      			var eventTitle = json.data[i].name;
+      			var newEvent = {
+      				title : eventTitle,
+      				allDay : false,
+      				start: formatSeconds(eventStart),
+      				end: formatSeconds(eventEnd)
+      			};
+
+      			calendar[i] = newEvent;
+
+      			$('#calendar').fullCalendar('renderEvent', newEvent);
+
+      		}
+
+      		$('#calendar').fullCalendar({
+      			lang: 'es',
+
+      			header: {
+      				left: 'prev,next today',
+      				center: 'title',
+      				right: 'month,agendaWeek,agendaDay'
+      			},
+      			defaultView: 'agendaWeek',
+      			events: calendar,
+      			eventClick: function(data, event, view) {
+      				var content = '<h3>'+data.title+'</h3>' +
+      					'<p><b>Start:</b> '+data.start+'<br />' +
+      					(data.end && '<p><b>End:</b> '+data.end+'</p>' || '');
+
+      				tooltip.set({
+      					'content.text': content
+      				})
+      				.reposition(event).show(event);
+      			}
+      		  });
+          });
+
+      }
     </script>
   </body>
 </html>
