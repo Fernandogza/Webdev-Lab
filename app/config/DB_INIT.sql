@@ -319,6 +319,9 @@ CREATE TABLE `schedule` (
 LOCK TABLES `schedule` WRITE;
 /*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
 INSERT INTO `schedule` VALUES (1,1,1448213400,1448217000,'Conferencia Magistral','This is a description, it can have a lot of words!');
+INSERT INTO `schedule` VALUES (1,1,1448214420,1448215030,'Conferencia Magistral','This is a description, it can have a lot of words!');
+INSERT INTO `schedule` VALUES (1,1,1448216460,1448217070,'Conferencia Magistral','This is a description, it can have a lot of words!');
+INSERT INTO `schedule` VALUES (1,1,1448218500,1448219600,'Conferencia Magistral','This is a description, it can have a lot of words!');
 /*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 

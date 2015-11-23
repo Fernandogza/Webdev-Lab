@@ -81,6 +81,33 @@ function loadCalendarioAjax(idEvento) {
 		
     	gotoStartDate(calendar);
 
+    	loadEvento_list(actividads);
+
     });
 
 }
+
+function loadEvento_list (actividads) {
+	var text = "";
+	for (var i = 0; i < actividads.length; i++) {
+		text = '<tr>'
+			    		+ '<td>'
+			    			+ '<input type="checkbox" id="evento'+ i + '" />'
+     						+ '<label for="evento'+ i + '">Asisitire</label>'
+     					+ '</td>'
+     					+ '<td>'
+     						+ '<span> ' + actividads[i].name +  '</span>'
+     					+ '</td>'
+     					+ '<td>'
+     						+ '<span>' + actividads[i].description + '</span>'
+     					+ '</td>'
+     					+ '<td>'
+     						+ '<span>' + Date(formatSeconds( actividads[i].start_date)) + '-' + Date(formatSeconds( actividads[i].end_date)) +  '</span>'
+     					+ '</td>'
+			    	+ '</tr>';
+
+		$('#event_list').append(text);
+	};
+}
+
+
