@@ -1,0 +1,129 @@
+{% extends "base/template.html.twig" %}
+
+{% block content %}
+<div class="row">
+  {% for schedule in schedules %}
+    <div class="col s12 m6 l4">
+      <div class="card cyan darken-2">
+        <div class="card-content white-text">
+          <a href="/events/{{ schedule.id }}"><span class="card-title truncate">{{ schedule.name }}</span></a>
+          <a class="btn-floating modal-trigger edit-trigger btn-move-up waves-effect waves-light darken-2 right" data-id="{{ schedule.id }}" href="#modalEditSchedule">
+            <i class="mdi-editor-mode-edit"></i>
+          </a>
+          <p class="truncate">{{ schedule.start_date|date("d, M Y h:i A") }} - {{ schedule.end_date|date("d, M Y h:i A") }}</p>
+          <p class="truncate">{{ schedule.description }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red tooltipped modal-trigger" href="#modalNewSchedule" data-position="left" data-delay="50" data-tooltip="Nuevo Evento">
+      <i class="large material-icons">add</i>
+    </a>
+{#     <ul>
+      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul> #}
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modalNewSchedule" class="modal modal-fixed-footer">
+    <form action="/schedules/new" method="POST">
+      <div class="modal-content">
+        <h4>Nuevo Schedule</h4>
+          <div class="row">
+            <div class="input-field col s12">
+              <input name="idEvent" type="hidden" value="{{ idEvent }}">
+              <input id="name" name="name" type="text" class="validate">
+              <label for="name">Nombre</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input placeholder="Fecha" name="start_date" id="start_date" type="date">
+            </div>
+            <div class="input-field col s12 m6">
+              <input placeholder="Fecha" name="end_date" id="end_date" type="date">
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="description" name="description" class="materialize-textarea"></textarea>
+              <label for="description">Descripcion</label>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Crear</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modalEditSchedule" class="modal modal-fixed-footer">
+    <form action="/schedules/edit" method="POST">
+      <div class="modal-content">
+        <h4>Editar Schedule</h4>
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="hidden" name="id" id="eid" value="">
+              <input name="idEvent" type="hidden" value="{{ idEvent }}">
+              <input id="ename" name="name" type="text" class="validate">
+              <label for="ename">Nombre</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <input placeholder="Fecha" name="start_date" id="estart_date" type="date" class="datepicker">
+            </div>
+            <div class="input-field col s12 m6">
+              <input placeholder="Fecha" name="end_date" id="eend_date" type="date" class="datepicker">
+            </div>
+          </div>
+          <div class="row">
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="edescription" name="description" class="materialize-textarea"></textarea>
+              <label for="edescription">Descripcion</label>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Editar</button>
+        <a id="eborrar" href="" class="modal-action modal-close waves-effect waves-green btn-flat ">Eliminar Schedule</a>
+      </div>
+    </form>
+  </div>
+          
+{% endblock content %}
+
+{% block customjs %}
+  <script>
+  $(document).ready(function() {
+    $(".edit-trigger").click(function() {
+      $("#ename").val("");
+      $("#estart_date").val("");
+      $("#eend_date").val("");
+      $("#edescription").val("");
+      $("#eborrar").attr("href", "");
+      $("#emap").html();
+
+      $.getJSON('/api/schedule/'+$(this).data("id"), function(json, textStatus) {
+          var data = json.data[0];
+          $("#ename").val(data.name);
+          $("#estart_date").val(Date(data.start_date));
+          $("#eend_date").val(Date(data.end_date));
+          $("#edescription").val(data.description);
+          $("#eid").val(data.id);
+          $("#eborrar").attr("href", "/events/delete/"+data.id);
+          displayMap(data.place,"emap");
+      });
+    });
+  });
+
+  </script>
+{% endblock customjs %}
