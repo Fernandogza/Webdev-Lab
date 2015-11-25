@@ -193,6 +193,9 @@
       $(document).ready(function(){
         $(".button-collapse").sideNav();
         $('select').material_select();
+        $('.modal-trigger').leanModal({
+         dismissible: true
+        });
       });
       function submitPassword() {
         var pwd1 = document.getElementById('oldpassword').value;

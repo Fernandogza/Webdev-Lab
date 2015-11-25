@@ -25,12 +25,12 @@
     </header>
     <main>
       <div class="row">
-        <div class="col s6 offset-s3">
+        <div class="col s12 m6 offset-m3">
             <table>
               <tbody>
                 <tr>
-                  <td class="center"><a href="/chat/delete/{{conversation}}" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-action-delete left"></i>Delete Chat</a></td>
-                  <td class="center"><a href="/blockUser/{{conversation}}" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-content-block left"></i>Block User</a></td>
+                  <td class="center"><a href="#newMessage" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-communication-email left"></i>New Message</a></td>
+                  <td class="center"><a href="#blockUser" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-content-block left"></i>Block User List</a></td>
                 </tr>
               </tbody>
             </table>
@@ -38,13 +38,13 @@
           </div>
       </div>
       <div class="row">
-        <form class="col s6 offset-s3" id="messageForm" method="post" action="/chat/reply/{{conversation}}">
+        <form class="col s12 m6 offset-m3" id="messageForm" method="post" action="/chat/reply/{{conversation}}">
           <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s12 m12">
               <textarea name="message" id="textarea1" class="materialize-textarea"></textarea>
               <label for="textarea1">Write a reply...</label>
             </div>
-            <a href="/chat" class="waves-effect waves-light btn-large" style="float:left"><i class="material-icons right">email</i>Close chat</a>
+             <a href="/chat" class="waves-effect waves-light btn-large" style="float:left"><i class="material-icons right">email</i>Close chat</a>
             <a href="javascript:{}" onclick="document.getElementById('messageForm').submit();" class="waves-effect waves-light btn-large" style="float:right"><i class="material-icons right">reply</i>Reply</a>
           </div>
         </form>
@@ -76,6 +76,9 @@
           inbox.appendChild(message_text);
         }
          $(".button-collapse").sideNav();
+         $('.modal-trigger').leanModal({
+         dismissible: true
+        });
       });
     </script>
   </body>
