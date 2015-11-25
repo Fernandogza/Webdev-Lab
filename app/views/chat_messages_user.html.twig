@@ -29,8 +29,8 @@
             <table>
               <tbody>
                 <tr>
-                  <td class="center"><a href="#newMessage" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-communication-email left"></i>New Message</a></td>
-                  <td class="center"><a href="#blockUser" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-content-block left"></i>Block User List</a></td>
+                  <td class="center"><a href="/chat/delete/{{conversation}}" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-action-delete left"></i>Delete Chat</a></td>
+                  <td class="center"><a href="/blockUser/{{conversation}}" class="waves-effect waves-light btn black-text teal lighten-2 modal-trigger"><i class="mdi-content-block left"></i>Block User</a></td>
                 </tr>
               </tbody>
             </table>
@@ -50,6 +50,7 @@
         </form>
       </div>
     </main>
+
     <script src="../web/js/jQuery.min.js"></script>
     <script type="text/javascript" src="../web/js/materialize.min.js"></script>
     <script>
