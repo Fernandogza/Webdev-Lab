@@ -55,24 +55,28 @@ function submitRSVP(el) {
 	if(edited!= 0){
 		ur="/api/rsvp/"+edited;
 
-	$.ajax({
-		  url: ur,
-		  method: "POST",
-		  data: { idEvent: ev, idUser:userRSP, status:s},
-		  dataType: "html"
-	});
+		$.ajax({
+			  url: ur,
+			  method: "POST",
+			  data: { idEvent: ev, idUser:userRSP, status:s},
+			  dataType: "html"
+		});
 	}else{
 		ur="/api/rsvp";
 
-	$.ajax({
-		  url: ur,
-		  method: "PUT",
-		  data: { idEvent: ev, idUser:userRSP, status:s},
-		  dataType: "html"
-	});
+		$.ajax({
+			  url: ur,
+			  method: "PUT",
+			  data: { idEvent: ev, idUser:userRSP, status:s},
+			  success: function(e){
+			  		edited=e;
+			  },
+			  dataType: "html"
+		});
 	}
-	if(edited==0)
+	if(edited==0){
 		addRSVP({name: getUser(userRSP), attending: s});
+	}
 }
 
 
