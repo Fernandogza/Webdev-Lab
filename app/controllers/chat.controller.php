@@ -122,16 +122,18 @@ $app->post('/chat/reply/:id', $authenticate($app, 'guest'), function($id) use($a
   $post = (object)$app->request()->post();
 
   $message = $post->message;
-  $senderId = $_SESSION['id'];
+  if($message != "") {
+    $senderId = $_SESSION['id'];
 
-  $reply = R::dispense('messages');
-  $reply->conversationId = $id;
-  $reply->message = $message;
-  $reply->senderId = $senderId;
-  R::store($reply);
-
+    $reply = R::dispense('messages');
+    $reply->conversationId = $id;
+    $reply->message = $message;
+    $reply->senderId = $senderId;
+    R::store($reply);
+  }
   $link = "/chat/".$id;
   $app->redirect($link);
+
 });
 
 $app->get('/blockUser/:id', $authenticate($app, 'guest'), function($id) use($app) {

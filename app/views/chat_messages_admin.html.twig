@@ -6,23 +6,28 @@
             <table>
               <tbody>
                 <tr>
-                  <td class="center"><a href="/chat/delete/{{conversation}}" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-action-delete left"></i>Delete Chat</a></td>
-                  <td class="center"><a href="/blockUser/{{conversation}}" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-content-block left"></i>Block User</a></td>
+                  <td class="center"><a href="/chat/delete/{{conversation}}" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-action-delete left"></i>Borrar Chat</a></td>
+                  <td class="center"><a href="/blockUser/{{conversation}}" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-content-block left"></i>Bloquear Usario</a></td>
                 </tr>
               </tbody>
             </table>
-          <div id="messages" style="overflow-y: auto; vertical-align:bottom; height:550px; max-height:550px">
+          <div id="messages" style="overflow-y: auto; max-height:450px">
           </div>
       </div>
+    </div>
       <div class="row">
         <form class="col s12 m6 offset-m3" id="messageForm" method="post" action="/chat/reply/{{conversation}}">
           <div class="row">
             <div class="input-field col s12">
               <textarea name="message" id="textarea1" class="materialize-textarea"></textarea>
-              <label for="textarea1">Write a reply...</label>
+              <label for="textarea1">Escribe un msj...</label>
             </div>
-             <a href="/chat" class="waves-effect waves-light btn-large" style="float:left"><i class="material-icons right">email</i>Close chat</a>
-            <a href="javascript:{}" onclick="document.getElementById('messageForm').submit();" class="waves-effect waves-light btn-large" style="float:right"><i class="material-icons right">reply</i>Reply</a>
+            <div class="input-field col s6">
+             <a href="/chat" class="waves-effect waves-light btn-large" style="float:left"><i class="material-icons right">email</i>Cerrar chat</a>
+           </div>
+             <div class="input-field col s6">
+             <a href="javascript:{}" onclick="document.getElementById('messageForm').submit();" class="waves-effect waves-light btn-large" style="float:right"><i class="material-icons right">reply</i>Responder</a>
+            </div>
           </div>
         </form>
       </div>
@@ -53,6 +58,7 @@
           message.appendChild(time);
           inbox.appendChild(message);
         }
+        $('#messages').scrollTop($('#messages')[0].scrollHeight);
          $(".button-collapse").sideNav();
       });
     </script>

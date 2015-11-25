@@ -6,8 +6,8 @@
             <table>
               <tbody>
                 <tr>
-                  <td class="center"><a href="#newMessage" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-communication-email left"></i>New Message</a></td>
-                  <td class="center"><a href="#blockUser" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-content-block left"></i>Block User List</a></td>
+                  <td class="center"><a href="#newMessage" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-communication-email left"></i>Nuevo Mensaje</a></td>
+                  <td class="center"><a href="#blockUser" class="waves-effect waves-light btn white-text cyan darken-2 modal-trigger"><i class="mdi-content-block left"></i>Lista de Usuarios Bloqueados</a></td>
                 </tr>
               </tbody>
             </table>
@@ -20,23 +20,23 @@
     <!-- modal form: new message -->
     <div class="modal" id="newMessage">
       <div class="modal-content">
-        <h3 class="center">New Message</h3>
+        <h3 class="center">Nuevo mensaje</h3>
         <form class="col s12" id="newMsg" method="post" action="/chat/newmsg">
           <div class="row">
             <div class="input-field col s6">
               <select name="userId" id="userId">
               </select>
-              <label>User</label>
+              <label>Usuario</label>
             </div>
             <div class="input-field col s12">
               <i class="material-icons prefix">mode_edit</i>
               <textarea name="message" id="message" class="materialize-textarea"></textarea>
-              <label for="icon_prefix2">Message</label>
+              <label for="icon_prefix2">Mensaje</label>
             </div>
           </div>
             <div class="modal-footer">
-              <a href="javascript:{}" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="document.getElementById('newMsg').submit();">Send message</a>
-              <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+              <a href="javascript:{}" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="document.getElementById('newMsg').submit();">Enviar mensaje</a>
+              <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
             </div>
         </form>
       </div>
@@ -52,15 +52,15 @@
           </div>
           <div class="col s5 offset-s2">
             <form id="blockForm" method="post" action="/block">
-              <p>Add user to the list:</p>
+              <p>Agregar usuario a la lista:</p>
               <select name="blockedUser" id="possibleToBlock">
               </select>
             </form>
           </div>
         </div>
         <div class="modal-footer">
-            <a href="javascript:{}" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="document.getElementById('blockForm').submit();">Block User</a>
-            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+            <a href="javascript:{}" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="document.getElementById('blockForm').submit();">Bloquear</a>
+            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
         </div>
       </div>
     </div>
@@ -136,7 +136,7 @@
         if(blockedList.length == 0) {
           var item = document.createElement('div');
           item.className = 'collection-item';
-          item.innerHTML = 'No blocked users';
+          item.innerHTML = 'No hay usuarios bloqueados';
           collection.appendChild(item);
         }
         for(i=0; i<blockedList.length; i++) {
