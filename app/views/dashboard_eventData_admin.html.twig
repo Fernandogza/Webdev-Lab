@@ -13,15 +13,15 @@
       </thead>
       <tbody>
         <tr>
-          <td>Name:</td>
+          <td>Nombre:</td>
           <td>{{event.name}}</td>
         </tr>
         <tr>
-          <td>Place:</td>
+          <td>Lugar:</td>
           <td>{{event.place}}</td>
         </tr>
         <tr>
-          <td>Date:</td>
+          <td>Fecha:</td>
           <td>{{ event.date|date("d") }}, {{ event.date|date("M") }} {{ event.date|date("Y") }}</td>
         </tr>
       </tbody>
@@ -29,22 +29,22 @@
   </div>
 </div>
 <div class="row">
-  <h5 class="center">Schedule</h5>
-  <div class="col s6 offset-s3" id="calendar">
+  <h5 class="center">Calendario</h5>
+  <div class="col s12 m12 l6 offset-l3" id="calendar">
   </div>
+</div>
 <div class="row">
-  <div class="col s12">
-    <br>
-    <br>
-    <br>
-    <br>
-    <button class="btn waves-effect waves-light" type="submit" name="action" onclick="loadEditor()">Edit graph
-      <i class="material-icons right">send</i>
-    </button>
-    <div class ="col s12 offset-s3">
+    <h5 class="center">RSVP</h5>
+    <div class ="col s12 m12 l6 offset-l3">
       <div id="vis_div" style="height: 600px; width: 800px;"></div>
     </div>
-  </div>
+<div class="row">
+  <div class="col s12 m12 l6 offset-l3">
+  <button class="btn waves-effect waves-light" type="submit" name="action" onclick="loadEditor()">Editar gráfica
+    <i class="material-icons right">send</i>
+  </button>
+</div>
+<div>
 {% endblock content %}
 {% block customjs %}
 <!-- FullCalendar -->

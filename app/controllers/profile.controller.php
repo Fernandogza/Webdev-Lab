@@ -76,7 +76,7 @@ $app->post('/profile/changepwd', $authenticate($app, 'guest'), function() use ($
     echo "Failure";
     http_response_code(400);
   }
-
+  
 });
 
 $app->get('/profile', $authenticate($app, 'guest'), function() use ($app){
