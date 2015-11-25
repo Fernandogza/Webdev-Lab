@@ -33,7 +33,7 @@ https://code.google.com/p/fullcalendar/issues/detail?id=1313
 
 
 	<!-- Eventos Frontend -->
-		
+
 	<script type="text/javascript" src="js/evento.js"></script>
 	<script type="text/javascript" src="js/comentarios.js"></script>
 	<script type="text/javascript" src="js/mapa.js"></script>
@@ -41,52 +41,52 @@ https://code.google.com/p/fullcalendar/issues/detail?id=1313
 	<script type="text/javascript" src="js/rsvps.js"></script>
 	<style>
 
-		td img {
-	    	max-width: 500px;
-		}
+	td img {
+		max-width: 500px;
+	}
 
-		#socialMedia{
-			text-align: center;
-		}
-     	#legend {
-        font-family: Arial, sans-serif;
-        background: #fff;
-        padding: 5px;
-        padding-right: 10 px;
-        margin: 10px;
-        border: 3px solid #000;
-      }
-      #legend span {
-        margin-top: 0;
-        font-size: 15px;
-        padding-right: 10px;
-        text-align: center;
-      }
-      #legend div {
-      	font-size: 15px;
-      }
-      #legend img {
-        vertical-align: middle;
-        max-width: 15px;
+	#socialMedia{
+		text-align: center;
+	}
+	#legend {
+		font-family: Arial, sans-serif;
+		background: #fff;
+		padding: 5px;
+		padding-right: 10 px;
+		margin: 10px;
+		border: 3px solid #000;
+	}
+	#legend span {
+		margin-top: 0;
+		font-size: 15px;
+		padding-right: 10px;
+		text-align: center;
+	}
+	#legend div {
+		font-size: 15px;
+	}
+	#legend img {
+		vertical-align: middle;
+		max-width: 15px;
 
-      }
+	}
 
 	</style>
 
 	<title>Loading...</title>
-  <nav class="top-nav teal lighten-2">
-        <a href="#" data-activates="slide-out" class="button-collapse top-nav full show-on-large"><i class="mdi-navigation-menu"></i></a>
-        <div class="container">
-          <div class="nav-wrapper"><a class="brand-logo center" id="nombreEvento">Evento</a></div>
-        </div>
-      </nav>
-      <ul id="slide-out" class="side-nav">
-        <li class="active"><a href="../profile"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
-        <li><a href="../chat"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
-        <li><a href="../lista_eventos.html"><i class="small mdi-action-dashboard left"></i>Lista Eventos</a></li>
-        
-        <li><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></li>
-      </ul>
+	<nav class="top-nav teal lighten-2">
+		<a href="#" data-activates="slide-out" class="button-collapse top-nav full show-on-large"><i class="mdi-navigation-menu"></i></a>
+		<div class="container">
+			<div class="nav-wrapper"><a class="brand-logo center" id="nombreEvento">Evento</a></div>
+		</div>
+	</nav>
+	<ul id="slide-out" class="side-nav">
+		<li class="active"><a href="../profile"> <i class="small mdi-action-account-circle left"></i> Profile</a></li>
+		<li><a href="../chat"><i class="small mdi-communication-chat left"></i>Inbox</a></li>
+		<li><a href="../lista_eventos.html"><i class="small mdi-action-dashboard left"></i>Lista Eventos</a></li>
+
+		<li><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></li>
+	</ul>
 </head>
 
 <body>
@@ -95,60 +95,60 @@ https://code.google.com/p/fullcalendar/issues/detail?id=1313
 	<div class="container">
 
 		<div class="row">
-		    <div class="col s5">
-		    	<img id="titlePic"  style="vertical-align:middle;width:300px;" />
+			<div class="col l5 s12">
+				<img class="s12" id="titlePic"  style="vertical-align:middle;width:300px;" />
 
-		    	<div id="map" style="width:100%;height:480px;"></div>
+				<div class="s12" id="map" style="width:100%;height:480px;"></div>
 
-		    	<div id="legend" style="width:200px;height:100px"><span><b>Leyenda</b></span></div>
-		    	<form id="radioRSVP" >
-				    <p>
-				      <input name="group1" type="radio" id="test1" onclick="submitRSVP(1)" />
-				      <label for="test1">Asistir&eacute</label>
-				      <input name="group1" type="radio" id="test2" onclick="submitRSVP(3)"/>
-				      <label for="test2">No Asistir&eacute</label>
-				      <input class="with-gap" name="group1" type="radio" id="test3" onclick="submitRSVP(2)" />
-				      <label for="test3">Talvez Asistir&eacute</label>
-				    </p>
-			  	</form>
-			 	<table class="striped" width="500px">
-			    	<thead>
-			    		<tr>
-			    			<th data-field="id">Invitado</th>
-			    			<th data-field="name">Estatus</th>
-			    		</tr>
-			    	</thead>
+				<div id="legend" style="width:200px;height:100px"><span><b>Leyenda</b></span></div>
+				<form id="radioRSVP"  class="s12"  >
+					<p>
+						<input name="group1" type="radio" id="test1" onclick="submitRSVP(1)" />
+						<label for="test1">Asistir&eacute</label>
+						<input name="group1" type="radio" id="test2" onclick="submitRSVP(3)"/>
+						<label for="test2">No Asistir&eacute</label>
+						<input class="with-gap" name="group1" type="radio" id="test3" onclick="submitRSVP(2)" />
+						<label for="test3">Talvez Asistir&eacute</label>
+					</p>
+				</form>
+				<table class="striped" width="500px"  class="s12" >
+					<thead>
+						<tr>
+							<th data-field="id">Invitado</th>
+							<th data-field="name">Estatus</th>
+						</tr>
+					</thead>
 
-			    	<tbody id="attendants">
+					<tbody id="attendants"  class="s12" >
 
-			    	<!-- LOS RSVPS -->
+						<!-- LOS RSVPS -->
 
 
-			    	</tbody>
-			    </table>
+					</tbody>
+				</table>
 				
 				<center>
 					<ul id="attendantsPagination" class="pagination"> </ul>
 				</center>
 				
-			    <div class="card">
-			    	<div class="card-image">
+				<div class="card">
+					<div class="card-image">
 
 
 						<div class="image-set">
-				            <a id="imgholder"  href="" data-lightbox="example-set" >
+							<a id="imgholder"  href="" data-lightbox="example-set" >
 								<img class="example-image" id="imgimg" src="">
 							</a>
-			            </div>
+						</div>
 
 
 
-			    		<span class="card-title">Im&aacute;genes del evento</span>
-			    	</div>
-			    </div>
-		    </div>
+						<span class="card-title">Im&aacute;genes del evento</span>
+					</div>
+				</div>
+			</div>
 
-			<div class="col s7">
+			<div class="col l7 s12">
 				<h5>Descripcion:</h5>
 				<p id="descripcionEvento"></p>
 				<h5>Lugar:</h5>
@@ -156,23 +156,23 @@ https://code.google.com/p/fullcalendar/issues/detail?id=1313
 				<h5>Calendario:</h5>
 				<div id='calendar'></div>
 
-			 	<table class="striped" width="500px">
-			    	<thead>
-			    		<tr>
-			    			<th data-field="id">Escoger</th>
-			    			<th data-field="name">Evento</th>
-			    			<th data-field="name">Descripcion</th>
-			    			<th data-field="name">Fecha</th>
-			    		</tr>
-			    	</thead>
+				<table class="striped" width="500px">
+					<thead>
+						<tr>
+							<th data-field="id">Escoger</th>
+							<th data-field="name">Evento</th>
+							<th data-field="name">Descripcion</th>
+							<th data-field="name">Fecha</th>
+						</tr>
+					</thead>
 
-			    	<tbody id="event_list">
-
-
+					<tbody id="event_list">
 
 
-			    	</tbody>
-			    </table>
+
+
+					</tbody>
+				</table>
 
 				<h5>Comentarios:</h5>
 				<div id="comentarios">
@@ -193,26 +193,26 @@ https://code.google.com/p/fullcalendar/issues/detail?id=1313
 							</div>
 						</div>
 						<button id="commentButton" class="btn waves-effect waves-light waves-teal">
-				    		Enviar<i class="material-icons right">send</i>
+							Enviar<i class="material-icons right">send</i>
 						</button>
 					</form>
 				</div>
 
 			</div>
-	  	</div>
-	  
+		</div>
+
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.1/js/lightbox.min.js"></script>
 
-    <script type="text/javascript" src="../web/js/materialize.min.js"></script>
-    <script>
-      $(document).ready(function(){
-        $(".button-collapse").sideNav();
-        $('.modal-trigger').leanModal();
-        $('select').material_select();
-      });
-    </script>
+	<script type="text/javascript" src="../web/js/materialize.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		$(".button-collapse").sideNav();
+		$('.modal-trigger').leanModal();
+		$('select').material_select();
+	});
+	</script>
 </body>
 
 </html>
