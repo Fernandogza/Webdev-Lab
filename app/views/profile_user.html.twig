@@ -35,14 +35,11 @@
 
       <div class="row" style="margin-top: 30px;">
         <div class="col s12 m6 center">
-          <div class="col s12 m6">
-            <h5>Welcome</h5>
-          </div>
-          <div class="ccol s12 m6">
+          <div class="col s12 m6 offset-m6 offset-l6">
              <img class="materialboxed" width="150" src="{{picture}}">
           </div>
-          <div class="col s12 m6">
-            <a class="modal-trigger" href="#pictureModal">Change Pic</a>
+          <div class="col s12 m6 offset-m6 offset-l6">
+            <a class="modal-trigger" href="#pictureModal">Edit Photo</a>
           </div>
         </div>
         <div class="col s12 m6">
@@ -74,6 +71,7 @@
                 <td>Special Needs:</td>
                 <td>{{specialNeeds}}</td>
               </tr>
+              
               <tr>
                 <td>
                   <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Editar perfil </a>
@@ -82,10 +80,12 @@
                   <a class="waves-effect waves-light btn modal-trigger" href="#passwordModal">Cambiar contraseña </a>
                 </td>
               </tr>
+            
             </tbody>
           </table>
         </div>
       </div>
+
       <div class="row">
         <h5 class="center">Calendario</h5>
         <div class="col s12 m12 l6 offset-l3" id="calendar">
@@ -98,17 +98,17 @@
       <form id="editForm" action="/profile/edit" method="post">
         <div class="row">
           <div class="input-field col s12 m6">
-            <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}">
+            <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}" required>
             <label for="firstName">First Name</label>
           </div>
           <div class="input-field col s12 m6">
-            <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}">
+            <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}" required>
             <label for="lastName">Last Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12 m6">
-            <input name="email" id="email" type="email" class="validate" value="{{email}}">
+            <input name="email" id="email" type="email" class="validate" value="{{email}}" required>
             <label for="email">E-mail</label>
           </div>
         </div>
@@ -154,7 +154,7 @@
           <div class="file-field input-field">
             <div class="btn">
               <span>File</span>
-              <input name="image" type="file">
+              <input name="image" type="file" required>
             </div>
             <div class="file-path-wrapper">
               <input class="file-path validate" type="text">
@@ -165,6 +165,7 @@
            <i class="material-icons right">archive</i>
         </form>
       </div>
+      <br/>
     </div>
     <!-- Edit Modal Space -->
     <div id="passwordModal" class="modal">
@@ -200,19 +201,24 @@
       function submitPassword() {
         var pwd1 = document.getElementById('oldpassword').value;
         var pwd2 = document.getElementById('newpassword').value;
-        var call = $.ajax({
-          url: '/profile/changepwd',
-          method: 'POST',
-          data: { oldPassword: pwd1, newPassword: pwd2},
-          dataType: 'html',
-          complete: function (xhr, status) {
-            if(xhr.responseText == "Failure")
-              alert("Contraseña actual incorrecta!")
-            else {
-              alert("Contraseña actualizada")
+        if(pwd1 == '' || pwd2 == ''){
+          alert("Campo vacío en la contraseña, favor de rellenar ambos campos");
+        }
+        else{
+          var call = $.ajax({
+            url: '/profile/changepwd',
+            method: 'POST',
+            data: { oldPassword: pwd1, newPassword: pwd2},
+            dataType: 'html',
+            complete: function (xhr, status) {
+              if(xhr.responseText == "Failure")
+                alert("Contraseña actual incorrecta!")
+              else {
+                alert("Contraseña actualizada")
+              }
             }
-          }
-        });
+          });
+        }
         $('#passwordModal').closeModal();
       }
       var calendar = [];

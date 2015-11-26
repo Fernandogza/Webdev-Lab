@@ -86,8 +86,8 @@ $app->get('/events/:id', $authenticate($app, 'admin'), function ($id) use ($app)
 $app->get('/events/:id/schedule', $authenticate($app, 'admin'), function ($id) use ($app) {
   $schedule = R::find('schedule', 'id_event = ?' ,[$id]);
 
-  $data = array('schedule' => $schedule);
-  $app->render('schedule_admin.html.twig', $data);
+  $data = array('schedules' => $schedule, 'idEvent' => $id);
+  $app->render('schedules_admin.html.twig', $data);
 });
 
 $app->get('/users/delete/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
@@ -225,6 +225,33 @@ $app->post('/users/edit', $authenticate($app, 'admin'), function () use ($app) {
   R::store($user);
 
   $app->redirect('/users');
+});
+
+$app->post('/schedules/new', $authenticate($app, 'admin'), function () use ($app) {
+  $post = (object)$app->request()->post();
+  $schedule = R::dispense("schedule");
+  $schedule->idEvent = $post->idEvent;
+  $schedule->startDate = strtotime($post->start_date);
+  $schedule->endDate = strtotime($post->end_date);
+  $schedule->name = $post->name;
+  $schedule->description = $post->description;
+
+  R::store($schedule);
+
+  $app->redirect('/events/'.$post->idEvent."/schedule");
+});
+
+$app->post('/schedules/edit', $authenticate($app, 'admin'), function () use ($app) {
+  $post = (object)$app->request()->post();
+  $schedule = R::load("schedule", $post->id);
+  $schedule->startDate = strtotime($post->start_date);
+  $schedule->endDate = strtotime($post->end_date);
+  $schedule->name = $post->name;
+  $schedule->description = $post->description;
+
+  R::store($schedule);
+
+  $app->redirect('/events/'.$post->idEvent."/schedule");
 });
 
 $app->post('/events/new', $authenticate($app, 'admin'), function () use ($app) {
