@@ -32,7 +32,7 @@
         <li><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></li>
       </ul>
     </header>
- 
+
       <div class="row" style="margin-top: 30px;">
         <div class="col s12 m6 center">
           <div class="col s12 m6">
@@ -231,7 +231,7 @@
       });
       function loadCalendarioAjax() {
 
-        $.get('/api/personalschedule/' + userId, function(actividads) {
+        $.get('/api/personalschedule/user/' + userId, function(actividads) {
 
           var json = JSON.parse(actividads);
 

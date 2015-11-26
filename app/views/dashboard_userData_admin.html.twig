@@ -183,7 +183,7 @@
 
   function loadCalendarioAjax() {
 
-    $.get('/api/personalschedule/' + {{users.id}}, function(actividads) {
+    $.get('/api/personalschedule/user/' + {{users.id}}, function(actividads) {
 
       var json = JSON.parse(actividads);
 
