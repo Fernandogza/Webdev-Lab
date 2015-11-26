@@ -43,40 +43,10 @@ $app->get('/dashboard/event/:id', $authenticate($app, 'admin'), function($id) us
 
 $app->get('/register', $authenticate($app, 'admin'), function () use ($app) {
   $events = R::find('event', 'id_admin = ? ORDER BY date DESC', [$_SESSION['id']]);
-  $flash = $app->view()->getData('flash');
-
-
-  $file_error = '';
-  $old_user = '';
-  $new_user = '';
-  $registered = '';
-  $faults = '';
-
-  if (isset($flash['response']['file'])) {
-     $file_error = $flash['response']['file'];
-  }
-  if (isset($flash['response']['old'])) {
-     $old_user = $flash['response']['old'];
-  }
-  if (isset($flash['response']['new'])) {
-     $new_user = $flash['response']['new'];
-  }
-  if (isset($flash['response']['registered'])) {
-     $registered = $flash['response']['registered'];
-  }
-  if (isset($flash['response']['fault'])) {
-     $faults = $flash['response']['fault'];
-  }
 
   $data = array(
-    'events' => $events,
-    'file' => $file_error,
-    'old' => $old_user,
-    'new' => $new_user,
-    'registered' => $registered,
-    'faults' => $faults
+    'events' => $events
   );
-  print_r($data);
   $app->render('register_admin.html.twig', $data);
 });
 
@@ -177,7 +147,7 @@ $app->post('/register', $authenticate($app, 'admin'), function () use ($app) {
           $csv = array_map('str_getcsv', file($tmpName));
       }
       else {
-        $response['file'] = "Archivo inválido. Solo archivos con extensión .csv son permitidos!";
+        $response['file'] = "Archivo invalido. Solo archivos con extension .csv son permitidos!";
       }
   }
 
@@ -239,13 +209,15 @@ $app->post('/register', $authenticate($app, 'admin'), function () use ($app) {
       }
       $cont++;
     }
-    $response['old'] = $existingUser;
-    $response['new'] = $newUser;
-    $response['registered'] = $alreadyRegistered;
-    $response['fault'] = $lineErrors;
+    $response['old'] = json_encode($existingUser);
+    $response['new'] = json_encode($newUser);
+    $response['registered'] = json_encode($alreadyRegistered);
+    $response['fault'] = json_encode($lineErrors);
   }
-  $app->flash('response', $response);
-  $app->redirect('/register');
+  $temp = $cont - count($alreadyRegistered) - 1;
+
+  $response['total'] = $temp . " / " . $cont;
+  $app->render('logs_admin.html.twig', $response);
 });
 
 $app->post('/users/edit', $authenticate($app, 'admin'), function () use ($app) {

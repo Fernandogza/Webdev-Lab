@@ -1,0 +1,30 @@
+{% extends "base/template.html.twig" %}
+
+{% block content %}
+<div class="row">
+  <h4 class="center">Logs</h4>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p style="overflow-x:auto"><b>Usuarios registrados al evento:</b>{{total}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p style="overflow-x:auto"><b>ERROR:</b>{{file}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p style="word-wrap:break-word"><b>Usuarios existentes:</b> {{old}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p style="word-wrap:break-word"><b>Usuarios nuevos:</b>{{new}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p style="word-wrap:break-word"><b>Usuarios previamente registrados al evento:</b>{{registered}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p style="word-wrap:break-word"><b>Líneas con formato incorrecto:</b>{{faults}}</p>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{% block customjs %}
+{% endblock customjs %}
