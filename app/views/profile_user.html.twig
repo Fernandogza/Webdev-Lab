@@ -98,17 +98,17 @@
       <form id="editForm" action="/profile/edit" method="post">
         <div class="row">
           <div class="input-field col s12 m6">
-            <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}">
+            <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}" required>
             <label for="firstName">First Name</label>
           </div>
           <div class="input-field col s12 m6">
-            <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}">
+            <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}" required>
             <label for="lastName">Last Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12 m6">
-            <input name="email" id="email" type="email" class="validate" value="{{email}}">
+            <input name="email" id="email" type="email" class="validate" value="{{email}}" required>
             <label for="email">E-mail</label>
           </div>
         </div>
@@ -201,19 +201,24 @@
       function submitPassword() {
         var pwd1 = document.getElementById('oldpassword').value;
         var pwd2 = document.getElementById('newpassword').value;
-        var call = $.ajax({
-          url: '/profile/changepwd',
-          method: 'POST',
-          data: { oldPassword: pwd1, newPassword: pwd2},
-          dataType: 'html',
-          complete: function (xhr, status) {
-            if(xhr.responseText == "Failure")
-              alert("Contraseña actual incorrecta!")
-            else {
-              alert("Contraseña actualizada")
+        if(pwd1 == '' || pwd2 == ''){
+          alert("Campo vacío en la contraseña, favor de rellenar ambos campos");
+        }
+        else{
+          var call = $.ajax({
+            url: '/profile/changepwd',
+            method: 'POST',
+            data: { oldPassword: pwd1, newPassword: pwd2},
+            dataType: 'html',
+            complete: function (xhr, status) {
+              if(xhr.responseText == "Failure")
+                alert("Contraseña actual incorrecta!")
+              else {
+                alert("Contraseña actualizada")
+              }
             }
-          }
-        });
+          });
+        }
         $('#passwordModal').closeModal();
       }
       var calendar = [];
