@@ -35,14 +35,11 @@
 
       <div class="row" style="margin-top: 30px;">
         <div class="col s12 m6 center">
-          <div class="col s12 m6">
-            <h5>Welcome</h5>
-          </div>
-          <div class="ccol s12 m6">
+          <div class="col s12 m6 offset-m6 offset-l6">
              <img class="materialboxed" width="150" src="{{picture}}">
           </div>
-          <div class="col s12 m6">
-            <a class="modal-trigger" href="#pictureModal">Change Pic</a>
+          <div class="col s12 m6 offset-m6 offset-l6">
+            <a class="modal-trigger" href="#pictureModal">Edit Photo</a>
           </div>
         </div>
         <div class="col s12 m6">
@@ -74,6 +71,7 @@
                 <td>Special Needs:</td>
                 <td>{{specialNeeds}}</td>
               </tr>
+              
               <tr>
                 <td>
                   <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Editar perfil </a>
@@ -82,10 +80,12 @@
                   <a class="waves-effect waves-light btn modal-trigger" href="#passwordModal">Cambiar contraseña </a>
                 </td>
               </tr>
+            
             </tbody>
           </table>
         </div>
       </div>
+
       <div class="row">
         <h5 class="center">Calendario</h5>
         <div class="col s12 m12 l6 offset-l3" id="calendar">
@@ -165,6 +165,7 @@
            <i class="material-icons right">archive</i>
         </form>
       </div>
+      <br/>
     </div>
     <!-- Edit Modal Space -->
     <div id="passwordModal" class="modal">
