@@ -241,7 +241,7 @@ $app->post('/api/schedule/:id', function ($id) use ($app) {
 //Edit Personal Schedule
 $app->post('/api/personalschedule/:id/user/:id2', function ($id, $id2) use ($app) {
    $post = (object)$app->request()->post();
-   $schedule = R::find("personalschedule", 'id_conference = ? and id_user = ?', [$id, $id2]);
+   $schedule = R::findOne("personalschedule", 'id_conference = ? and id_user = ?', [$id, $id2]);
         $schedule->startDate = $post->startDate;
         $schedule->endDate = $post->endDate;
         $schedule->name = $post->name;
@@ -362,7 +362,7 @@ $app->delete('/api/schedule/:id', function ($id) use ($app) {
 //Delete Schedule
 $app->delete('/api/personalschedule/:id/user/:id2', function ($id, $id2) use ($app) {
    $post = (object)$app->request()->post();
-   $schedule = R::find("personalschedule", 'id_conference = ? and id_user = ?', [$id, $id2]);
+   $schedule = R::findOne("personalschedule", 'id_conference = ? and id_user = ?', [$id, $id2]);
    R::trash($schedule);
 });
 
