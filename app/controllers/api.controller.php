@@ -206,7 +206,7 @@ $app->get('/api/event/:id/rsvp/:userId', function ($id, $userId) use ($app) {
 });
 
 //RSVP
-//Get all RSVPs from a specific event
+//Get all BLOGs from a specific event
 $app->get('/api/event/:id/blog/', function ($id) use ($app) {
    $blogs = R::find('blog', 'id_event = ?', array($id));
     $arr = array(
