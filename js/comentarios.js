@@ -165,10 +165,9 @@ function getUserName(id, num){
 }
 
 function genComment(comment){
-
-	var text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i>' 
-	+ '</p></div><div class="col s2"><p id="comentario'+cont+'">' 
-	+ '</p></div><div class="col s9"><p>' 
+var text = '<div class="row"><div class="col s1"><p><i class="material-icons">play_arrow</i>' 
+	+ '</p></div><div class="col l2 s4"><p style="word-wrap: break-word;" id="comentario'+cont+'">' 
+	+ '</p></div><div class="col l9 s7"><p style="word-wrap: break-word;">' 
 	+ comment.text
 	+ '</p></div></div>';
 
