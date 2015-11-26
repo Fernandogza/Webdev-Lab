@@ -204,15 +204,15 @@ $app->post('/register', $authenticate($app, 'admin'), function () use ($app) {
           $rsvp->idUser = $user->id;
           $rsvp->status = "going";
           R::store($rsvp);
-          foreach($schedules as $conf) {
-            $personal = R::dispense('personalschedule');
-            $personal->idUser = $user->id;
-            $personal->startDate = $conf->start_date;
-            $personal->endDate = $conf->end_date;
-            $personal->name = $conf->name;
-            $personal->description = $conf->description;
-            R::store($personal);
-          }
+          //foreach($schedules as $conf) {
+          //  $personal = R::dispense('personalschedule');
+          //  $personal->idUser = $user->id;
+          //  $personal->startDate = $conf->start_date;
+          //  $personal->endDate = $conf->end_date;
+          //  $personal->name = $conf->name;
+          //  $personal->description = $conf->description;
+          //  R::store($personal);
+          //}
         }
       }
       $cont++;
