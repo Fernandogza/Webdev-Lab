@@ -32,20 +32,20 @@
         <li><a href="../logout" class="waves-effect waves-light btn black-text grey">logout</a></li>
       </ul>
     </header>
-    <main>
+ 
       <div class="row" style="margin-top: 30px;">
-        <div class="col s4 center">
-          <div class="col s12">
+        <div class="col s12 m6 center">
+          <div class="col s12 m6">
             <h5>Welcome</h5>
           </div>
-          <div class="col s12">
+          <div class="ccol s12 m6">
              <img class="materialboxed" width="150" src="{{picture}}">
           </div>
-          <div class="col s12">
+          <div class="col s12 m6">
             <a class="modal-trigger" href="#pictureModal">Change Pic</a>
           </div>
         </div>
-        <div class="col s4">
+        <div class="col s12 m6">
           <table>
             <thead>
             </thead>
@@ -88,37 +88,36 @@
       </div>
       <div class="row">
         <h5 class="center">Calendario</h5>
-        <div class="col s6 offset-s3" id="calendar">
+        <div class="col s12 m12 l6 offset-l3" id="calendar">
         </div>
       </div>
-    </main>
 
     <!-- Edit Modal Space -->
     <div id="editModal" class="modal">
     <div class="modal-content">
       <form id="editForm" action="/profile/edit" method="post">
         <div class="row">
-          <div class="input-field col s6">
+          <div class="input-field col s12 m6">
             <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}">
             <label for="firstName">First Name</label>
           </div>
-          <div class="input-field col s6">
+          <div class="input-field col s12 m6">
             <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}">
             <label for="lastName">Last Name</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col s12 m6">
             <input name="email" id="email" type="email" class="validate" value="{{email}}">
             <label for="email">E-mail</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s6">
+          <div class="input-field col s12 m6">
             <input name="company" id="company" type="text" class="validate" value="{{company}}">
             <label for="company">Company</label>
           </div>
-          <div class="input-field col s6">
+          <div class="input-field col s12 m6">
             <select name="tShirtSize" id="tShirtSize">
               <option {% if tShirtSize == "Small"%} selected {% endif %} value="Small">Small</option>
               <option {% if tShirtSize == "Medium"%} selected {% endif %} value="Medium">Medium</option>
@@ -129,13 +128,13 @@
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col s12 m6">
             <textarea name="foodPreference" id="foodPreference" class="materialize-textarea" length="120">{{foodPreference}}</textarea>
             <label for="foodPreference">Food Preference</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col s12 m6">
             <textarea name="specialNeeds" id="specialNeeds" class="materialize-textarea" length="120">{{specialNeeds}}</textarea>
             <label for="specialNeeds">Special Needs</label>
           </div>
@@ -171,17 +170,18 @@
     <div id="passwordModal" class="modal">
       <div class="modal-content">
         <h4 class="center">Cambiar contraseña</h4>
-        <div class="input-field col s12">
+        <div class="input-field col s12 m6">
           <input id="oldpassword" type="password" class="validate">
           <label for="password">Contraseña actual</label>
         </div>
-        <div class="input-field col s12">
+        <div class="input-field col s12 m6">
           <input id="newpassword" type="password" class="validate">
           <label for="password">Nueva contraseña</label>
         </div>
         <button class="btn waves-effect waves-light" style="float:right" onclick="submitPassword()">Submit
          <i class="material-icons right">done</i>
       </div>
+      <br/>
     </div>
     <script src="../web/js/jQuery.min.js"></script>
     <script type="text/javascript" src="../web/js/materialize.min.js"></script>
@@ -193,6 +193,9 @@
       $(document).ready(function(){
         $(".button-collapse").sideNav();
         $('select').material_select();
+        $('.modal-trigger').leanModal({
+         dismissible: true
+        });
       });
       function submitPassword() {
         var pwd1 = document.getElementById('oldpassword').value;
@@ -215,9 +218,9 @@
       var calendar = [];
 
       function formatSeconds(seconds) {
-      		var date = new Date(seconds*1000);
-      		var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
-      		return iso[1] + "T" + iso[2];
+          var date = new Date(seconds*1000);
+          var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
+          return iso[1] + "T" + iso[2];
       }
       var userId;
       $.get('/api/cuser', function(data) {
@@ -228,51 +231,51 @@
       });
       function loadCalendarioAjax() {
 
-      	$.get('/api/personalschedule/' + userId, function(actividads) {
+        $.get('/api/personalschedule/' + userId, function(actividads) {
 
-      		var json = JSON.parse(actividads);
+          var json = JSON.parse(actividads);
 
-    	    actividads = json.data;
+          actividads = json.data;
 
-      		for(var i = 0; i < actividads.length; i++) {
-      			var eventId = json.data[i].id;
-      			var eventStart = json.data[i].start_date;
-      			var eventEnd = json.data[i].end_date;
-      			var eventTitle = json.data[i].name;
-      			var newEvent = {
-      				title : eventTitle,
-      				allDay : false,
-      				start: formatSeconds(eventStart),
-      				end: formatSeconds(eventEnd)
-      			};
+          for(var i = 0; i < actividads.length; i++) {
+            var eventId = json.data[i].id;
+            var eventStart = json.data[i].start_date;
+            var eventEnd = json.data[i].end_date;
+            var eventTitle = json.data[i].name;
+            var newEvent = {
+              title : eventTitle,
+              allDay : false,
+              start: formatSeconds(eventStart),
+              end: formatSeconds(eventEnd)
+            };
 
-      			calendar[i] = newEvent;
+            calendar[i] = newEvent;
 
-      			$('#calendar').fullCalendar('renderEvent', newEvent);
+            $('#calendar').fullCalendar('renderEvent', newEvent);
 
-      		}
+          }
 
-      		$('#calendar').fullCalendar({
-      			lang: 'es',
+          $('#calendar').fullCalendar({
+            lang: 'es',
 
-      			header: {
-      				left: 'prev,next today',
-      				center: 'title',
-      				right: 'month,agendaWeek,agendaDay'
-      			},
-      			defaultView: 'agendaWeek',
-      			events: calendar,
-      			eventClick: function(data, event, view) {
-      				var content = '<h3>'+data.title+'</h3>' +
-      					'<p><b>Start:</b> '+data.start+'<br />' +
-      					(data.end && '<p><b>End:</b> '+data.end+'</p>' || '');
+            header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay'
+            },
+            defaultView: 'agendaWeek',
+            events: calendar,
+            eventClick: function(data, event, view) {
+              var content = '<h3>'+data.title+'</h3>' +
+                '<p><b>Start:</b> '+data.start+'<br />' +
+                (data.end && '<p><b>End:</b> '+data.end+'</p>' || '');
 
-      				tooltip.set({
-      					'content.text': content
-      				})
-      				.reposition(event).show(event);
-      			}
-      		  });
+              tooltip.set({
+                'content.text': content
+              })
+              .reposition(event).show(event);
+            }
+            });
           });
 
       }

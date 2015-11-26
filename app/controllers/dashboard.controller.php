@@ -129,54 +129,90 @@ $app->post('/users/new', $authenticate($app, 'admin'), function () use ($app) {
 
 $app->post('/register', $authenticate($app, 'admin'), function () use ($app) {
 	$post = (object)$app->request()->post();
-  $data = array();
   $eventId = $post->event;
-  $data = $post->script;
-  $existingUser=0;
-  $newUser=0;
-  $schedules = R::findAll('schedule', 'id_event = ?', array($eventId));
-  $response = array();
-  foreach ($data as $arr) {
-    $email = $arr[0];
-    $name = $arr[1];
-    $lastName = $arr[2];
-    $user = R::findOne('user', 'email = ?', [$email]);
 
-    if($user) {
-      $existingUser++;
-    }
-    else {
-      $user = R::dispense('user');
-      $user->firstName = $name;
-      $user->lastName = $lastName;
-      $user->email = $email;
-      $user->password = md5('password');
-      $user->role = 'user';
-      R::store($user);
-      $newUser++;
-    }
-    $user = R::findOne('user', 'email = ?', [$email]);
+  $csv = array();
 
-    $rsvp = R::dispense('rsvp');
-    $rsvp->idEvent = $eventId;
-    $rsvp->idUser = $user->id;
-    $rsvp->status = "going";
-    R::store($rsvp);
-
-    foreach($schedules as $conf) {
-      $personal = R::dispense('personalschedule');
-      $personal->idUser = $user->id;
-      $personal->startDate = $conf->start_date;
-      $personal->endDate = $conf->end_date;
-      $personal->name = $conf->name;
-      $personal->description = $conf->description;
-      R::store($personal);
-    }
+  // check there are no errors
+  if($_FILES['csv']['error'] == 0){
+      $name = $_FILES['csv']['name'];
+      $exp = explode('.', $_FILES['csv']['name']);
+      $ext = strtolower(end($exp));
+      $type = $_FILES['csv']['type'];
+      $tmpName = $_FILES['csv']['tmp_name'];
+      // check the file is a csv
+      if($ext === 'csv'){
+          $csv = array_map('str_getcsv', file($tmpName));
+      }
+      else {
+        print_r("Archivo inválido. Solo archivos con extensión .csv son permitidos!");
+      }
   }
-  $response[] = "Usuarios existentes: ".$existingUser;
-  $response[] = "Usuarios agregados: ".$newUser;
-  echo json_encode($response);
-  http_response_code(200);
+
+  if($csv) {
+    $existingUser=0;
+    $newUser=0;
+    $alreadyRegistered = 0;
+    $errors=0;
+    $schedules = R::findAll('schedule', 'id_event = ?', array($eventId));
+    $response = array();
+    $errors = array();
+    $cont = 1;
+    foreach ($csv as $arr) {
+      $email = $arr[0];
+      $name = $arr[1];
+      $lastName = $arr[2];
+
+      if($email == "" || $name == "" || $lastName == "") {
+        $errors[] = $cont;
+      }
+      else {
+        $user = R::findOne('user', 'email = ?', [$email]);
+
+        if($user) {
+          $existingUser++;
+        }
+        else {
+          $user = R::dispense('user');
+          $user->firstName = $name;
+          $user->lastName = $lastName;
+          $user->email = $email;
+          $user->password = md5('password');
+          $user->role = 'user';
+          R::store($user);
+          $newUser++;
+        }
+        $user = R::findOne('user', 'email = ?', [$email]);
+
+        $existingRsvp = R::findOne('rsvp', 'id_user = ? and id_event = ?', [$user->id, $eventId]);
+        if($existingRsvp) {
+          $alreadyRegistered++;
+        }
+        else {
+          $rsvp = R::dispense('rsvp');
+          $rsvp->idEvent = $eventId;
+          $rsvp->idUser = $user->id;
+          $rsvp->status = "going";
+          R::store($rsvp);
+          foreach($schedules as $conf) {
+            $personal = R::dispense('personalschedule');
+            $personal->idUser = $user->id;
+            $personal->startDate = $conf->start_date;
+            $personal->endDate = $conf->end_date;
+            $personal->name = $conf->name;
+            $personal->description = $conf->description;
+            R::store($personal);
+          }
+        }
+      }
+      $cont++;
+    }
+    $response[] = "Usuarios existentes: ".$existingUser;
+    $response[] = "Usuarios agregados: ".$newUser;
+    $response[] = "Usuarios ya registrados al evento: ".$alreadyRegistered;
+    $response[] = "Num. de línea con mal formato: ".json_encode($errors);
+    print_r($response);
+  }
 });
 
 $app->post('/users/edit', $authenticate($app, 'admin'), function () use ($app) {

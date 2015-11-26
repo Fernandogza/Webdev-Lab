@@ -2,51 +2,40 @@
 
 {% block content %}
 <h4 class="center">Registro</h4>
+<form action="/register" method="POST" enctype="multipart/form-data">
 <div class="row">
   <div class="col s12 m6 l4 offset-l4 offset-m3">
     <label>Evento:</label>
-    <select id="event">
+    <select name="event" id="event">
       {% for event in events %}
         <option value="{{event.id}}">{{event.name}}</option>
       {% endfor %}
     </select>
   </div>
-  <div class="col s12 m8 l8 offset-l2 offset-m2">
-    <label>Script:</label>
-    <textarea id="script1" class="materialize-textarea"></textarea>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Script:</span>
+        <input name="csv" type="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text" required>
+      </div>
+      <p>Formato soportado: svg</p>
+    </div>
   </div>
-  <div class="col s12 m6 l4 offset-l2 offset-m2">
+</div>
+<div class="row">
+  <div class="col s12 m6 l12 offset-m5 offset-l7">
     <button class="btn waves-effect waves-light" id="submit-trigger" type="submit" name="action">Submit
      <i class="mdi-content-send right"></i>
     </button>
-   <div>
+   </div>
 </div>
+</form>
 
 
 {% endblock content %}
 
 {% block customjs %}
-  <script>
-  $(document).ready(function() {
-    $("#submit-trigger").click(function() {
-      var value = $("#event").val();
-      var array = $('#script1').val().split(/\n/);
-      var script = [];
-      for(i=0; i<array.length; i++) {
-        script.push(array[i].split(','));
-      }
-      $.ajax({
-        url: '/register',
-        method: 'POST',
-        data: { event: value, script: script},
-        dataType: 'html',
-        complete: function (xhr, status) {
-          var resp = JSON.parse(xhr.responseText);
-          alert(resp);
-        }
-      });
-    });
-  });
-
-  </script>
 {% endblock customjs %}

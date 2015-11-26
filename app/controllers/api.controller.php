@@ -341,7 +341,7 @@ $app->put('/api/rsvp', function () use ($app) {
         $rsvp->idEvent = $post->idEvent;
         $rsvp->idUser = $post->idUser;
         $rsvp->status = $post->status;
-    R::store($rsvp);
+    echo R::store($rsvp);
 });
 
 //New BLOG
