@@ -87,15 +87,17 @@
     <div class="modal" id="modal2">
       <div class="modal-content">
         <h3 class="center">Having trouble signing in?</h3>
-        <form class="col s12" id="form-id">
+        <form class="col s12" id="forgot-id">
           <div class="row">
             <div class="input-field col s12">
-              <input name = "email" id="mail" type="email" class="validate">
+              <input name = "email" id="mail" type="email" class="validate" required>
               <label for="email">Email</label>
             </div>
           </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="">Send Password</a>
+                 <button type="submit" form="forgot-id" value="Login" class="btn waves-effect waves-light" style="float:right; margin-bottom:20px; margin-right: 20px;" id="forgot-btn">Send Mail
+                  <i class="mdi-content-send right"></i>
+                </button>
                 <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
             </div>
         </form>
