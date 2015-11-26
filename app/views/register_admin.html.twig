@@ -33,6 +33,24 @@
    </div>
 </div>
 </form>
+<div class="row">
+  <h5>Logs</h5>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p><b>ERROR:</b>{{file}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p><b>Usuarios existentes:</b> {{old|json_encode()}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p><b>Usuarios nuevos:</b>{{new|json_encode()}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p><b>Usuarios previamente registrados al evento:</b>{{registered|json_encode()}}</p>
+  </div>
+  <div class="col s12 m6 l4 offset-l4 offset-m3">
+    <p><b>Líneas con formato incorrecto:</b>{{faults}}</p>
+  </div>
+</div>
 
 
 {% endblock content %}
