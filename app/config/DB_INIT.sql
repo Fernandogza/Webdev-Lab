@@ -3,11 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Nov 21, 2015 at 05:03 PM
+-- Generation Time: Nov 25, 2015 at 05:02 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.5.29
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";s
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `blocked` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `blocked_user` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -66,14 +66,14 @@ INSERT INTO `blog` (`id`, `text`, `id_user`, `id_event`) VALUES
 CREATE TABLE IF NOT EXISTS `conversation` (
   `id` int(11) NOT NULL,
   `time` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `conversation`
 --
 
 INSERT INTO `conversation` (`id`, `time`) VALUES
-(20, '2015-11-07');
+(21, '2015-11-25');
 
 -- --------------------------------------------------------
 
@@ -176,15 +176,19 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `sender_id` int(11) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `conversation_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `messages`
 --
 
 INSERT INTO `messages` (`id`, `message`, `sender_id`, `time`, `conversation_id`) VALUES
-(29, 'Hola!!', 19, '2015-11-08 03:19:38', 20),
-(30, 'Que paso', 19, '2015-11-09 06:07:57', 20);
+(37, 'Hola!!', 19, '2015-11-25 21:48:25', 21),
+(38, 'Probando', 19, '2015-11-25 22:01:40', 21),
+(39, 'otro mshjhdfhg', 19, '2015-11-25 22:01:46', 21),
+(40, 'asdf asd  ', 19, '2015-11-25 22:01:51', 21),
+(41, 'asdf asdf', 19, '2015-11-25 22:01:56', 21),
+(42, 'asdfasd ', 19, '2015-11-25 22:02:02', 21);
 
 -- --------------------------------------------------------
 
@@ -196,15 +200,15 @@ CREATE TABLE IF NOT EXISTS `participants` (
   `id` int(11) NOT NULL,
   `conversation_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `participants`
 --
 
 INSERT INTO `participants` (`id`, `conversation_id`, `user_id`) VALUES
-(45, 20, 19),
-(46, 20, 20);
+(47, 21, 19),
+(48, 21, 18);
 
 -- --------------------------------------------------------
 
@@ -218,8 +222,20 @@ CREATE TABLE IF NOT EXISTS `personalschedule` (
   `start_date` int(11) NOT NULL,
   `end_date` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `description` varchar(255) NOT NULL,
+  `id_conference` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `personalschedule`
+--
+
+INSERT INTO `personalschedule` (`id`, `id_user`, `start_date`, `end_date`, `name`, `description`, `id_conference`) VALUES
+(1, 20, 1448213400, 1448217000, 'LoL', 'GG', 1),
+(2, 20, 1448213400, 1448217000, 'Conferencia Magistral', 'This is a description, it can have a lot of words!', 2),
+(3, 27, 1448213400, 1448217000, 'Conferencia Magistral', 'This is a description, it can have a lot of words!', 2),
+(4, 28, 1448213400, 1448217000, 'Conferencia Magistral', 'This is a description, it can have a lot of words!', 3),
+(5, 29, 1448213400, 1448217000, 'Conferencia Magistral', 'This is a description, it can have a lot of words!', 3);
 
 -- --------------------------------------------------------
 
@@ -232,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `rsvp` (
   `id_event` tinyint(3) unsigned DEFAULT NULL,
   `id_user` tinyint(3) unsigned DEFAULT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `rsvp`
@@ -248,7 +264,55 @@ INSERT INTO `rsvp` (`id`, `id_event`, `id_user`, `status`) VALUES
 (7, 1, 20, 'not going'),
 (8, 1, 20, 'going'),
 (9, 1, 20, 'going'),
-(10, 7, 0, 'going');
+(10, 7, 0, 'going'),
+(11, 7, 20, 'going'),
+(12, 7, 27, 'going'),
+(13, 7, 28, 'going'),
+(14, 7, 29, 'going'),
+(15, 7, 30, 'going'),
+(16, 7, 31, 'going'),
+(17, 7, 32, 'going'),
+(18, 7, 33, 'going'),
+(19, 7, 34, 'going'),
+(20, 7, 35, 'going'),
+(21, 7, 36, 'going'),
+(22, 7, 37, 'going'),
+(23, 7, 38, 'going'),
+(24, 7, 39, 'going'),
+(25, 7, 30, 'going'),
+(26, 7, 30, 'going'),
+(27, 7, 32, 'going'),
+(28, 7, 33, 'going'),
+(29, 7, 34, 'going'),
+(30, 7, 35, 'going'),
+(31, 7, 36, 'going'),
+(32, 7, 37, 'going'),
+(33, 7, 38, 'going'),
+(34, 7, 39, 'going'),
+(35, 7, 18, 'going'),
+(36, 7, 18, 'going'),
+(37, 7, 18, 'going'),
+(38, 7, 18, 'going'),
+(39, 7, 18, 'going'),
+(40, 7, 18, 'going'),
+(41, 7, 18, 'going'),
+(42, 7, 18, 'going'),
+(43, 7, 18, 'going'),
+(44, 7, 18, 'going'),
+(45, 7, 18, 'going'),
+(46, 7, 18, 'going'),
+(47, 7, 18, 'going'),
+(48, 7, 18, 'going'),
+(49, 7, 40, 'going'),
+(50, 7, 41, 'going'),
+(51, 7, 42, 'going'),
+(52, 7, 43, 'going'),
+(53, 7, 44, 'going'),
+(54, 7, 45, 'going'),
+(55, 7, 46, 'going'),
+(56, 7, 47, 'going'),
+(57, 7, 48, 'going'),
+(58, 7, 49, 'going');
 
 -- --------------------------------------------------------
 
@@ -263,14 +327,18 @@ CREATE TABLE IF NOT EXISTS `schedule` (
   `end_date` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `schedule`
 --
 
 INSERT INTO `schedule` (`id`, `id_event`, `start_date`, `end_date`, `name`, `description`) VALUES
-(1, 1, 1448213400, 1448217000, 'Conferencia Magistral', 'This is a description, it can have a lot of words!');
+(1, 1, 1448213400, 1448217000, 'Conferencia Magistral', 'This is a description, it can have a lot of words!'),
+(2, 1, 1448213400, 1448217000, 'Conferencia Magistral', 'This is a description, it can have a lot of words!'),
+(3, 1, 1448214420, 1448215030, 'Conferencia Magistral', 'This is a description, it can have a lot of words!'),
+(4, 1, 1448216460, 1448217070, 'Conferencia Magistral', 'This is a description, it can have a lot of words!'),
+(5, 1, 1448218500, 1448219600, 'Conferencia Magistral', 'This is a description, it can have a lot of words!');
 
 -- --------------------------------------------------------
 
@@ -295,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `picture` varchar(80) DEFAULT '/web/img/profilePics/unknown.jpg',
   `role` varchar(255) DEFAULT NULL,
   `modify_date` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
@@ -303,9 +371,35 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `email`, `password`, `facebook_id`, `twitter_id`, `google_id`, `company`, `t_shirt_size`, `food_preference`, `special_needs`, `language`, `picture`, `role`, `modify_date`) VALUES
 (18, 'Fernando', 'Garza Conde', 'fernandogarzaconde@gmail.com', '963f4557f5d4d004d0cfca120cbf4829', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'admin', '2015-11-07 20:33:17'),
-(19, 'Administrador', 'Eventos-App', 'lol@itesm.mx', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'admin', '2015-11-07 20:40:27'),
-(20, 'a01191305', 'test', 'a01191305@itesm.mx', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-21 18:47:57'),
-(21, 'juan', 'gonzalez', 'a01190381@itesm.mx', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/21.jpg', 'user', '2015-11-09 00:04:56');
+(19, 'Administrador', 'Eventos-App', 'lol@itesm.mx', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, '', 'Small', '', '', NULL, '/web/img/profilePics/unknown.jpg', 'admin', '2015-11-25 15:13:08'),
+(20, 'Jesús', 'Cena', 'a01191305@itesm.mx', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, 'Microsoft', 'Small', 'Burritos', 'Wife', NULL, '/web/img/profilePics/20.jpg', 'user', '2015-11-23 14:03:36'),
+(21, 'juan', 'gonzalez', 'a01190381@itesm.mx', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/21.jpg', 'user', '2015-11-09 00:04:56'),
+(24, 'Test', 'Test2', 'a01123@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-22 02:27:10'),
+(25, 'Fernando', 'Garza', 'fernandogarzac@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-22 02:41:18'),
+(26, 'Yes', 'No', '1191305@itesm', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-22 02:41:18'),
+(27, 'Prueba', 'Prueba1', 'prueba1@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 13:19:14'),
+(28, 'Prueba', 'Prueba2', 'prueba2@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 13:19:14'),
+(29, 'Prueba', 'Prueba3', 'prueba3@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 13:19:14'),
+(30, 'Test1', 'Test1', 'test@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:19'),
+(31, 'Test1', 'Test1', 'test2@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:20'),
+(32, 'Test1', 'Test1', 'test3@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:20'),
+(33, 'Test1', 'Test1', 'test4@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:20'),
+(34, 'Test1', 'Test1', 'test5@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:20'),
+(35, 'Test1', 'Test1', 'test6@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:20'),
+(36, 'Test1', 'Test1', 'test7@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:20'),
+(37, 'Test1', 'Test1', 'test8@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:20'),
+(38, 'Test1', 'Test1', 'test9@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:21'),
+(39, 'Test1', 'Test1', 'test10@itesm.mx', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-23 14:23:21'),
+(40, 'Test1', 'Compania', 'test1@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:08'),
+(41, 'Test2', 'Compania', 'test2@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:08'),
+(42, 'Test3', 'Compania', 'test3@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:09'),
+(43, 'Test4', 'Compania', 'test4@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:09'),
+(44, 'Test5', 'Compania', 'test5@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:09'),
+(45, 'Test6', 'Compania', 'test6@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:09'),
+(46, 'Test7', 'Compania', 'test7@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:09'),
+(47, 'Test8', 'Compania', 'test8@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:09'),
+(48, 'Test9', 'Compania', 'test9@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:09'),
+(49, 'Test10', 'Compania', 'test10@compania.com', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/web/img/profilePics/unknown.jpg', 'user', '2015-11-25 17:20:09');
 
 --
 -- Indexes for dumped tables
@@ -370,7 +464,8 @@ ALTER TABLE `participants`
 --
 ALTER TABLE `personalschedule`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_conference` (`id_conference`);
 
 --
 -- Indexes for table `rsvp`
@@ -398,7 +493,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `blocked`
 --
 ALTER TABLE `blocked`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `blog`
 --
@@ -408,7 +503,7 @@ ALTER TABLE `blog`
 -- AUTO_INCREMENT for table `conversation`
 --
 ALTER TABLE `conversation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `event`
 --
@@ -423,32 +518,32 @@ ALTER TABLE `eventimg`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `participants`
 --
 ALTER TABLE `participants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `personalschedule`
 --
 ALTER TABLE `personalschedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `rsvp`
 --
 ALTER TABLE `rsvp`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
 --
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 --
 -- Constraints for dumped tables
 --

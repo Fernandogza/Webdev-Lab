@@ -138,24 +138,7 @@ $app->get('/api/event/:id/schedule/', function ($id) use ($app) {
 
 //Personal Schedule
 //Get all schedules for a specific user
-$app->get('/api/personalschedule/:id', function ($id) use ($app) {
-  $schedules = R::find('personalschedule', 'id_user = ?', array($id));
-  $arr = array(
-      'data' => R::exportAll($schedules)
-  );
-
-  delFromArray($arr, array('id_user'));
-
-  $app->response->headers->set("Access-Control-Allow-Origin","*");
-  $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-
-  echo json_encode($arr);
-  http_response_code(200);
-});
-
-//Get all schedules for the current user
-$app->get('/api/personalschedule/current', function () use ($app) {
-  $id = $_SESSION['id'];
+$app->get('/api/personalschedule/user/:id', function ($id) use ($app) {
   $schedules = R::find('personalschedule', 'id_user = ?', array($id));
   $arr = array(
       'data' => R::exportAll($schedules)
@@ -256,10 +239,9 @@ $app->post('/api/schedule/:id', function ($id) use ($app) {
 });
 
 //Edit Personal Schedule
-$app->post('/api/personalschedule/:id', function ($id) use ($app) {
+$app->post('/api/personalschedule/:id/user/:id2', function ($id, $id2) use ($app) {
    $post = (object)$app->request()->post();
-   $schedule = R::load("personalschedule", $id);
-        $schedule->idUser = $post->idUser;
+   $schedule = R::find("personalschedule", 'id_conference and id_user = ?', [$id, $id2]);
         $schedule->startDate = $post->startDate;
         $schedule->endDate = $post->endDate;
         $schedule->name = $post->name;
@@ -327,6 +309,7 @@ $app->put('/api/personalschedule', function () use ($app) {
    $post = (object)$app->request()->post();
    $schedule = R::dispense("personalschedule");
         $schedule->idUser = $post->idUser;
+        $schedule->idConference = $post->idConference;  //unique id of the schedule
         $schedule->startDate = $post->startDate;
         $schedule->endDate = $post->endDate;
         $schedule->name = $post->name;
@@ -377,9 +360,9 @@ $app->delete('/api/schedule/:id', function ($id) use ($app) {
 });
 
 //Delete Schedule
-$app->delete('/api/personalschedule/:id', function ($id) use ($app) {
+$app->delete('/api/personalschedule/:id/user/:id2', function ($id, $id2) use ($app) {
    $post = (object)$app->request()->post();
-   $schedule = R::load("personalschedule", $id);
+   $schedule = R::find("personalschedule", 'id_conference = ? and id_user = ?', [$id, $id2]);
    R::trash($schedule);
 });
 
