@@ -305,11 +305,11 @@ $app->put('/api/schedule', function () use ($app) {
 });
 
 //New Personal Schedule
-$app->put('/api/personalschedule', function () use ($app) {
+$app->put('/api/personalschedule/:id/user/:id2', function ($id, $id2) use ($app) {
    $post = (object)$app->request()->post();
    $schedule = R::dispense("personalschedule");
-        $schedule->idUser = $post->idUser;
-        $schedule->idConference = $post->idConference;  //unique id of the schedule
+        $schedule->idUser = $id2;
+        $schedule->idConference = $id;  //unique id of the schedule
         $schedule->startDate = $post->startDate;
         $schedule->endDate = $post->endDate;
         $schedule->name = $post->name;

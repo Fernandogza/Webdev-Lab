@@ -6,7 +6,7 @@ function gotoStartDate(events){
 
 	var ev_start = events[0].start;
 	var ev_end = events[0].end;
-	 
+
 
 	for (var i = 1; i < events.length; i++) {
 		ev_end = (events[i].end > ev_end) ? events[i].end:ev_end;
@@ -28,19 +28,19 @@ function gotoStartDate(events){
 function formatSeconds(seconds) {
 		var date = new Date(seconds*1000);
 		var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
-		return iso[1] + "T" + iso[2];			
+		return iso[1] + "T" + iso[2];
 }
 
 function loadCalendarioAjax(idEvento) {
 
 	$.get('api/event/' + idEvento + '/schedule', function(actividads) {
-		
+
 		var json = JSON.parse(actividads);
 
 	    actividads = json.data;
 
 	            	console.log('acsts', actividads);
-		
+
 		for(var i = 0; i < actividads.length; i++) {
 			var eventId = json.data[i].id;
 			var eventStart = json.data[i].start_date;
@@ -55,11 +55,11 @@ function loadCalendarioAjax(idEvento) {
 				start: formatSeconds(eventStart),
 				end: formatSeconds(eventEnd)
 			};
-			
+
 			calendar[i] = newEvent;
 
 			$('#calendar').fullCalendar('renderEvent', newEvent);
-			
+
 		}
 
 		$('#calendar').fullCalendar({
@@ -82,7 +82,7 @@ function loadCalendarioAjax(idEvento) {
 		        $("#modal1").openModal();
 			}
 		});
-		
+
     	gotoStartDate(calendar);
 
     	loadEvento_list(actividads);
@@ -119,7 +119,7 @@ function loadEvento_list (actividads) {
 			console.log('act', actividads, i);
 	            $.get('api/cuser', function(user) {
 	            	var json = JSON.parse(user);
-					
+
 					var user = json.data[0].first_name;
 					var idUsuario = json.data[0].id;
 					var idEvento = getUrlParameter('id');
@@ -129,19 +129,19 @@ function loadEvento_list (actividads) {
 
 	            	$.ajax({
 						url: '/api/personalschedule/' + conferenceId + '/user/' + idUsuario,
-					  	method: $(self).is(':checked') ? "POST" : 'DELETE',
-					  	data: { startDate: actividads[i].start_date,  
-					  			endDate: actividads[i].end_date, 
-					  			name: actividads[i].name, 
+					  	method: $(self).is(':checked') ? "PUT" : 'DELETE',
+					  	data: { startDate: actividads[i].start_date,
+					  			endDate: actividads[i].end_date,
+					  			name: actividads[i].name,
 					  			description: actividads[i].description },
 					  	success: function(){
 					        console.log('exito al guardar asistencia');
 					    }
 					});
 	            });
-	        
 
-	        
+
+
 		});
 
 	})(i);
@@ -149,4 +149,3 @@ function loadEvento_list (actividads) {
 
 
 }
-
