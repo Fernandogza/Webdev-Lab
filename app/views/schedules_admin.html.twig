@@ -105,10 +105,10 @@
   <script>
   $(document).ready(function() {
 
-    $("#start_date").bootstrapMaterialDatePicker({ format : 'DD M YYYY - HH:mm' });
-    $("#end_date").bootstrapMaterialDatePicker({ format : 'DD M YYYY - HH:mm' });
-    $("#estart_date").bootstrapMaterialDatePicker({ format : 'DD M YYYY - HH:mm' });
-    $("#eend_date").bootstrapMaterialDatePicker({ format : 'DD M YYYY - HH:mm' });
+    $("#start_date").bootstrapMaterialDatePicker({ format : 'MM/DD/YYYY HH:mm' });
+    $("#end_date").bootstrapMaterialDatePicker({ format : 'MM/DD/YYYY HH:mm' });
+    $("#estart_date").bootstrapMaterialDatePicker({ format : 'MM/DD/YYYY HH:mm' });
+    $("#eend_date").bootstrapMaterialDatePicker({ format : 'MM/DD/YYYY HH:mm' });
 
     $(".edit-trigger").click(function() {
       $("#ename").val("");
@@ -121,11 +121,13 @@
       $.getJSON('/api/schedule/'+$(this).data("id"), function(json, textStatus) {
           var data = json.data[0];
           $("#ename").val(data.name);
-          $("#estart_date").val(Date(data.start_date));
-          $("#eend_date").val(Date(data.end_date));
+          var startDate = new Date(data.start_date*1000+2629746000-36000000-1740000);
+          var endDate = new Date(data.end_date*1000+2629746000-36000000-1740000);
+          $("#estart_date").val(startDate.getMonth()+"/"+startDate.getDate()+"/"+startDate.getFullYear()+" "+startDate.getHours()+":"+startDate.getMinutes());
+          $("#eend_date").val(endDate.getMonth()+"/"+endDate.getDate()+"/"+endDate.getFullYear()+" "+endDate.getHours()+":"+endDate.getMinutes());
           $("#edescription").val(data.description);
           $("#eid").val(data.id);
-          $("#eborrar").attr("href", "/events/delete/"+data.id);
+          $("#eborrar").attr("href", "/schedule/delete/"+data.id);
           displayMap(data.place,"emap");
       });
     });

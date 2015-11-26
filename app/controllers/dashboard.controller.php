@@ -106,6 +106,14 @@ $app->get('/events/delete/:id', $authenticate($app, 'admin'), function ($id) use
   $app->redirect('/events/');
 });
 
+$app->get('/schedule/delete/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
+  $schedule = R::load('schedule', $id);
+  $eventId = $schedule->id_event;
+  R::trash($schedule);
+
+  $app->redirect('/events/'.$eventId.'/schedule');
+});
+
 $app->get('/blog/delete/:id', $authenticate($app, 'admin'), function ($id) use ($app) {
   $blog = R::load('blog', $id);
   $id_event = $blog->id_event;
