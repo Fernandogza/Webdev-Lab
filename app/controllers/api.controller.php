@@ -153,6 +153,22 @@ $app->get('/api/personalschedule/user/:id', function ($id) use ($app) {
   http_response_code(200);
 });
 
+
+$app->get('/api/personalschedule/:id/user/:id2', function ($id, $id2) use ($app) {
+  $schedules = R::find("personalschedule", 'id_conference = ? and id_user = ?', [$id, $id2]);
+  $arr = array(
+      'data' => R::exportAll($schedules)
+  );
+
+  delFromArray($arr, array('id_user'));
+
+  $app->response->headers->set("Access-Control-Allow-Origin","*");
+  $app->response->headers->set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+
+  echo json_encode($arr);
+  http_response_code(200);
+});
+
 //Get a specific schedule
 $app->get('/api/schedule/:id', function ($id) use ($app) {
    $schedules = R::load('schedule', $id);

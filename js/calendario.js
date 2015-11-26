@@ -33,13 +33,24 @@ function formatSeconds(seconds) {
 
 function loadCalendarioAjax(idEvento) {
 
+$.get('api/cuser', function(user) {
+			var json = JSON.parse(user);
+			
+			var user = json.data[0].first_name;
+			var idUsuario = json.data[0].id;
+
+
+$.get('/api/personalschedule/user/' + idUsuario, function(confdeuser) {
+	var conferencias = JSON.parse(confdeuser).data.map(function(conf) {return conf.id_conference;});
+	console.log('confdeuser', conferencias);
+
 	$.get('api/event/' + idEvento + '/schedule', function(actividads) {
 
 		var json = JSON.parse(actividads);
 
 	    actividads = json.data;
 
-	            	console.log('acsts', actividads);
+	    console.log('xxx', actividads);
 
 		for(var i = 0; i < actividads.length; i++) {
 			var eventId = json.data[i].id;
@@ -67,14 +78,12 @@ function loadCalendarioAjax(idEvento) {
 
 			header: {
 				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay'
+				right: 'month,basicWeek,agendaDay'
 			},
 			defaultView: 'basicWeek',
 			events: calendar,
 			eventClick: function(data, event, view) {
 				//set the values and open the modal
-				console.log(data);
 				$("#calendarioTitulo").html("Actividad: " + data.title);
 				$("#calendarioTituloFechaIni").html(moment(data.start, 'X').utcOffset(0).format('YYYY-MM-DD hh:mm A'));
 				$("#calendarioTituloFechaFin").html(moment(data.end, 'X').utcOffset(0).format('YYYY-MM-DD hh:mm A'));
@@ -85,20 +94,24 @@ function loadCalendarioAjax(idEvento) {
 
     	gotoStartDate(calendar);
 
-    	loadEvento_list(actividads);
-
+    	loadEvento_list(actividads, conferencias);
     });
+
+
+});
+});
+
 
 }
 
 
-function loadEvento_list (actividads) {
+function loadEvento_list (actividads, conferencias) {
 	var text = "";
 	for (var i = 0; i < actividads.length; i++) {
 		(function(i){
 		text = '<tr>'
 		    		+ '<td>'
-		    			+ '<input type="checkbox" id="eventoChkAsistir'+ i + '" />'
+		    			+ '<input type="checkbox" id="eventoChkAsistir'+ i + '" '  +  (conferencias.indexOf( actividads[i].id) > -1 ? 'checked' : '' )  +  '/>'
  						+ '<label for="eventoChkAsistir'+ i + '">Asisitire</label>'
  					+ '</td>'
  					+ '<td>'
@@ -115,32 +128,27 @@ function loadEvento_list (actividads) {
 		$('#event_list').append(text);
 		$('#eventoChkAsistir'+i).click(function(){
 			var self = this;
-			// if (!$(this).is(':checked')) {
-			console.log('act', actividads, i);
-	            $.get('api/cuser', function(user) {
-	            	var json = JSON.parse(user);
 
-					var user = json.data[0].first_name;
-					var idUsuario = json.data[0].id;
-					var idEvento = getUrlParameter('id');
-	            	var conferenceId = actividads[i].id;
+            $.get('api/cuser', function(user) {
+            	var json = JSON.parse(user);
 
-	            	console.log();
+				var user = json.data[0].first_name;
+				var idUsuario = json.data[0].id;
+				var idEvento = getUrlParameter('id');
+            	var conferenceId = actividads[i].id;
 
-	            	$.ajax({
-						url: '/api/personalschedule/' + conferenceId + '/user/' + idUsuario,
-					  	method: $(self).is(':checked') ? "PUT" : 'DELETE',
-					  	data: { startDate: actividads[i].start_date,
-					  			endDate: actividads[i].end_date,
-					  			name: actividads[i].name,
-					  			description: actividads[i].description },
-					  	success: function(){
-					        console.log('exito al guardar asistencia');
-					    }
-					});
-	            });
-
-
+            	$.ajax({
+					url: '/api/personalschedule/' + conferenceId + '/user/' + idUsuario,
+				  	method: $(self).is(':checked') ? "PUT" : 'DELETE',
+				  	data: { startDate: actividads[i].start_date,
+				  			endDate: actividads[i].end_date,
+				  			name: actividads[i].name,
+				  			description: actividads[i].description },
+				  	success: function(){
+				        console.log('exito al guardar asistencia');
+				    }
+				});
+            });
 
 		});
 
