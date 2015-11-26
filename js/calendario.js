@@ -44,9 +44,11 @@ function loadCalendarioAjax(idEvento) {
 			var eventStart = json.data[i].start_date;
 			var eventEnd = json.data[i].end_date;
 			var eventTitle = json.data[i].name;
+			var eventDescription = json.data[i].description;
 			var newEvent = {
 				title : eventTitle,
 				allDay : false,
+				description: eventDescription,
 				start: formatSeconds(eventStart),
 				end: formatSeconds(eventEnd)
 			};
@@ -65,17 +67,16 @@ function loadCalendarioAjax(idEvento) {
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
-			defaultView: 'agendaWeek',
+			defaultView: 'basicWeek',
 			events: calendar,
 			eventClick: function(data, event, view) {
-				var content = '<h3>'+data.title+'</h3>' + 
-					'<p><b>Start:</b> '+data.start+'<br />' + 
-					(data.end && '<p><b>End:</b> '+data.end+'</p>' || '');
-
-				tooltip.set({
-					'content.text': content
-				})
-				.reposition(event).show(event);
+				//set the values and open the modal
+				console.log(data);
+				$("#calendarioTitulo").html("Actividad: " + data.title);
+				$("#calendarioTituloFechaIni").html(moment(data.start, 'X').utcOffset(0).format('YYYY-MM-DD hh:mm A'));
+				$("#calendarioTituloFechaFin").html(moment(data.end, 'X').utcOffset(0).format('YYYY-MM-DD hh:mm A'));
+		        $("#calendarioDescripcion").html(data.description);
+		        $("#modal1").openModal();
 			}
 		});
 		
@@ -91,21 +92,21 @@ function loadEvento_list (actividads) {
 	var text = "";
 	for (var i = 0; i < actividads.length; i++) {
 		text = '<tr>'
-			    		+ '<td>'
-			    			+ '<input type="checkbox" id="evento'+ i + '" />'
-     						+ '<label for="evento'+ i + '">Asisitire</label>'
-     					+ '</td>'
-     					+ '<td>'
-     						+ '<span> ' + actividads[i].name +  '</span>'
-     					+ '</td>'
-     					+ '<td>'
-     						+ '<span>' + actividads[i].description + '</span>'
-     					+ '</td>'
-     					+ '<td>'
-     						+ '<span>' + Date(formatSeconds( actividads[i].start_date)) + '-' + Date(formatSeconds( actividads[i].end_date)) +  '</span>'
-     					+ '</td>'
-			    	+ '</tr>';
-
+		    		+ '<td>'
+		    			+ '<input type="checkbox" id="evento'+ i + '" />'
+ 						+ '<label for="evento'+ i + '">Asisitire</label>'
+ 					+ '</td>'
+ 					+ '<td>'
+ 						+ '<span> ' + actividads[i].name +  '</span>'
+ 					+ '</td>'
+ 					+ '<td>'
+ 						+ '<span>' + actividads[i].description + '</span>'
+ 					+ '</td>'
+ 					+ '<td>'
+ 						+ '<span>' + moment(actividads[i].start_date, 'X').utcOffset(0).format('YYYY-MM-DD hh:mm A') + ' - </span><br>'
+ 						+ '<span>' + moment(actividads[i].end_date, 'X').utcOffset(0).format('YYYY-MM-DD hh:mm A')  +  '</span>'
+ 					+ '</td>'
+		    	+ '</tr>';
 		$('#event_list').append(text);
 	};
 }

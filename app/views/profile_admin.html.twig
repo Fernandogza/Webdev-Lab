@@ -11,7 +11,7 @@
              <img class="materialboxed" width="150" src="{{picture}}">
           </div>
           <div class="col s12">
-            <a class="modal-trigger" href="#pictureModal">Change Pic</a>
+            <a class="modal-trigger" href="#pictureModal">Cambiar pic</a>
           </div>
         </div>
         <div class="col s4">
@@ -20,7 +20,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>Name:</td>
+                <td>Nombre:</td>
                 <td>{{firstName}} {{lastName}}</td>
               </tr>
               <tr>
@@ -28,24 +28,24 @@
                 <td>{{email}}</td>
               </tr>
               <tr>
-                <td>Company:</td>
+                <td>Compañia:</td>
                 <td>{{company}}</td>
               </tr>
               <tr>
-                <td>T-Shirt Size:</td>
+                <td>Tamaño camiseta:</td>
                 <td>{{tShirtSize}}</td>
               </tr>
               <tr>
-                <td>Food Preference:</td>
+                <td>Preferencias de Comida:</td>
                 <td>{{foodPreference}}</td>
               </tr>
               <tr>
-                <td>Special Needs:</td>
+                <td>Necesidades Especiales:</td>
                 <td>{{specialNeeds}}</td>
               </tr>
               <tr>
                 <td>
-                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Edit Profile </a>
+                  <a class="waves-effect waves-light btn modal-trigger" href="#editModal"><i class="material-icons left">mode_edit</i>Editar perfil </a>
                 </td>
                 <td>
                   <a class="waves-effect waves-light btn modal-trigger" href="#passwordModal">Cambiar contraseña </a>
@@ -63,49 +63,50 @@
       <form id="editForm" action="/profile/edit" method="post">
         <div class="row">
           <div class="input-field col s6">
-            <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}">
-            <label for="firstName">First Name</label>
+            <input name="firstName" id="firstName" type="text" class="validate" value="{{firstName}}" required>
+            <label for="firstName">Nombre</label>
           </div>
           <div class="input-field col s6">
-            <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}">
-            <label for="lastName">Last Name</label>
+            <input name="lastName" id="lastName" type="text" class="validate" value="{{lastName}}" required>
+            <label for="lastName">Apellidos</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input name="email" id="email" type="email" class="validate" value="{{email}}">
+            <input name="email" id="email" type="email" class="validate" value="{{email}}" required>
             <label for="email">E-mail</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s6">
             <input name="company" id="company" type="text" class="validate" value="{{company}}">
-            <label for="company">Company</label>
+            <label for="company">Compañia</label>
           </div>
           <div class="input-field col s6">
             <select name="tShirtSize" id="tShirtSize">
-              <option {% if tShirtSize == "Small"%} selected {% endif %} value="Small">Small</option>
-              <option {% if tShirtSize == "Medium"%} selected {% endif %} value="Medium">Medium</option>
-              <option {% if tShirtSize == "Large"%} selected {% endif %} value="Large">Large</option>
-              <option {% if tShirtSize == "X-Large"%} selected {% endif %} value="X-Large">X-Large</option>
+              <option {% if tShirtSize == "Small"%} selected {% endif %} value="Small">Chica</option>
+              <option {% if tShirtSize == "Medium"%} selected {% endif %} value="Medium">Mediana</option>
+              <option {% if tShirtSize == "Large"%} selected {% endif %} value="Large">Grande</option>
+              <option {% if tShirtSize == "X-Large"%} selected {% endif %} value="X-Large">X-Grande</option>
+              <option {% if tShirtSize == "XX-Large"%} selected {% endif %} value="XX-Large">XX-Grande</option>
             </select>
-            <label>T-Shirt Size</label>
+            <label>Tamaño camiseta</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <textarea name="foodPreference" id="foodPreference" class="materialize-textarea" length="120">{{foodPreference}}</textarea>
-            <label for="foodPreference">Food Preference</label>
+            <label for="foodPreference">Preferencias de Comida</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <textarea name="specialNeeds" id="specialNeeds" class="materialize-textarea" length="120">{{specialNeeds}}</textarea>
-            <label for="specialNeeds">Special Needs</label>
+            <label for="specialNeeds">Necesidades Especiales</label>
           </div>
         </div>
         <input type="hidden" name="_METHOD" value="PUT"/>
-        <button class="btn waves-effect waves-light" type="submit">Update profile
+        <button class="btn waves-effect waves-light" type="submit">Actualizar
          <i class="material-icons right">save</i>
       </form>
     </div>
@@ -121,10 +122,11 @@
             <input name="image" type="file">
           </div>
           <div class="file-path-wrapper">
-            <input class="file-path validate" type="text">
+            <input class="file-path validate" type="text" required>
           </div>
         </div>
-        <p>Supported formats: jpeg, jpg, png</p>
+        <p>Formatos soportados: jpeg, jpg, png</p>
+        <p>Dimensiones sugeridas: 512 x 512, 256 x 256</p>
         <button class="btn waves-effect waves-light" style="float:right" type="submit">Upload
          <i class="material-icons right">archive</i>
       </form>
@@ -134,16 +136,18 @@
   <div id="passwordModal" class="modal">
     <div class="modal-content">
       <h4 class="center">Cambiar contraseña</h4>
+      <form action="" onsubmit="submitPassword()">
       <div class="input-field col s12">
-        <input id="oldpassword" type="password" class="validate">
+        <input id="oldpassword" type="password" class="validate" required>
         <label for="password">Contraseña actual</label>
       </div>
       <div class="input-field col s12">
-        <input id="newpassword" type="password" class="validate">
+        <input id="newpassword" type="password" class="validate" required>
         <label for="password">Nueva contraseña</label>
       </div>
-      <button class="btn waves-effect waves-light" style="float:right" onclick="submitPassword()">Submit
+      <button class="btn waves-effect waves-light" type="submit" style="float:right">Submit
        <i class="material-icons right">done</i>
+     </form>
     </div>
   </div>
   {% endblock content %}
