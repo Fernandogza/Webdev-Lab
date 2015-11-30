@@ -7,18 +7,18 @@ Event was recently developed to make campus event experience richer and fuller. 
 
 Installation:
 -----------
-```
+
 [Documentation/Installation Manual.pdf] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/Installation%20Manual.pdf)
-```
+
 
 User manual:
 -----------
-```
+
 [Documentation/User Manual.pdf] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/User%20Manual.pdf)
-```
+
 
 Administrator manual:
 -----------
-```
+
 [Documentation/Admin Manual.pdf] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/Admin%20Manual.pdf)
-```
+
