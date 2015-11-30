@@ -17,3 +17,9 @@ User manual:
 Administrator manual:
 -----------
 [Documentation/Admin Manual.pdf] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/Admin%20Manual.pdf)
+
+API Documentation:
+-----------
+```
+localhost/web/api/index.html
+```
