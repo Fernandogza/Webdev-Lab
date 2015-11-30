@@ -1,5 +1,6 @@
-![alt tag](https://raw.githubusercontent.com/Fernandogza/Webdev-Lab/master/web/img/logo2.png)
-===========
+<p align="center">
+  <img src="httpshttps://raw.githubusercontent.com/Fernandogza/Webdev-Lab/master/web/img/logo2.png" alt="Event's custom image"/>
+</p>
 
 Background
 -------
@@ -7,18 +8,18 @@ Event was recently developed to make campus event experience richer and fuller. 
 
 Installation:
 -----------
-
+```
 [Documentation/Installation Manual.pdf] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/Installation%20Manual.pdf)
-
+```
 
 User manual:
 -----------
-
+```
 [Documentation/User Manual.pdf] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/User%20Manual.pdf)
-
+```
 
 Administrator manual:
 -----------
-
+```
 [Documentation/Admin Manual.pdf] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/Admin%20Manual.pdf)
-
+```
