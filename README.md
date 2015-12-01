@@ -11,9 +11,9 @@ Installation:
 [Documentation/Installation Manual.pdf] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/Installation%20Manual.pdf)
 
 Database script:
-[Documentation/Database_OnlyTables.sql] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/Database_OnlyTables.sql) -- Non-populated database.
-or
-[app/config/DB_INIT.sql] (https://github.com/Fernandogza/Webdev-Lab/blob/master/app/config/DB_INIT.sql) -- Populated database
+-----------
+-[Documentation/Database_OnlyTables.sql] (https://github.com/Fernandogza/Webdev-Lab/blob/master/Documentation/Database_OnlyTables.sql) -- Non-populated database.
+-[app/config/DB_INIT.sql] (https://github.com/Fernandogza/Webdev-Lab/blob/master/app/config/DB_INIT.sql) -- Populated database
 
 User manual:
 -----------
